@@ -1,4 +1,11 @@
 # Changelog
+### [0.1.2](https://github.com/edcalderon/bietnetwork.org/compare/v0.1.1...v0.1.2) (2025-11-06)
+
+
+### 🐛 Bug Fixes
+
+* update Next.js config for GitHub Pages deployment ([b0f9d2a](https://github.com/edcalderon/bietnetwork.org/commit/b0f9d2a5c0a4178f18fb790a2e1b1592c7dd9ee2))
+
 ### 0.1.1 (2025-11-06)
 
 
