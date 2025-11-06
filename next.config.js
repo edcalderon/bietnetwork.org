@@ -4,11 +4,11 @@ const repository = 'bietnetwork.org';
 
 const nextConfig = {
   reactStrictMode: true,
-  output: 'export',
+  // Only enable static export for production
+  ...(isProd ? { output: 'export' } : {}),
   // For GitHub Pages deployment
   basePath: isProd ? `/${repository}` : '',
   assetPrefix: isProd ? `/${repository}/` : '',
-  distDir: 'docs',
   // Ensure CSS and other static assets are properly loaded
   images: {
     unoptimized: true,
