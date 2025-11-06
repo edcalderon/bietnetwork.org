@@ -1,5 +1,4 @@
 /** @type {import('next').NextConfig} */
-const isProd = process.env.NODE_ENV === 'production';
 const isGithubActions = process.env.GITHUB_ACTIONS === 'true';
 const repository = 'bietnetwork.org';
 
@@ -25,10 +24,7 @@ const nextConfig = {
   env: {
     NEXT_PUBLIC_BASE_PATH: basePath,
   },
-  // Ensure static export works with GitHub Pages
-  experimental: {
-    appDir: true,
-  },
+  // Configuration for static export
 };
 
 module.exports = nextConfig;
