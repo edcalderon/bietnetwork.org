@@ -4,25 +4,43 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build && next export -o docs",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d docs",
     "start": "next start",
-    "lint": "next lint"
+    "test": "echo \"No tests yet\" && exit 0",
+    "lint": "next lint",
+    "prepare": "husky",
+    "release": "standard-version",
+    "release:minor": "standard-version --release-as minor",
+    "release:major": "standard-version --release-as major",
+    "release:patch": "standard-version --release-as patch",
+    "release:first": "standard-version --first-release",
+    "release:alpha": "standard-version --prerelease alpha",
+    "release:beta": "standard-version --prerelease beta",
+    "release:rc": "standard-version --prerelease rc",
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0"
   },
   "dependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "next": "^14.0.0",
-    "typescript": "^5.0.0",
+    "@types/node": "^20.0.0",
     "@types/react": "^18.2.0",
     "@types/react-dom": "^18.2.0",
-    "@types/node": "^20.0.0",
-    "lucide-react": "^0.263.1",
-    "tailwindcss": "^3.3.0",
     "autoprefixer": "^10.4.14",
-    "postcss": "^8.4.24"
+    "lucide-react": "^0.263.1",
+    "next": "^14.0.0",
+    "postcss": "^8.4.24",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "tailwindcss": "^3.3.0",
+    "typescript": "^5.0.0"
   },
   "devDependencies": {
+    "@commitlint/cli": "^17.0.0",
+    "@commitlint/config-conventional": "^17.0.0",
     "eslint": "^8.42.0",
-    "eslint-config-next": "^14.0.0"
+    "eslint-config-next": "^14.0.0",
+    "gh-pages": "^6.3.0",
+    "husky": "^8.0.0",
+    "standard-version": "^9.5.0"
   }
 }
