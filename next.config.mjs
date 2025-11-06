@@ -1,22 +1,42 @@
 // @ts-check
 
-/**
- * @type {import('next').NextConfig}
- */
+/** @type {import('next').NextConfig} */
+const isProd = process.env.NODE_ENV === 'production';
+const repository = 'bietnetwork.org';
+
+/** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'export',
+  reactStrictMode: true,
+  // For GitHub Pages deployment
+  basePath: isProd ? `/${repository}` : '',
+  assetPrefix: isProd ? `/${repository}/` : '',
+  // Ensure CSS and other static assets are properly loaded
   images: {
     unoptimized: true,
   },
-  // For GitHub Pages deployment
-  basePath: process.env.NODE_ENV === 'production' ? '/biet-network' : '',
-  assetPrefix: process.env.NODE_ENV === 'production' ? '/biet-network/' : '',
+  // Fix for CSS loading
+  experimental: {
+  // Ensure static assets are properly served
+  trailingSlash: true,
+  // Add custom webpack config for asset loading
+  webpack: (/** @type {any} */ config) => {
+    // Fixes npm packages that depend on `fs` module
+    if (config.resolve) {
+      config.resolve.fallback = { fs: false };
+    }
+    return config;
+  },
+  // Fix for static export
+  env: {
+    NEXT_PUBLIC_BASE_PATH: isProd ? `/${repository}` : '',
+  },
 };
 
-// Remove the basePath and assetPrefix in development
-if (process.env.NODE_ENV !== 'production') {
-  delete nextConfig.basePath;
-  delete nextConfig.assetPrefix;
+// For GitHub Pages
+if (isProd) {
+  nextConfig.assetPrefix = `/${repository}/`;
+  nextConfig.basePath = `/${repository}`;
 }
 
 export default nextConfig;
