@@ -5,6 +5,12 @@ import Navbar from '../components/Navbar';
 export const metadata: Metadata = {
   title: 'Red Biet - BietNetwork',
   description: 'Red descentralizada de unidades vivas que generan valor social, económico y ecológico',
+  icons: {
+    icon: '/favicon.ico',
+    apple: '/apple-touch-icon.png',
+    shortcut: '/favicon-32x32.png',
+  },
+  manifest: '/site.webmanifest',
 };
 
 export default function RootLayout({
