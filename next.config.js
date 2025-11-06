@@ -8,11 +8,12 @@ const assetPrefix = isGithubActions ? `/${repository}/` : '';
 
 const nextConfig = {
   reactStrictMode: true,
-  output: 'export', // Always enable static export for GitHub Pages
+  output: 'export', // This enables static exports
+  distDir: 'docs', // Output directory for the static export
   basePath: basePath,
   assetPrefix: assetPrefix,
   images: {
-    unoptimized: true,
+    unoptimized: true, // Required for static exports
   },
   trailingSlash: true,
   webpack: (config, { isServer }) => {
@@ -24,7 +25,6 @@ const nextConfig = {
   env: {
     NEXT_PUBLIC_BASE_PATH: basePath,
   },
-  // Configuration for static export
 };
 
 module.exports = nextConfig;

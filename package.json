@@ -5,8 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "export": "next build && rm -rf docs && next export -o docs",
-    "predeploy": "npm run export",
+    "predeploy": "rm -rf docs && next build",
     "deploy": "gh-pages -d docs",
     "start": "next start",
     "test": "echo \"No tests yet\" && exit 0",
