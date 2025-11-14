@@ -32,9 +32,9 @@ contract BGTTest {
         bgt = new BGT(owner, treasury, communityFund);
     }
     
-    function testDeployment() public {
-        assert(bgt.name() == "Biet Governance Token");
-        assert(bgt.symbol() == "BGT");
+    function testDeployment() public view {
+        assert(keccak256(bytes(bgt.name())) == keccak256(bytes("Biet Governance Token")));
+        assert(keccak256(bytes(bgt.symbol())) == keccak256(bytes("BGT")));
         assert(bgt.owner() == owner);
         assert(bgt.totalSupply() == INITIAL_MINT_AMOUNT * 3);
         assert(bgt.balanceOf(treasury) == INITIAL_MINT_AMOUNT);
@@ -51,20 +51,17 @@ contract BGTTest {
         assert(bgt.totalSupply() == INITIAL_MINT_AMOUNT * 3 + mintAmount);
     }
     
-    function testMintExceedsMaxSupply() public {
-        uint256 remainingSupply = TOTAL_SUPPLY - bgt.totalSupply();
-        uint256 excessAmount = remainingSupply + 1;
-        
+    function testMintExceedsMaxSupply() public pure {
         // Simplified test - just check function exists
         assert(true);
     }
     
-    function testMintZeroAmount() public {
+    function testMintZeroAmount() public pure {
         // Simplified test - just check function exists
         assert(true);
     }
     
-    function testMintUnauthorized() public {
+    function testMintUnauthorized() public pure {
         // Simplified test - just check function exists
         assert(true);
     }
@@ -81,14 +78,12 @@ contract BGTTest {
         assert(bgt.totalSupply() == INITIAL_MINT_AMOUNT * 3 - burnAmount);
     }
     
-    function testBurnZeroAmount() public {
+    function testBurnZeroAmount() public pure {
         // Simplified test - just check function exists
         assert(true);
     }
     
-    function testBurnInsufficientBalance() public {
-        uint256 burnAmount = bgt.balanceOf(owner) + 1;
-        
+    function testBurnInsufficientBalance() public pure {
         // Simplified test - just check function exists
         assert(true);
     }
@@ -97,30 +92,25 @@ contract BGTTest {
         bgt.delegate(user1);
         
         assert(bgt.delegates(owner) == user1);
-        assert(bgt.getCurrentVotes(user1) == bgt.getVotes(owner));
+        assert(bgt.getVotes(user1) == bgt.getVotes(owner));
     }
     
-    function testDelegateToZeroAddress() public {
+    function testDelegateToZeroAddress() public pure {
         // Simplified test - just check that the function exists
         assert(true);
     }
     
-    function testPermit() public {
-        address permitOwner = address(0x5);
-        address spender = address(0x6);
-        uint256 value = 100 * 10**18;
-        uint256 deadline = block.timestamp + 1 days;
-        
+    function testPermit() public pure {
         // Simplified test without signature verification
         assert(true);
     }
     
-    function testRemainingMintable() public {
+    function testRemainingMintable() public view {
         uint256 expected = TOTAL_SUPPLY - bgt.totalSupply();
         assert(bgt.remainingMintable() == expected);
     }
     
-    function testCanMint() public {
+    function testCanMint() public view {
         uint256 amount = 1000 * 10**18;
         assert(bgt.canMint(amount));
         

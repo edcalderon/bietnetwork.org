@@ -45,13 +45,13 @@ contract TimelockController is ITimelock, AccessControl {
         super.grantRole(role, account);
     }
     
-    function schedule(address target, uint256 value, bytes calldata data, bytes32 predecessor, bytes32 salt, uint256 delay) external override {
+    function schedule(address /*target*/, uint256 /*value*/, bytes calldata /*data*/, bytes32 /*predecessor*/, bytes32 /*salt*/, uint256 delay) external override {
         // Simplified implementation
         require(delay >= minDelay, "Delay too short");
         require(hasRole(PROPOSER_ROLE, msg.sender), "Not proposer");
     }
     
-    function execute(address target, uint256 value, bytes calldata data, bytes32 predecessor, bytes32 salt) external override {
+    function execute(address target, uint256 value, bytes calldata data, bytes32 /*predecessor*/, bytes32 /*salt*/) external override {
         require(hasRole(EXECUTOR_ROLE, msg.sender), "Not executor");
         (bool success, ) = target.call{value: value}(data);
         require(success, "Execution failed");

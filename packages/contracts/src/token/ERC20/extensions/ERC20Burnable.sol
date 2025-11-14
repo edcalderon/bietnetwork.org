@@ -17,7 +17,7 @@ abstract contract ERC20Burnable is ERC20 {
         _burn(account, amount);
     }
     
-    function _msgSender() internal view virtual returns (address) {
+    function _msgSender() internal view virtual override returns (address) {
         return msg.sender;
     }
 }

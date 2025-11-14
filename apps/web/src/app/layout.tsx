@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import Navbar from '../components/Navbar';
+import { WalletProvider } from '../contexts/WalletContext';
 
 export const metadata: Metadata = {
   title: 'Red Biet - BietNetwork',
@@ -21,17 +22,19 @@ export default function RootLayout({
   return (
     <html lang="es" className="h-full">
       <body className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
-        <Navbar />
-        <main className="min-h-[calc(100vh-4rem)]">
-          {children}
-        </main>
-        <footer className="bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 py-6">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <p className="text-center text-sm text-gray-500 dark:text-gray-400">
-              © {new Date().getFullYear()} Biet Network. Todos los derechos reservados.
-            </p>
-          </div>
-        </footer>
+        <WalletProvider>
+          <Navbar />
+          <main className="min-h-screen pt-16">
+            {children}
+          </main>
+          <footer className="bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 py-6">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <p className="text-center text-sm text-gray-500 dark:text-gray-400">
+                © {new Date().getFullYear()} Biet Network. Todos los derechos reservados.
+              </p>
+            </div>
+          </footer>
+        </WalletProvider>
       </body>
     </html>
   );

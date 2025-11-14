@@ -1305,6 +1305,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@biet-network/sdk@workspace:packages/sdk"
   dependencies:
+    "@tanstack/query-core": "npm:^5.0.0"
+    "@tanstack/react-query": "npm:^5.0.0"
     "@types/node": "npm:^20.0.0"
     "@types/react": "npm:^18.2.0"
     "@typescript-eslint/eslint-plugin": "npm:^6.0.0"
@@ -1368,6 +1370,7 @@ __metadata:
   dependencies:
     "@biet-network/sdk": "workspace:*"
     "@tailwindcss/typography": "npm:^0.5.19"
+    "@tanstack/query-core": "npm:^5.0.0"
     "@tanstack/react-query": "npm:^5.0.0"
     "@types/node": "npm:^20.0.0"
     "@types/react": "npm:^18.2.0"
@@ -6052,7 +6055,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/query-core@npm:5.90.9":
+"@tanstack/query-core@npm:5.90.9, @tanstack/query-core@npm:^5.0.0":
   version: 5.90.9
   resolution: "@tanstack/query-core@npm:5.90.9"
   checksum: 10c0/d3759529c714658a492e860365452db165f673f9a777c57339072231f90554628798deaadc9fd8b115b028c1dcd3b0fe3fd8d8a2ab25f799d853e2fd020b5734

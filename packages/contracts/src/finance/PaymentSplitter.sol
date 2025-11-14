@@ -33,7 +33,7 @@ contract PaymentSplitter is AccessControl, ReentrancyGuard {
         }
     }
     
-    receive() external payable {
+    receive() external payable virtual {
         emit PaymentReceived(msg.sender, msg.value);
     }
     
@@ -75,18 +75,18 @@ contract PaymentSplitter is AccessControl, ReentrancyGuard {
         return _pendingPayment(account, totalReceived, _erc20Released[token][account]);
     }
     
-    function release(address payable account) public nonReentrant {
+    function release(address account) public virtual nonReentrant {
         uint256 payment = releasable(account);
         require(payment != 0, "PaymentSplitter: account is not due payment");
         
         _totalReleased += payment;
         _released[account] += payment;
         
-        Address.sendValue(account, payment);
+        Address.sendValue(payable(account), payment);
         emit PaymentReleased(account, payment);
     }
     
-    function release(IERC20 token, address account) public nonReentrant {
+    function release(IERC20 token, address account) public virtual nonReentrant {
         uint256 payment = releasable(token, account);
         require(payment != 0, "PaymentSplitter: account is not due payment");
         
@@ -97,7 +97,7 @@ contract PaymentSplitter is AccessControl, ReentrancyGuard {
         emit ERC20PaymentReleased(token, account, payment);
     }
     
-    function _addPayee(address account, uint256 shares_) private {
+    function _addPayee(address account, uint256 shares_) internal {
         require(account != address(0), "PaymentSplitter: account is the zero address");
         require(shares_ > 0, "PaymentSplitter: shares are 0");
         require(_shares[account] == 0, "PaymentSplitter: account already has shares");
@@ -106,6 +106,23 @@ contract PaymentSplitter is AccessControl, ReentrancyGuard {
         _shares[account] = shares_;
         _totalShares += shares_;
         emit PayeeAdded(account, shares_);
+    }
+    
+    function _setPayees(address[] memory payees, uint256[] memory shares_) internal {
+        require(payees.length == shares_.length, "PaymentSplitter: payees and shares length mismatch");
+        require(payees.length > 0, "PaymentSplitter: no payees");
+        
+        for (uint256 i = 0; i < payees.length; i++) {
+            _addPayee(payees[i], shares_[i]);
+        }
+    }
+    
+    function _getShares(address account) internal view returns (uint256) {
+        return _shares[account];
+    }
+    
+    function _getReleased(address account) internal view returns (uint256) {
+        return _released[account];
     }
     
     function _pendingPayment(address account, uint256 totalReceived, uint256 alreadyReleased) private view returns (uint256) {
@@ -119,5 +136,25 @@ library Address {
         
         (bool success, ) = recipient.call{value: amount}("");
         require(success, "Address: unable to send value, recipient may have reverted");
+    }
+    
+    function functionCall(address target, bytes memory data, string memory errorMessage) internal returns (bytes memory) {
+        (bool success, bytes memory returndata) = target.call(data);
+        return verifyCallResult(success, returndata, errorMessage);
+    }
+    
+    function verifyCallResult(bool success, bytes memory returndata, string memory errorMessage) internal pure returns (bytes memory) {
+        if (!success) {
+            if (returndata.length > 0) {
+                assembly {
+                    let returndata_size := mload(returndata)
+                    revert(add(32, returndata), returndata_size)
+                }
+            } else {
+                revert(errorMessage);
+            }
+        }
+        
+        return returndata;
     }
 }

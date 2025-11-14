@@ -3,6 +3,7 @@ pragma solidity ^0.8.19;
 
 import "./token/ERC721/ERC721.sol";
 import "./access/AccessControl.sol";
+import "./access/Ownable.sol";
 import "./utils/Counters.sol";
 import "./utils/cryptography/ECDSA.sol";
 import "./utils/cryptography/MessageHashUtils.sol";
@@ -13,7 +14,7 @@ import "./proxy/utils/Initializable.sol";
  * @dev Soulbound Token para identidad verificada en Red Biet
  * @author Biet Network Team
  */
-contract BietIdentity is ERC721, AccessControl, Initializable {
+contract BietIdentity is ERC721, AccessControl, Initializable, Ownable {
     using Counters for Counters.Counter;
     using ECDSA for bytes32;
     using MessageHashUtils for bytes32;
@@ -72,8 +73,18 @@ contract BietIdentity is ERC721, AccessControl, Initializable {
     error SoulboundTransfer();
     error DIDAlreadyExists();
     error IdentityHashAlreadyUsed();
+    error InvalidAddress();
     
-    constructor() ERC721("Biet Identity", "BIETID") {
+    constructor(address admin, address verifier, uint256 fee) ERC721("Biet Identity", "BIETID") Ownable() {
+        if (admin == address(0) || verifier == address(0)) {
+            revert InvalidAddress();
+        }
+        
+        _transferOwnership(admin);
+        _grantRole(VERIFIER_ROLE, verifier);
+        _grantRole(DEFAULT_ADMIN_ROLE, admin);
+        verificationFee = fee;
+        
         _disableInitializers();
     }
     
@@ -134,8 +145,8 @@ contract BietIdentity is ERC721, AccessControl, Initializable {
             revert IdentityHashAlreadyUsed();
         }
         
-        bytes32 messageHash = identityHash.toEthSignedMessageHash();
-        address recoveredSigner = messageHash.recover(signature);
+        bytes32 messageHash = keccak256(abi.encodePacked("\x19Ethereum Signed Message:\n32", identityHash));
+        address recoveredSigner = recoverSigner(messageHash, signature);
         
         if (!hasRole(VERIFIER_ROLE, recoveredSigner)) {
             revert InvalidSignature();
@@ -183,7 +194,7 @@ contract BietIdentity is ERC721, AccessControl, Initializable {
         string memory verificationLevel,
         bytes memory signature
     ) external {
-        if (!_ownerOf(tokenId) != msg.sender) {
+        if (ownerOf(tokenId) != msg.sender) {
             revert UnauthorizedAccess();
         }
         
@@ -191,8 +202,8 @@ contract BietIdentity is ERC721, AccessControl, Initializable {
         
         // Verify signature for update
         bytes32 updateHash = keccak256(abi.encodePacked(tokenId, name, verificationLevel, block.timestamp));
-        bytes32 messageHash = updateHash.toEthSignedMessageHash();
-        address recoveredSigner = messageHash.recover(signature);
+        bytes32 messageHash = keccak256(abi.encodePacked("\x19Ethereum Signed Message:\n32", updateHash));
+        address recoveredSigner = recoverSigner(messageHash, signature);
         
         if (!hasRole(VERIFIER_ROLE, recoveredSigner)) {
             revert InvalidSignature();
@@ -350,24 +361,40 @@ contract BietIdentity is ERC721, AccessControl, Initializable {
     function supportsInterface(bytes4 interfaceId)
         public
         view
-        override(ERC721, AccessControl)
         returns (bool)
     {
-        return super.supportsInterface(interfaceId);
+        // Basic implementation for ERC721 and AccessControl
+        return interfaceId == 0x80ac58cd || // ERC721
+               interfaceId == 0x5b5e139f || // ERC721Metadata
+               interfaceId == 0x7965db0b;  // AccessControl
     }
     
     /**
-     * @dev Internal function to check if token exists
+     * @dev Recover signer address from message hash and signature
      */
-    function _exists(uint256 tokenId) internal view returns (bool) {
-        return tokenId > 0 && tokenId <= _tokenIdCounter.current();
-    }
-    
-    /**
-     * @dev Internal function to get owner of token
-     */
-    function _ownerOf(uint256 tokenId) internal view override returns (address) {
-        address owner = ownerOf(tokenId);
-        return owner;
+    function recoverSigner(bytes32 messageHash, bytes memory signature) internal pure returns (address) {
+        if (signature.length != 65) {
+            return address(0);
+        }
+        
+        bytes32 r;
+        bytes32 s;
+        uint8 v;
+        
+        assembly {
+            r := mload(add(signature, 32))
+            s := mload(add(signature, 64))
+            v := byte(0, mload(add(signature, 96)))
+        }
+        
+        if (v < 27) {
+            v += 27;
+        }
+        
+        if (v != 27 && v != 28) {
+            return address(0);
+        }
+        
+        return ecrecover(messageHash, v, r, s);
     }
 }

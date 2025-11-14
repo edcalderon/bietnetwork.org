@@ -1,7 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.19;
 
-import "../lib/forge-std/src/Script.sol";
+import "forge-std/Script.sol";
+import "forge-std/console.sol";
 import "../src/BGT.sol";
 import "../src/BGTDAO.sol";
 import "../src/BGTTreasury.sol";
@@ -48,7 +49,7 @@ contract DeployScript is Script {
         treasuryShares = [100];
     }
     
-    function run() public {
+    function run() public virtual {
         vm.startBroadcast(deployerPrivateKey);
         
         // 1. Deploy Timelock Controller
@@ -75,32 +76,13 @@ contract DeployScript is Script {
         );
         
         // 4. Deploy Treasury
-        treasury = new BGTTreasury();
-        treasury.initialize(
-            address(bgt),
-            address(dao),
-            treasuryPayees,
-            treasuryShares,
-            deployer
-        );
+        treasury = new BGTTreasury(address(bgt), address(dao), treasuryPayees, treasuryShares, deployer);
         
         // 5. Deploy Identity Contract
-        identity = new BietIdentity();
-        identity.initialize(
-            deployer,    // admin
-            deployer,    // verifier
-            0.001 ether  // verification fee
-        );
+        identity = new BietIdentity(deployer, deployer, 0.001 ether);
         
         // 6. Deploy Productive Unit
-        productiveUnit = new ProductiveUnit();
-        productiveUnit.initialize(
-            deployer,           // admin
-            address(bgt),       // bgtToken
-            address(identity),  // identityContract
-            address(treasury),  // treasuryAddress
-            250 // 2.5% platform fee
-        );
+        productiveUnit = new ProductiveUnit(deployer, address(bgt), address(identity), address(treasury), 250, treasuryPayees, treasuryShares);
         
         // 7. Deploy Revenue Share
         revenueShare = new RevenueShare(

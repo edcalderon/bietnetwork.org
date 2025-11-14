@@ -37,7 +37,12 @@ abstract contract ERC721 {
         return owner;
     }
     
-    function approve(address to, uint256 tokenId) public {
+    function tokenURI(uint256 tokenId) public view virtual returns (string memory) {
+        require(_exists(tokenId), "ERC721: URI query for nonexistent token");
+        return "";
+    }
+    
+    function approve(address to, uint256 tokenId) public virtual {
         address owner = ownerOf(tokenId);
         require(to != owner, "ERC721: approval to current owner");
         require(msg.sender == owner || isApprovedForAll(owner, msg.sender), "ERC721: approve caller is not owner nor approved for all");
@@ -49,40 +54,40 @@ abstract contract ERC721 {
         return _tokenApprovals[tokenId];
     }
     
-    function setApprovalForAll(address operator, bool approved) public {
+    function setApprovalForAll(address operator, bool approved) public virtual {
         require(operator != msg.sender, "ERC721: approve to caller");
         _operatorApprovals[msg.sender][operator] = approved;
         emit ApprovalForAll(msg.sender, operator, approved);
     }
     
-    function isApprovedForAll(address owner, address operator) public view returns (bool) {
+    function isApprovedForAll(address owner, address operator) public view virtual returns (bool) {
         return _operatorApprovals[owner][operator];
     }
     
-    function transferFrom(address from, address to, uint256 tokenId) public {
+    function transferFrom(address from, address to, uint256 tokenId) public virtual {
         require(_isApprovedOrOwner(msg.sender, tokenId), "ERC721: transfer caller is not owner nor approved");
         _transfer(from, to, tokenId);
     }
     
-    function safeTransferFrom(address from, address to, uint256 tokenId) public {
+    function safeTransferFrom(address from, address to, uint256 tokenId) public virtual {
         safeTransferFrom(from, to, tokenId, "");
     }
     
-    function safeTransferFrom(address from, address to, uint256 tokenId, bytes memory _data) public {
+    function safeTransferFrom(address from, address to, uint256 tokenId, bytes memory _data) public virtual {
         require(_isApprovedOrOwner(msg.sender, tokenId), "ERC721: transfer caller is not owner nor approved");
         _safeTransfer(from, to, tokenId, _data);
     }
     
-    function _safeTransfer(address from, address to, uint256 tokenId, bytes memory _data) internal {
+    function _safeTransfer(address from, address to, uint256 tokenId, bytes memory _data) internal virtual {
         _transfer(from, to, tokenId);
         require(_checkOnERC721Received(from, to, tokenId, _data), "ERC721: transfer to non ERC721Receiver implementer");
     }
     
-    function _exists(uint256 tokenId) internal view returns (bool) {
+    function _exists(uint256 tokenId) internal view virtual returns (bool) {
         return _owners[tokenId] != address(0);
     }
     
-    function _isApprovedOrOwner(address spender, uint256 tokenId) internal view returns (bool) {
+    function _isApprovedOrOwner(address spender, uint256 tokenId) internal view virtual returns (bool) {
         require(_exists(tokenId), "ERC721: operator query for nonexistent token");
         address owner = ownerOf(tokenId);
         return (spender == owner || getApproved(tokenId) == spender || isApprovedForAll(owner, spender));
@@ -106,7 +111,7 @@ abstract contract ERC721 {
         emit Transfer(address(0), to, tokenId);
     }
     
-    function _burn(uint256 tokenId) internal {
+    function _burn(uint256 tokenId) internal virtual {
         address owner = ownerOf(tokenId);
         _beforeTokenTransfer(owner, address(0), tokenId);
         _approve(address(0), tokenId);

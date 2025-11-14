@@ -2,6 +2,7 @@
 pragma solidity ^0.8.19;
 
 import "./finance/PaymentSplitter.sol";
+import "./access/Ownable.sol";
 import "./access/AccessControl.sol";
 import "./token/ERC20/IERC20.sol";
 import "./token/ERC20/utils/SafeERC20.sol";
@@ -13,7 +14,7 @@ import "./utils/math/Math.sol";
  * @dev Sistema de distribución de ingresos para Red Biet
  * @author Biet Network Team
  */
-contract RevenueShare is PaymentSplitter, AccessControl, ReentrancyGuard {
+contract RevenueShare is PaymentSplitter, Ownable {
     using SafeERC20 for IERC20;
     using Math for uint256;
     
@@ -106,7 +107,7 @@ contract RevenueShare is PaymentSplitter, AccessControl, ReentrancyGuard {
         uint256[] memory shares,
         address _treasuryAddress,
         uint256 _platformFeePercentage
-    ) PaymentSplitter(payees, shares) {
+    ) PaymentSplitter(payees, shares) Ownable() {
         require(_treasuryAddress != address(0), "Invalid treasury address");
         require(_platformFeePercentage <= MAX_FEE_PERCENTAGE, "Fee too high");
         

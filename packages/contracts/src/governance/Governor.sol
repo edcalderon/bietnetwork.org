@@ -135,11 +135,11 @@ abstract contract Governor is AccessControl {
         return 50400; // 1 week
     }
     
-    function quorum(uint256 blockNumber) public view virtual returns (uint256) {
+    function quorum(uint256 /*blockNumber*/) public view virtual returns (uint256) {
         return 0;
     }
     
-    function getVotes(address account, uint256 blockNumber) public view virtual returns (uint256) {
+    function getVotes(address /*account*/, uint256 /*blockNumber*/) public view virtual returns (uint256) {
         return 0;
     }
     
@@ -157,11 +157,11 @@ abstract contract Governor is AccessControl {
     }
     
     function _execute(
-        uint256 proposalId,
-        address[] memory targets,
-        uint256[] memory values,
-        bytes[] memory calldatas,
-        bytes32 descriptionHash
+        uint256 /*proposalId*/,
+        address[] memory /*targets*/,
+        uint256[] memory /*values*/,
+        bytes[] memory /*calldatas*/,
+        bytes32 /*descriptionHash*/
     ) internal virtual {
         // Implementation would execute the proposal actions
     }

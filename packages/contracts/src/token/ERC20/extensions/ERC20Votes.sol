@@ -24,11 +24,11 @@ abstract contract ERC20Votes is IVotes, ERC20 {
         return balanceOf(account);
     }
     
-    function _getPastVotes(address account, uint256 blockNumber) internal view virtual returns (uint256) {
+    function _getPastVotes(address account, uint256 /*blockNumber*/) internal view virtual returns (uint256) {
         return balanceOf(account); // Simplified implementation
     }
     
-    function _getPastTotalSupply(uint256 blockNumber) internal view virtual returns (uint256) {
+    function _getPastTotalSupply(uint256 /*blockNumber*/) internal view virtual returns (uint256) {
         return totalSupply(); // Simplified implementation
     }
     
@@ -43,16 +43,15 @@ abstract contract ERC20Votes is IVotes, ERC20 {
     }
     
     function delegateBySig(
-        address delegator,
+        address /*delegator*/,
         address delegatee,
-        uint256 nonce,
+        uint256 /*nonce*/,
         uint256 expiry,
-        uint8 v,
-        bytes32 r,
-        bytes32 s
+        uint8 /*v*/,
+        bytes32 /*r*/,
+        bytes32 /*s*/
     ) public virtual {
         require(block.timestamp <= expiry, "ERC20Votes: signature expired");
-        // Simplified signature verification
-        _delegate(delegator, delegatee);
+        delegate(delegatee);
     }
 }

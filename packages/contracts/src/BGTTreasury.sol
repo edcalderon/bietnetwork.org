@@ -2,6 +2,7 @@
 pragma solidity ^0.8.19;
 
 import "./finance/PaymentSplitter.sol";
+import "./access/Ownable.sol";
 import "./token/ERC20/IERC20.sol";
 import "./token/ERC20/utils/SafeERC20.sol";
 import "./utils/ReentrancyGuard.sol";
@@ -12,7 +13,7 @@ import "./proxy/utils/Initializable.sol";
  * @dev Módulo de tesorería para la gestión de fondos de Red Biet
  * @author Biet Network Team
  */
-contract BGTTreasury is PaymentSplitter, ReentrancyGuard, Initializable {
+contract BGTTreasury is PaymentSplitter, Initializable, Ownable {
     using SafeERC20 for IERC20;
     
     // Roles
@@ -48,7 +49,21 @@ contract BGTTreasury is PaymentSplitter, ReentrancyGuard, Initializable {
     error ExceedsMaxWithdrawalPercentage();
     error TransferFailed();
     
-    constructor() PaymentSplitter(new address[](0), new uint256[](0)) {
+    constructor(address _bgtToken, address _daoAddress, address[] memory payees, uint256[] memory shares_, address admin) PaymentSplitter(payees, shares_) Ownable() {
+        if (_bgtToken == address(0) || _daoAddress == address(0)) {
+            revert InvalidAddress();
+        }
+        
+        bgtToken = _bgtToken;
+        daoAddress = _daoAddress;
+        emergencyWithdrawalCooldown = 7 days;
+        
+        // Set up roles
+        _grantRole(DEFAULT_ADMIN_ROLE, admin);
+        _grantRole(ADMIN_ROLE, admin);
+        _grantRole(OPERATOR_ROLE, admin);
+        _grantRole(EMERGENCY_ROLE, admin);
+        
         _disableInitializers();
     }
     
@@ -81,14 +96,13 @@ contract BGTTreasury is PaymentSplitter, ReentrancyGuard, Initializable {
         _grantRole(OPERATOR_ROLE, admin);
         _grantRole(EMERGENCY_ROLE, admin);
         
-        // Initialize PaymentSplitter
-        _setPayees(payees, shares);
+        // Payees are already set in constructor via PaymentSplitter
     }
     
     /**
      * @dev Receive ETH and track it
      */
-    receive() external payable nonReentrant {
+    receive() external payable override nonReentrant {
         totalETHReceived += msg.value;
         emit ETHReceived(msg.sender, msg.value);
     }
@@ -281,22 +295,8 @@ contract BGTTreasury is PaymentSplitter, ReentrancyGuard, Initializable {
      * @return releasable Amount available for release
      */
     function getPayeeInfo(address payee) external view returns (uint256 shares, uint256 released, uint256 releasable) {
-        shares = _shares(payee);
-        released = _released(payee);
+        shares = _getShares(payee);
+        released = _getReleased(payee);
         releasable = this.releasable(payee);
-    }
-    
-    /**
-     * @dev Required override for PaymentSplitter
-     */
-    function _payee(address account) internal view override returns (address) {
-        return super._payee(account);
-    }
-    
-    /**
-     * @dev Required override for PaymentSplitter
-     */
-    function _shares(address account) internal view override returns (uint256) {
-        return super._shares(account);
     }
 }

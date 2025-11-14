@@ -2,6 +2,7 @@
 pragma solidity ^0.8.0;
 
 import "../IERC20.sol";
+import "../../../finance/PaymentSplitter.sol";
 
 library SafeERC20 {
     function safeTransfer(IERC20 token, address to, uint256 value) internal {
@@ -32,7 +33,7 @@ library SafeERC20 {
     }
 
     function _callOptionalReturn(IERC20 token, bytes memory data) private {
-        bytes memory returndata = address(token).functionCall(data, "SafeERC20: low-level call failed");
+        bytes memory returndata = Address.functionCall(address(token), data, "SafeERC20: low-level call failed");
         if (returndata.length > 0) {
             require(abi.decode(returndata, (bool)), "SafeERC20: ERC20 operation did not succeed");
         }

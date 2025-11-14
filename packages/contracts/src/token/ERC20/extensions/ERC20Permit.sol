@@ -43,7 +43,7 @@ abstract contract ERC20Permit {
         _approve(owner, spender, value);
     }
     
-    function nonces(address owner) public view returns (uint256) {
+    function nonces(address owner) public view virtual returns (uint256) {
         return _nonces[owner].current();
     }
     

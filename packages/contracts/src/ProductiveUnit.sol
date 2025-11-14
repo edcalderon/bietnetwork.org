@@ -4,6 +4,7 @@ pragma solidity ^0.8.19;
 import "./token/ERC721/ERC721.sol";
 import "./token/ERC721/extensions/ERC721URIStorage.sol";
 import "./access/AccessControl.sol";
+import "./access/Ownable.sol";
 import "./utils/Counters.sol";
 import "./finance/PaymentSplitter.sol";
 import "./token/ERC20/IERC20.sol";
@@ -15,7 +16,7 @@ import "./proxy/utils/Initializable.sol";
  * @dev Contrato para unidades productivas (Biets) en Red Biet
  * @author Biet Network Team
  */
-contract ProductiveUnit is ERC721, ERC721URIStorage, AccessControl, PaymentSplitter, Initializable {
+contract ProductiveUnit is ERC721, ERC721URIStorage, AccessControl, PaymentSplitter, Initializable, Ownable {
     using Counters for Counters.Counter;
     using SafeERC20 for IERC20;
     
@@ -108,7 +109,21 @@ contract ProductiveUnit is ERC721, ERC721URIStorage, AccessControl, PaymentSplit
     error CategoryAlreadyExists();
     error CategoryNotFound();
     
-    constructor() ERC721("Biet Productive Unit", "BIET") PaymentSplitter(new address[](0), new uint256[](0)) {
+    constructor(address admin, address _bgtToken, address _identityContract, address _treasuryAddress, uint256 feePercentage, address[] memory payees, uint256[] memory shares_) ERC721("Biet Productive Unit", "BIET") PaymentSplitter(payees, shares_) Ownable() {
+        if (admin == address(0) || _bgtToken == address(0) || _identityContract == address(0)) {
+            revert InvalidAddress();
+        }
+        
+        _grantRole(DEFAULT_ADMIN_ROLE, admin);
+        _grantRole(ADMIN_ROLE, admin);
+        _grantRole(CREATOR_ROLE, admin);
+        _grantRole(OPERATOR_ROLE, admin);
+        
+        bgtToken = _bgtToken;
+        identityContract = _identityContract;
+        treasuryAddress = _treasuryAddress;
+        platformFeePercentage = feePercentage;
+        
         _disableInitializers();
     }
     
@@ -538,16 +553,14 @@ contract ProductiveUnit is ERC721, ERC721URIStorage, AccessControl, PaymentSplit
     function supportsInterface(bytes4 interfaceId)
         public
         view
-        override(ERC721, ERC721URIStorage, AccessControl)
         returns (bool)
     {
-        return super.supportsInterface(interfaceId);
+        return interfaceId == 0x80ac58cd || // ERC721
+               interfaceId == 0x5b5e139f || // ERC721Metadata
+               interfaceId == 0x7965db0b;  // AccessControl
     }
     
-    /**
-     * @dev Internal function to check if token exists
-     */
-    function _exists(uint256 tokenId) internal view returns (bool) {
-        return tokenId > 0 && tokenId <= _tokenIdCounter.current() && _ownerOf(tokenId) != address(0);
+    function _burn(uint256 tokenId) internal override(ERC721, ERC721URIStorage) {
+        super._burn(tokenId);
     }
 }

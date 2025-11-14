@@ -5,12 +5,9 @@ import { base, baseSepolia } from 'wagmi/chains';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactNode } from 'react';
 
-// Create wagmi config
+// Create wagmi config with minimal setup
 const config = createConfig({
   chains: [base, baseSepolia],
-  connectors: [
-    // Add wallet connectors here
-  ],
   transports: {
     [base.id]: http(),
     [baseSepolia.id]: http(),
@@ -18,7 +15,14 @@ const config = createConfig({
 });
 
 // Create React Query client
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: false,
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 interface WagmiProviderProps {
   children: ReactNode;

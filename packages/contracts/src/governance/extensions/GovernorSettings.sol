@@ -13,8 +13,8 @@ abstract contract GovernorSettings is Governor {
     event ProposalThresholdSet(uint256 oldProposalThreshold, uint256 newProposalThreshold);
     
     constructor(uint256 votingDelay_, uint256 votingPeriod_, uint256 proposalThreshold_) {
-        _setVotingDelay(votingDelay_);
         _setVotingPeriod(votingPeriod_);
+        _setVotingDelay(votingDelay_);
         _setProposalThreshold(proposalThreshold_);
     }
     
@@ -65,7 +65,7 @@ abstract contract GovernorSettings is Governor {
         _proposalThreshold = newProposalThreshold;
     }
     
-    function owner() internal view virtual returns (address) {
+    function owner() public view virtual returns (address) {
         return address(0); // Override in implementation
     }
 }

@@ -81,7 +81,7 @@ contract BGTDAOTest {
         assert(true);
     }
     
-    function testCastVote() public {
+    function testCastVote() public pure {
         assert(true);
     }
     
@@ -93,11 +93,11 @@ contract BGTDAOTest {
         assert(true);
     }
     
-    function testExecute() public {
+    function testExecute() public pure {
         assert(true);
     }
     
-    function testCancel() public {
+    function testCancel() public pure {
         assert(true);
     }
     
@@ -105,11 +105,11 @@ contract BGTDAOTest {
         assert(true);
     }
     
-    function testGetVotes() public {
+    function testGetVotes() public pure {
         assert(true);
     }
     
-    function testHasVoted() public {
+    function testHasVoted() public pure {
         assert(true);
     }
     
@@ -125,7 +125,7 @@ contract BGTDAOTest {
         assert(true);
     }
     
-    function testOwner() public {
+    function testOwner() public pure {
         assert(true);
     }
     
@@ -137,7 +137,7 @@ contract BGTDAOTest {
         assert(true);
     }
     
-    function testHashProposal() public {
+    function testHashProposal() public pure {
         assert(true);
     }
     
@@ -161,7 +161,7 @@ contract BGTDAOTest {
         assert(true);
     }
     
-    function testEmergencyActions() public {
+    function testEmergencyActions() public pure {
         assert(true);
     }
     
@@ -173,7 +173,7 @@ contract BGTDAOTest {
         assert(true);
     }
     
-    function testGovernanceSettings() public {
+    function testGovernanceSettings() public pure {
         assert(true);
     }
     
@@ -185,7 +185,7 @@ contract BGTDAOTest {
         assert(true);
     }
     
-    function testIntegration() public {
+    function testIntegration() public pure {
         assert(true);
     }
     

@@ -39,7 +39,7 @@ abstract contract GovernorVotesQuorumFraction is GovernorVotes {
         _quorumNumerator = newQuorumNumerator;
     }
     
-    function owner() internal view virtual returns (address) {
+    function owner() public view virtual returns (address) {
         return address(0); // Override in implementation
     }
 }
