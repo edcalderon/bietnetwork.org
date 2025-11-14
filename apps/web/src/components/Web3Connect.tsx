@@ -7,7 +7,7 @@ import { Wallet, LogOut } from 'lucide-react';
 
 export function Web3Connect() {
   const { address, isConnected } = useAccount();
-  const { connect, connectors, error, isLoading } = useConnect();
+  const { connect, connectors, error, isPending } = useConnect();
   const { disconnect } = useDisconnect();
 
   if (isConnected) {
@@ -57,10 +57,10 @@ export function Web3Connect() {
           <Button
             key={connector.uid}
             onClick={() => connect({ connector })}
-            disabled={isLoading}
+            disabled={isPending}
             className="w-full"
           >
-            {isLoading ? 'Connecting...' : `Connect ${connector.name}`}
+            {isPending ? 'Connecting...' : `Connect ${connector.name}`}
           </Button>
         ))}
         {error && (
