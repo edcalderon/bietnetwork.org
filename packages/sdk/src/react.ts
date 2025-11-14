@@ -37,7 +37,7 @@ export function useBGTBalance(address?: string) {
       },
     ],
     functionName: 'balanceOf',
-    args: targetAddress ? [targetAddress] : undefined,
+    args: targetAddress ? [targetAddress as `0x${string}`] : undefined,
   });
 
   const formattedBalance = useMemo(() => {
@@ -104,7 +104,7 @@ export function useVotingPower(address?: string) {
       },
     ],
     functionName: 'getVotes',
-    args: targetAddress ? [targetAddress] : undefined,
+    args: targetAddress ? [targetAddress as `0x${string}`] : undefined,
   });
 
   const formattedPower = useMemo(() => {
@@ -230,7 +230,7 @@ export function useUserIdentity(address?: string) {
       },
     ],
     functionName: 'getIdentityByAddress',
-    args: targetAddress ? [targetAddress] : undefined,
+    args: targetAddress ? [targetAddress as `0x${string}`] : undefined,
   });
 
   const identity = useMemo((): Identity | undefined => {
