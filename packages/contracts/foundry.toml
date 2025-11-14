@@ -1,0 +1,26 @@
+[profile.default]
+src = "src"
+out = "out"
+libs = ["lib"]
+remappings = [
+    "@openzeppelin/contracts/=lib/openzeppelin-contracts/contracts/",
+    "@openzeppelin/contracts-upgradeable/=lib/openzeppelin-contracts-upgradeable/contracts/"
+]
+
+# See more config options https://github.com/foundry-rs/foundry/tree/master/config
+
+[profile.default.optimizer]
+enabled = true
+runs = 200
+
+[profile.default.model_checker]
+contracts = { "src/" = [ "*" ] }
+engine = "chc"
+timeout = 10000
+targets = [ "assert" ]
+
+[etherscan]
+base = { key = "${ETHERSCAN_API_KEY}" }
+
+[rpc_endpoints]
+base = "${BASE_RPC_URL}"

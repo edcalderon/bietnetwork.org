@@ -65,15 +65,17 @@ jobs:
             ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json', '**/yarn.lock') }}-
       - name: Install dependencies
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
+      - name: Install Turbo globally
+        run: ${{ steps.detect-package-manager.outputs.manager }} install -g turbo
       - name: Build with Next.js
-        run: ${{ steps.detect-package-manager.outputs.manager }} run build
+        run: turbo run build --filter=web
         env:
           GITHUB_ACTIONS: 'true'
           NEXT_TELEMETRY_DISABLED: 1
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./docs
+          path: ./apps/web/docs
 
   # Deployment job
   deploy:

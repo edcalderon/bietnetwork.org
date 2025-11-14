@@ -1,0 +1,48 @@
+{
+  "name": "@biet-network/sdk",
+  "version": "0.1.0",
+  "description": "JavaScript/TypeScript SDK for Biet Network",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "test": "vitest",
+    "lint": "eslint src --ext .ts,.tsx",
+    "clean": "rm -rf dist"
+  },
+  "keywords": ["blockchain", "web3", "ethereum", "base", "dao", "biet"],
+  "author": "Biet Network Team",
+  "license": "MIT",
+  "dependencies": {
+    "ethers": "^6.8.0",
+    "viem": "^2.0.0",
+    "wagmi": "^2.0.0",
+    "@wagmi/core": "^2.0.0",
+    "abitype": "^0.10.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "eslint": "^8.42.0",
+    "typescript": "^5.0.0",
+    "vitest": "^1.0.0"
+  },
+  "peerDependencies": {
+    "react": ">=18.0.0"
+  },
+  "files": ["dist", "README.md"],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.js"
+    },
+    "./react": {
+      "types": "./dist/react.d.ts",
+      "import": "./dist/react.js",
+      "require": "./dist/react.js"
+    }
+  }
+}
