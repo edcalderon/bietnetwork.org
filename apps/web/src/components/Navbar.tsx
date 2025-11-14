@@ -46,39 +46,36 @@ export default function Navbar() {
   ];
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
       isScrolled 
-        ? 'bg-white/95 dark:bg-gray-900/95 backdrop-blur-md shadow-lg' 
-        : 'bg-white dark:bg-gray-900 shadow-sm'
+        ? 'bg-white/90 dark:bg-gray-900/90 backdrop-blur-md border-b border-emerald-200/50 dark:border-emerald-800/50 shadow-lg' 
+        : 'bg-transparent'
     }`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16">
+        <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <div className="flex items-center">
-            <Link 
-              href="/" 
-              className="flex items-center space-x-3 group"
-            >
-              <div className="w-8 h-8 bg-gradient-to-br from-green-400 to-blue-500 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
-                <Sprout className="h-5 w-5 text-white" />
+            <Link href="/" className="flex items-center space-x-3 group">
+              <div className="w-10 h-10 bg-gradient-to-br from-emerald-400 via-cyan-400 to-indigo-500 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
+                <Sprout className="h-6 w-6 text-white" />
               </div>
-              <span className="text-xl font-bold bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">
+              <span className="text-xl font-bold bg-gradient-to-r from-emerald-600 via-cyan-600 to-indigo-600 bg-clip-text text-transparent group-hover:from-emerald-700 group-hover:via-cyan-700 group-hover:to-indigo-700 transition-all duration-300">
                 Biet Network
               </span>
             </Link>
           </div>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center space-x-1">
+          <div className="hidden lg:flex items-center space-x-2">
             {navigationItems.map((item) => {
               const Icon = item.icon;
               return (
                 <Link
                   key={item.name}
                   href={item.href}
-                  className="flex items-center space-x-2 px-4 py-2 rounded-lg text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200 group"
+                  className="group flex items-center space-x-2 px-4 py-2 rounded-xl text-gray-700 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 transition-all duration-300 hover:scale-105"
                 >
-                  <Icon className="h-4 w-4 group-hover:scale-110 transition-transform" />
+                  <Icon className="h-4 w-4 group-hover:scale-110 transition-transform duration-300" />
                   <span className="font-medium">{item.name}</span>
                 </Link>
               );
@@ -87,16 +84,16 @@ export default function Navbar() {
             {/* Admin Navigation */}
             {isAdmin && (
               <>
-                <div className="w-px h-6 bg-gray-300 dark:bg-gray-600 mx-2" />
+                <div className="w-px h-6 bg-gradient-to-b from-transparent via-purple-300 to-transparent mx-2" />
                 {adminNavigation.map((item) => {
                   const Icon = item.icon;
                   return (
                     <Link
                       key={item.name}
                       href={item.href}
-                      className="flex items-center space-x-2 px-4 py-2 rounded-lg text-purple-700 dark:text-purple-300 hover:text-purple-900 dark:hover:text-purple-200 hover:bg-purple-100 dark:hover:bg-purple-900/30 transition-all duration-200 group"
+                      className="group flex items-center space-x-2 px-4 py-2 rounded-xl text-purple-700 dark:text-purple-300 hover:text-purple-800 dark:hover:text-purple-200 hover:bg-purple-100 dark:hover:bg-purple-900/30 transition-all duration-300 hover:scale-105"
                     >
-                      <Icon className="h-4 w-4 group-hover:scale-110 transition-transform" />
+                      <Icon className="h-4 w-4 group-hover:scale-110 transition-transform duration-300" />
                       <span className="font-medium">{item.name}</span>
                     </Link>
                   );
@@ -115,7 +112,7 @@ export default function Navbar() {
                 variant="ghost"
                 size="icon"
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
+                className="text-gray-700 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 transition-all duration-300 rounded-xl"
               >
                 {isMenuOpen ? (
                   <X className="h-6 w-6" />
@@ -129,7 +126,7 @@ export default function Navbar() {
 
         {/* Mobile Navigation */}
         {isMenuOpen && (
-          <div className="lg:hidden border-t border-gray-200 dark:border-gray-700 py-4">
+          <div className="lg:hidden border-t border-emerald-200/50 dark:border-emerald-800/50 py-4 animate-fade-in-up">
             <div className="space-y-2">
               {navigationItems.map((item) => {
                 const Icon = item.icon;
@@ -138,7 +135,7 @@ export default function Navbar() {
                     key={item.name}
                     href={item.href}
                     onClick={() => setIsMenuOpen(false)}
-                    className="flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200"
+                    className="flex items-center space-x-3 px-4 py-3 rounded-xl text-gray-700 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 transition-all duration-300"
                   >
                     <Icon className="h-5 w-5" />
                     <span className="font-medium">{item.name}</span>
@@ -146,10 +143,10 @@ export default function Navbar() {
                 );
               })}
               
-              {/* Admin Mobile Navigation */}
+              {/* Admin Navigation */}
               {isAdmin && (
                 <>
-                  <div className="border-t border-gray-200 dark:border-gray-700 my-2" />
+                  <div className="w-full h-px bg-gradient-to-r from-transparent via-purple-300 to-transparent my-2" />
                   {adminNavigation.map((item) => {
                     const Icon = item.icon;
                     return (
@@ -157,7 +154,7 @@ export default function Navbar() {
                         key={item.name}
                         href={item.href}
                         onClick={() => setIsMenuOpen(false)}
-                        className="flex items-center space-x-3 px-4 py-3 rounded-lg text-purple-700 dark:text-purple-300 hover:text-purple-900 dark:hover:text-purple-200 hover:bg-purple-100 dark:hover:bg-purple-900/30 transition-all duration-200"
+                        className="flex items-center space-x-3 px-4 py-3 rounded-xl text-purple-700 dark:text-purple-300 hover:text-purple-800 dark:hover:text-purple-200 hover:bg-purple-100 dark:hover:bg-purple-900/30 transition-all duration-300"
                       >
                         <Icon className="h-5 w-5" />
                         <span className="font-medium">{item.name}</span>
