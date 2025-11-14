@@ -67,9 +67,7 @@ jobs:
       - name: Install dependencies
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
       - name: Install Turbo globally
-        run: yarn global add turbo
-      - name: Build with Next.js
-        run: turbo run build --filter=web
+        run: yarn dlx turbo@latest run build --filter=web
         env:
           GITHUB_ACTIONS: 'true'
           NEXT_TELEMETRY_DISABLED: 1
