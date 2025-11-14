@@ -1,9 +1,10 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useWallet } from '@/contexts/WalletContext';
+import { useAccount, useWriteContract, useWaitForTransactionReceipt, useReadContract } from 'wagmi';
 import { 
   User, 
   Plus, 
@@ -14,13 +15,78 @@ import {
   Hash,
   Globe,
   Shield,
-  ExternalLink
+  ExternalLink,
+  CheckCircle,
+  AlertCircle,
+  Loader2
 } from 'lucide-react';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
+import { parseEther } from 'viem';
+import { baseSepolia } from 'wagmi/chains';
+
+// Contract addresses (Base Sepolia)
+const BIET_IDENTITY_ADDRESS = '0x996c1025cbE7bd3Fb87feb47f94b84521E8Bb0b4';
+const BGT_TOKEN_ADDRESS = '0x26CFcA9fD1c0EF8c6345ab4Df07E28Af838B4d02';
+
+// Contract ABIs (simplified for demo)
+const BIET_IDENTITY_ABI = [
+  {
+    "inputs": [
+      {"internalType": "string", "name": "_fullName", "type": "string"},
+      {"internalType": "string", "name": "_country", "type": "string"},
+      {"internalType": "uint256", "name": "_verificationLevel", "type": "uint256"}
+    ],
+    "name": "createIdentity",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [{"internalType": "address", "name": "_user", "type": "address"}],
+    "name": "getIdentity",
+    "outputs": [
+      {"internalType": "string", "name": "fullName", "type": "string"},
+      {"internalType": "string", "name": "country", "type": "string"},
+      {"internalType": "uint256", "name": "verificationLevel", "type": "uint256"},
+      {"internalType": "uint256", "name": "reputationScore", "type": "uint256"},
+      {"internalType": "uint256", "name": "createdAt", "type": "uint256"}
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  }
+] as const;
+
+const BGT_TOKEN_ABI = [
+  {
+    "inputs": [{"internalType": "address", "name": "to", "type": "address"}, {"internalType": "uint256", "name": "amount", "type": "uint256"}],
+    "name": "mint",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [{"internalType": "address", "name": "account", "type": "address"}],
+    "name": "balanceOf",
+    "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
+    "stateMutability": "view",
+    "type": "function"
+  }
+] as const;
 
 export function UserDashboard() {
   const { isConnected, address, isAdmin } = useWallet();
   const [activeTab, setActiveTab] = useState<'overview' | 'identity' | 'tokens' | 'biets'>('overview');
+  const searchParams = useSearchParams();
+  const { writeContract } = useWriteContract();
+  
+  // Get tab from URL parameter
+  useEffect(() => {
+    const tab = searchParams.get('tab') as any;
+    if (tab && ['overview', 'identity', 'tokens', 'biets'].includes(tab)) {
+      setActiveTab(tab);
+    }
+  }, [searchParams]);
 
   if (!isConnected) {
     return (
@@ -117,6 +183,21 @@ export function UserDashboard() {
 }
 
 function OverviewTab() {
+  const { address } = useAccount();
+  const { data: bgtBalance } = useReadContract({
+    address: BGT_TOKEN_ADDRESS,
+    abi: BGT_TOKEN_ABI,
+    functionName: 'balanceOf',
+    args: address ? [address] : undefined,
+  });
+
+  const { data: identity } = useReadContract({
+    address: BIET_IDENTITY_ADDRESS,
+    abi: BIET_IDENTITY_ABI,
+    functionName: 'getIdentity',
+    args: address ? [address] : undefined,
+  });
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
       <Card>
@@ -125,7 +206,7 @@ function OverviewTab() {
           <Coins className="h-4 w-4 text-muted-foreground" />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">0</div>
+          <div className="text-2xl font-bold">{bgtBalance ? Number(bgtBalance) : '0'}</div>
           <p className="text-xs text-muted-foreground">
             Governance tokens
           </p>
@@ -138,9 +219,11 @@ function OverviewTab() {
           <FileText className="h-4 w-4 text-muted-foreground" />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">Not Set</div>
+          <div className="text-2xl font-bold">
+            {identity && identity[0] ? 'Active' : 'Not Set'}
+          </div>
           <p className="text-xs text-muted-foreground">
-            Create your identity
+            {identity && identity[0] ? 'Identity created' : 'Create your identity'}
           </p>
         </CardContent>
       </Card>
@@ -164,7 +247,7 @@ function OverviewTab() {
           <TrendingUp className="h-4 w-4 text-muted-foreground" />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">0</div>
+          <div className="text-2xl font-bold">{bgtBalance ? Number(bgtBalance) : '0'}</div>
           <p className="text-xs text-muted-foreground">
             DAO influence
           </p>
@@ -175,6 +258,32 @@ function OverviewTab() {
 }
 
 function IdentityTab() {
+  const { address } = useAccount();
+  const { writeContract, data: hash, isPending, error } = useWriteContract();
+  const { isLoading: isConfirming, isSuccess: isConfirmed } = useWaitForTransactionReceipt({
+    hash,
+  });
+  
+  const { data: identity } = useReadContract({
+    address: BIET_IDENTITY_ADDRESS,
+    abi: BIET_IDENTITY_ABI,
+    functionName: 'getIdentity',
+    args: address ? [address] : undefined,
+  });
+
+  const handleCreateIdentity = () => {
+    writeContract({
+      address: BIET_IDENTITY_ADDRESS,
+      abi: BIET_IDENTITY_ABI,
+      functionName: 'createIdentity',
+      args: [
+        'John Doe', // Full name
+        'United States', // Country
+        BigInt(1) // Verification level
+      ],
+    });
+  };
+
   return (
     <div className="space-y-6">
       <Card>
@@ -188,16 +297,69 @@ function IdentityTab() {
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <Button className="h-20 flex-col">
-              <Plus className="h-6 w-6 mb-2" />
-              Create New Identity
-            </Button>
-            <Button variant="outline" className="h-20 flex-col">
-              <FileText className="h-6 w-6 mb-2" />
-              View Identity Details
-            </Button>
-          </div>
+          {identity && identity[0] ? (
+            <div className="p-4 bg-green-50 dark:bg-green-900/20 rounded-lg">
+              <div className="flex items-center gap-2 mb-2">
+                <CheckCircle className="h-5 w-5 text-green-600 dark:text-green-400" />
+                <h4 className="font-medium text-green-700 dark:text-green-300">
+                  Identity Created Successfully
+                </h4>
+              </div>
+              <div className="space-y-2 text-sm text-green-600 dark:text-green-400">
+                <p><strong>Full Name:</strong> {identity[0]}</p>
+                <p><strong>Country:</strong> {identity[1]}</p>
+                <p><strong>Verification Level:</strong> {Number(identity[2])}</p>
+                <p><strong>Reputation Score:</strong> {Number(identity[3])}</p>
+              </div>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <Button 
+                onClick={handleCreateIdentity}
+                disabled={isPending || isConfirming}
+                className="h-20 flex-col"
+              >
+                {isPending || isConfirming ? (
+                  <Loader2 className="h-6 w-6 mb-2 animate-spin" />
+                ) : (
+                  <Plus className="h-6 w-6 mb-2" />
+                )}
+                Create New Identity
+              </Button>
+              <Button variant="outline" className="h-20 flex-col" disabled>
+                <FileText className="h-6 w-6 mb-2" />
+                View Identity Details
+              </Button>
+            </div>
+          )}
+          
+          {error && (
+            <div className="p-4 bg-red-50 dark:bg-red-900/20 rounded-lg">
+              <div className="flex items-center gap-2 mb-2">
+                <AlertCircle className="h-5 w-5 text-red-600 dark:text-red-400" />
+                <h4 className="font-medium text-red-700 dark:text-red-300">
+                  Error Creating Identity
+                </h4>
+              </div>
+              <p className="text-sm text-red-600 dark:text-red-400">
+                {error.message}
+              </p>
+            </div>
+          )}
+
+          {isConfirmed && (
+            <div className="p-4 bg-green-50 dark:bg-green-900/20 rounded-lg">
+              <div className="flex items-center gap-2 mb-2">
+                <CheckCircle className="h-5 w-5 text-green-600 dark:text-green-400" />
+                <h4 className="font-medium text-green-700 dark:text-green-300">
+                  Transaction Confirmed!
+                </h4>
+              </div>
+              <p className="text-sm text-green-600 dark:text-green-400">
+                Your identity has been created on the blockchain.
+              </p>
+            </div>
+          )}
           
           <div className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
             <h4 className="font-medium text-blue-700 dark:text-blue-300 mb-2">
@@ -258,6 +420,33 @@ function IdentityTab() {
 }
 
 function TokensTab() {
+  const { address } = useAccount();
+  const { writeContract, data: hash, isPending, error } = useWriteContract();
+  const { isLoading: isConfirming, isSuccess: isConfirmed } = useWaitForTransactionReceipt({
+    hash,
+  });
+  
+  const { data: bgtBalance } = useReadContract({
+    address: BGT_TOKEN_ADDRESS,
+    abi: BGT_TOKEN_ABI,
+    functionName: 'balanceOf',
+    args: address ? [address] : undefined,
+  });
+
+  const handleMintTokens = () => {
+    if (!address) return;
+    
+    writeContract({
+      address: BGT_TOKEN_ADDRESS,
+      abi: BGT_TOKEN_ABI,
+      functionName: 'mint',
+      args: [
+        address,
+        parseEther('1000') // Mint 1000 BGT tokens
+      ],
+    });
+  };
+
   return (
     <div className="space-y-6">
       <Card>
@@ -272,8 +461,16 @@ function TokensTab() {
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <Button className="h-20 flex-col">
-              <Coins className="h-6 w-6 mb-2" />
+            <Button 
+              onClick={handleMintTokens}
+              disabled={isPending || isConfirming}
+              className="h-20 flex-col"
+            >
+              {isPending || isConfirming ? (
+                <Loader2 className="h-6 w-6 mb-2 animate-spin" />
+              ) : (
+                <Coins className="h-6 w-6 mb-2" />
+              )}
               Mint BGT Tokens
             </Button>
             <Button variant="outline" className="h-20 flex-col">
@@ -285,6 +482,43 @@ function TokensTab() {
               Governance Voting
             </Button>
           </div>
+
+          <div className="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+            <p className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              Current BGT Balance
+            </p>
+            <div className="text-2xl font-bold text-gray-900 dark:text-white">
+              {bgtBalance ? Number(bgtBalance) : '0'} BGT
+            </div>
+          </div>
+          
+          {error && (
+            <div className="p-4 bg-red-50 dark:bg-red-900/20 rounded-lg">
+              <div className="flex items-center gap-2 mb-2">
+                <AlertCircle className="h-5 w-5 text-red-600 dark:text-red-400" />
+                <h4 className="font-medium text-red-700 dark:text-red-300">
+                  Error Minting Tokens
+                </h4>
+              </div>
+              <p className="text-sm text-red-600 dark:text-red-400">
+                {error.message}
+              </p>
+            </div>
+          )}
+
+          {isConfirmed && (
+            <div className="p-4 bg-green-50 dark:bg-green-900/20 rounded-lg">
+              <div className="flex items-center gap-2 mb-2">
+                <CheckCircle className="h-5 w-5 text-green-600 dark:text-green-400" />
+                <h4 className="font-medium text-green-700 dark:text-green-300">
+                  Tokens Minted Successfully!
+                </h4>
+              </div>
+              <p className="text-sm text-green-600 dark:text-green-400">
+                1000 BGT tokens have been minted to your address.
+              </p>
+            </div>
+          )}
           
           <div className="p-4 bg-green-50 dark:bg-green-900/20 rounded-lg">
             <h4 className="font-medium text-green-700 dark:text-green-300 mb-2">
