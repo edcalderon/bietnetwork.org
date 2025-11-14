@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { WalletButton } from '@/components/WalletButton';
+import { LanguageSwitcher } from '@/components/LanguageSwitcher';
 import { useWallet } from '@/contexts/WalletContext';
 import { 
   Menu, 
@@ -16,11 +17,13 @@ import {
   Shield,
   User
 } from 'lucide-react';
+import { useTranslations } from '@/hooks/useTranslations';
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const { isAdmin } = useWallet();
+  const { t } = useTranslations();
 
   // Handle scroll effect
   useEffect(() => {
@@ -33,16 +36,16 @@ export default function Navbar() {
   }, []);
 
   const navigationItems = [
-    { name: 'Inicio', href: '/', icon: Home },
-    { name: 'Dashboard', href: '/dashboard', icon: User, requiresAuth: true },
-    { name: 'Biets', href: '/biets', icon: Building },
-    { name: 'Gobernanza', href: '/governance', icon: Settings },
-    { name: 'Token', href: '/token', icon: Gem },
+    { name: t('nav.home'), href: '/', icon: Home },
+    { name: t('nav.dashboard'), href: '/dashboard', icon: User, requiresAuth: true },
+    { name: t('nav.biets'), href: '/biets', icon: Building },
+    { name: t('nav.governance'), href: '/governance', icon: Settings },
+    { name: t('nav.token'), href: '/token', icon: Gem },
   ];
 
   const adminNavigation = [
-    { name: 'Admin Panel', href: '/admin', icon: Shield },
-    { name: 'Settings', href: '/settings', icon: Settings },
+    { name: t('nav.adminPanel'), href: '/admin', icon: Shield },
+    { name: t('nav.settings'), href: '/settings', icon: Settings },
   ];
 
   return (
@@ -104,6 +107,7 @@ export default function Navbar() {
 
           {/* Wallet Button & Mobile Menu */}
           <div className="flex items-center space-x-4">
+            <LanguageSwitcher />
             <WalletButton />
             
             {/* Mobile menu button */}
@@ -142,6 +146,11 @@ export default function Navbar() {
                   </Link>
                 );
               })}
+              
+              {/* Language Switcher for Mobile */}
+              <div className="px-4 py-3">
+                <LanguageSwitcher />
+              </div>
               
               {/* Admin Navigation */}
               {isAdmin && (

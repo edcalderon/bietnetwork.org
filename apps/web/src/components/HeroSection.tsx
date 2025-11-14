@@ -16,10 +16,12 @@ import { useWallet } from '@/contexts/WalletContext';
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { useTranslations } from '@/hooks/useTranslations';
 
 export function HeroSection() {
   const { isConnected } = useWallet();
   const router = useRouter();
+  const { t } = useTranslations();
 
   useEffect(() => {
     if (isConnected) {
@@ -47,20 +49,20 @@ export function HeroSection() {
             <div className="inline-flex items-center space-x-2 px-4 py-2 bg-emerald-100 dark:bg-emerald-900/30 rounded-full">
               <Sparkles className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
               <span className="text-emerald-700 dark:text-emerald-300 font-medium text-sm">
-                🌱 Unidades Vivas Activas
+                {t('hero.activeUnits')}
               </span>
             </div>
             
             <div>
               <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-gray-900 dark:text-white leading-tight animate-fade-in-up-delayed">
-                Biet Network
+                {t('hero.title')}
                 <span className="block text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 via-cyan-600 to-indigo-600 animate-gradient-shift">
-                  Unidades Vivas
+                  {t('hero.subtitle')}
                 </span>
               </h1>
               
               <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl animate-fade-in-up-delayed-2 mt-6">
-                Una red descentralizada de unidades productivas que generan valor social, económico y ecológico a través de la tecnología blockchain.
+                {t('hero.description')}
               </p>
             </div>
 
@@ -68,12 +70,12 @@ export function HeroSection() {
               {!isConnected ? (
                 <div className="text-center">
                   <p className="text-lg text-gray-600 dark:text-gray-300 mb-4">
-                    Connect your wallet to get started with Biet Network
+                    {t('hero.connectWallet')}
                   </p>
                   <div className="inline-flex items-center justify-center">
                     <div className="w-3 h-3 bg-emerald-500 rounded-full animate-pulse mr-2"></div>
                     <span className="text-emerald-600 dark:text-emerald-400 font-medium">
-                      Ready when you are
+                      {t('hero.ready')}
                     </span>
                   </div>
                 </div>
@@ -81,11 +83,11 @@ export function HeroSection() {
                 <div className="text-center">
                   <div className="inline-flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-emerald-500 to-cyan-500 text-white rounded-full shadow-lg">
                     <CheckCircle className="h-5 w-5" />
-                    <span className="font-medium">Wallet Connected!</span>
+                    <span className="font-medium">{t('hero.walletConnected')}</span>
                     <div className="w-2 h-2 bg-white rounded-full animate-pulse"></div>
                   </div>
                   <p className="text-sm text-emerald-600 dark:text-emerald-400 mt-3">
-                    Redirecting to dashboard...
+                    {t('hero.redirecting')}
                   </p>
                 </div>
               )}
@@ -95,41 +97,35 @@ export function HeroSection() {
               {[
                 {
                   icon: CheckCircle,
-                  title: "100% Descentralizado",
-                  description: "Sin intermediarios, control total de la comunidad",
-                  color: "emerald"
+                  title: t('hero.decentralized'),
+                  description: t('hero.noIntermediaries'),
                 },
                 {
                   icon: Shield,
-                  title: "Gobernanza DAO",
-                  description: "Participación democrática en decisiones clave",
-                  color: "cyan"
+                  title: t('hero.daoGovernance'),
+                  description: t('hero.democraticParticipation'),
                 },
                 {
                   icon: TrendingUp,
-                  title: "Impacto Real",
-                  description: "Generando valor social, económico y ecológico",
-                  color: "indigo"
-                }
-              ].map((feature, index) => {
-                const Icon = feature.icon;
-                return (
-                  <div 
-                    key={index} 
-                    className="group bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm rounded-xl p-6 hover:shadow-xl transition-all duration-300 hover:scale-105 border border-gray-200 dark:border-gray-700"
-                  >
-                    <div className={`w-12 h-12 bg-gradient-to-br from-${feature.color}-400 to-${feature.color}-600 rounded-xl flex items-center justify-center mb-4 shadow-lg group-hover:scale-110 transition-transform duration-300`}>
-                      <Icon className="h-6 w-6 text-white" />
-                    </div>
-                    <h3 className="font-bold text-gray-900 dark:text-white mb-2">
-                      {feature.title}
-                    </h3>
-                    <p className="text-sm text-gray-600 dark:text-gray-300">
-                      {feature.description}
-                    </p>
+                  title: t('hero.realImpact'),
+                  description: t('hero.generatingValue'),
+                },
+              ].map((feature, index) => (
+                <div
+                  key={index}
+                  className="group bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 border border-gray-100 dark:border-gray-700"
+                >
+                  <div className="flex items-center justify-center w-12 h-12 bg-emerald-100 dark:bg-emerald-900/30 rounded-xl mb-4 group-hover:bg-emerald-200 dark:group-hover:bg-emerald-900/50 transition-colors">
+                    <feature.icon className="h-6 w-6 text-emerald-600 dark:text-emerald-400" />
                   </div>
-                );
-              })}
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+                    {feature.title}
+                  </h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-300">
+                    {feature.description}
+                  </p>
+                </div>
+              ))}
             </div>
           </div>
 
