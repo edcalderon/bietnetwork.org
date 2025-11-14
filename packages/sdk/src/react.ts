@@ -236,7 +236,7 @@ export function useUserIdentity(address?: string) {
   const identity = useMemo((): Identity | undefined => {
     if (!data) return undefined;
     
-    const [name, did, country, verificationLevel, createdAt, isActive, identityHash] = data as [
+    const [name, did, country, verificationLevel, createdAt, isActive, identityHash] = data as unknown as [
       string,
       string,
       string,
@@ -316,7 +316,7 @@ export function useBietDetails(tokenId: bigint) {
       totalDistributed,
       location,
       tags,
-    ] = data as [
+    ] = data as unknown as [
       string,
       string,
       string,

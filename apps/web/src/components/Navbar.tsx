@@ -13,7 +13,8 @@ import {
   Building, 
   Home,
   Settings,
-  Shield
+  Shield,
+  User
 } from 'lucide-react';
 
 export default function Navbar() {
@@ -31,11 +32,12 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const navigation = [
+  const navigationItems = [
     { name: 'Inicio', href: '/', icon: Home },
-    { name: 'Biets', href: '/biets', icon: Sprout },
-    { name: 'BGT Token', href: '/token', icon: Gem },
-    { name: 'Gobernanza DAO', href: '/governance', icon: Building },
+    { name: 'Dashboard', href: '/dashboard', icon: User, requiresAuth: true },
+    { name: 'Biets', href: '/biets', icon: Building },
+    { name: 'Gobernanza', href: '/governance', icon: Settings },
+    { name: 'Token', href: '/token', icon: Gem },
   ];
 
   const adminNavigation = [
@@ -68,7 +70,7 @@ export default function Navbar() {
 
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center space-x-1">
-            {navigation.map((item) => {
+            {navigationItems.map((item) => {
               const Icon = item.icon;
               return (
                 <Link
@@ -129,7 +131,7 @@ export default function Navbar() {
         {isMenuOpen && (
           <div className="lg:hidden border-t border-gray-200 dark:border-gray-700 py-4">
             <div className="space-y-2">
-              {navigation.map((item) => {
+              {navigationItems.map((item) => {
                 const Icon = item.icon;
                 return (
                   <Link
