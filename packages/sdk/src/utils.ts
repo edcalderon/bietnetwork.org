@@ -3,21 +3,21 @@
  * @dev Helper utilities for Biet Network SDK
  */
 
-import { ethers } from 'ethers';
+import { ethers, formatEther, parseEther, isAddress, hexlify, randomBytes, keccak256, toUtf8Bytes } from 'ethers';
 import type { Chain } from './types';
 
 /**
  * Format ether value to human readable string
  */
-export function formatEther(value: ethers.BigNumberish, decimals: number = 4): string {
-  return parseFloat(ethers.utils.formatEther(value)).toFixed(decimals);
+export function formatEtherValue(value: ethers.BigNumberish, decimals: number = 4): string {
+  return parseFloat(formatEther(value)).toFixed(decimals);
 }
 
 /**
- * Parse ether string to BigNumber
+ * Parse ether string to BigInt
  */
-export function parseEther(value: string): ethers.BigNumber {
-  return ethers.utils.parseEther(value);
+export function parseEtherValue(value: string): bigint {
+  return parseEther(value);
 }
 
 /**
@@ -32,7 +32,7 @@ export function formatAddress(address: string, chars: number = 6): string {
  * Validate Ethereum address
  */
 export function isValidAddress(address: string): boolean {
-  return ethers.utils.isAddress(address);
+  return isAddress(address);
 }
 
 /**
@@ -53,11 +53,11 @@ export function getAddressExplorerUrl(address: string, chain: Chain): string {
  * Wait for transaction with timeout
  */
 export async function waitForTransaction(
-  provider: ethers.providers.Provider,
+  provider: ethers.Provider,
   txHash: string,
   confirmations: number = 1,
   timeout: number = 60000
-): Promise<ethers.providers.TransactionReceipt> {
+): Promise<ethers.TransactionReceipt> {
   const startTime = Date.now();
   
   while (Date.now() - startTime < timeout) {
@@ -75,41 +75,42 @@ export async function waitForTransaction(
  * Estimate gas for transaction
  */
 export async function estimateGas(
-  transaction: ethers.providers.TransactionRequest,
-  provider: ethers.providers.Provider
-): Promise<ethers.BigNumber> {
+  transaction: ethers.TransactionRequest,
+  provider: ethers.Provider
+): Promise<bigint> {
   try {
     return await provider.estimateGas(transaction);
   } catch (error) {
     console.warn('Gas estimation failed:', error);
-    return ethers.BigNumber.from(100000); // Default gas limit
+    return BigInt(100000); // Default gas limit
   }
 }
 
 /**
  * Get gas price
  */
-export async function getGasPrice(provider: ethers.providers.Provider): Promise<ethers.BigNumber> {
+export async function getGasPrice(provider: ethers.Provider): Promise<bigint> {
   try {
-    return await provider.getGasPrice();
+    const feeData = await provider.getFeeData();
+    return feeData.gasPrice || BigInt('20000000000'); // 20 gwei default
   } catch (error) {
     console.warn('Failed to get gas price:', error);
-    return ethers.BigNumber.from('20000000000'); // 20 gwei default
+    return BigInt('20000000000'); // 20 gwei default
   }
 }
 
 /**
  * Calculate transaction cost in ETH
  */
-export function calculateTransactionCost(gasLimit: ethers.BigNumber, gasPrice: ethers.BigNumber): ethers.BigNumber {
-  return gasLimit.mul(gasPrice);
+export function calculateTransactionCost(gasLimit: bigint, gasPrice: bigint): bigint {
+  return gasLimit * gasPrice;
 }
 
 /**
  * Convert wei to USD (approximate)
  */
-export function weiToUsd(weiAmount: ethers.BigNumber, ethPrice: number): number {
-  const ethAmount = parseFloat(ethers.utils.formatEther(weiAmount));
+export function weiToUsd(weiAmount: ethers.BigNumberish, ethPrice: number): number {
+  const ethAmount = parseFloat(formatEther(weiAmount));
   return ethAmount * ethPrice;
 }
 
@@ -117,20 +118,20 @@ export function weiToUsd(weiAmount: ethers.BigNumber, ethPrice: number): number 
  * Generate random bytes32
  */
 export function generateRandomBytes32(): string {
-  return ethers.utils.hexlify(ethers.utils.randomBytes(32));
+  return hexlify(randomBytes(32));
 }
 
 /**
  * Hash string with keccak256
  */
-export function keccak256(data: string): string {
-  return ethers.utils.keccak256(ethers.utils.toUtf8Bytes(data));
+export function keccak256Hash(data: string): string {
+  return keccak256(toUtf8Bytes(data));
 }
 
 /**
  * Check if contract exists at address
  */
-export async function isContract(address: string, provider: ethers.providers.Provider): Promise<boolean> {
+export async function isContract(address: string, provider: ethers.Provider): Promise<boolean> {
   try {
     const code = await provider.getCode(address);
     return code !== '0x';
@@ -142,7 +143,7 @@ export async function isContract(address: string, provider: ethers.providers.Pro
 /**
  * Get block timestamp
  */
-export async function getBlockTimestamp(provider: ethers.providers.Provider): Promise<number> {
+export async function getBlockTimestamp(provider: ethers.Provider): Promise<number> {
   const block = await provider.getBlock('latest');
   return block?.timestamp || 0;
 }
@@ -150,9 +151,9 @@ export async function getBlockTimestamp(provider: ethers.providers.Provider): Pr
 /**
  * Add buffer to gas limit
  */
-export function addGasBuffer(gasLimit: ethers.BigNumber, bufferPercent: number = 20): ethers.BigNumber {
-  const buffer = gasLimit.mul(bufferPercent).div(100);
-  return gasLimit.add(buffer);
+export function addGasBuffer(gasLimit: bigint, bufferPercent: number = 20): bigint {
+  const buffer = (gasLimit * BigInt(bufferPercent)) / BigInt(100);
+  return gasLimit + buffer;
 }
 
 /**
