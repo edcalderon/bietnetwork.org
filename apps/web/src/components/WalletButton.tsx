@@ -34,20 +34,13 @@ export function WalletButton() {
 
   const handleConnect = async () => {
     try {
-      // Try to connect with MetaMask or any injected wallet
-      await connect({
-        connector: (() => {
-          // This is a simplified approach - in production you'd want proper connector detection
-          const connector = {
-            id: 'injected',
-            name: 'Injected Wallet',
-            type: 'injected',
-            provider: typeof window !== 'undefined' ? (window as any).ethereum : undefined,
-          };
-          return connector as any;
-        })(),
-      });
-      setIsOpen(false);
+      // Request wallet access directly
+      if (typeof window !== 'undefined' && (window as any).ethereum) {
+        await (window as any).ethereum.request({ method: 'eth_requestAccounts' });
+        setIsOpen(false);
+      } else {
+        alert('Please install MetaMask or another Web3 wallet');
+      }
     } catch (error) {
       console.error('Failed to connect wallet:', error);
     }
@@ -58,7 +51,7 @@ export function WalletButton() {
       <div className="relative">
         <Button
           onClick={() => setIsOpen(!isOpen)}
-          className="flex items-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+          className="flex items-center gap-2 bg-gradient-to-r from-emerald-600 to-cyan-600 hover:from-emerald-700 hover:to-cyan-700"
         >
           <Wallet className="h-4 w-4" />
           Connect Wallet

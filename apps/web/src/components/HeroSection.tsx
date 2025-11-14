@@ -58,49 +58,29 @@ export function HeroSection() {
                 </p>
               </div>
 
-              {/* CTA Buttons */}
+              {/* CTA Button */}
               <div className="flex flex-col sm:flex-row gap-4 animate-fade-in-up-delayed-3">
                 {!isConnected ? (
+                  <div className="text-center">
+                    <p className="text-lg text-gray-600 dark:text-gray-300 mb-4 animate-fade-in-up-delayed-3">
+                      Connect your wallet to get started with Biet Network
+                    </p>
+                    <div className="inline-flex items-center justify-center">
+                      <div className="w-3 h-3 bg-emerald-500 rounded-full animate-pulse mr-2"></div>
+                      <span className="text-emerald-600 dark:text-emerald-400 font-medium">
+                        Ready when you are
+                      </span>
+                    </div>
+                  </div>
+                ) : (
                   <Link href="/dashboard">
-                    <Button size="lg" className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-2 border-emerald-200 dark:border-emerald-800 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 hover:border-emerald-300 dark:hover:border-emerald-700 hover:scale-105 transition-all duration-300 shadow-lg">
-                      <Zap className="mr-2 h-5 w-5" />
-                      Get Started
+                    <Button size="lg" className="bg-gradient-to-r from-emerald-600 via-cyan-600 to-indigo-600 hover:from-emerald-700 hover:via-cyan-700 hover:to-indigo-700 text-white hover:scale-105 transition-all duration-300 shadow-xl">
+                      <Globe className="mr-2 h-5 w-5" />
+                      Go to Dashboard
                       <ArrowRight className="ml-2 h-5 w-5" />
                     </Button>
                   </Link>
-                ) : (
-                  <div className="space-y-4">
-                    <Link href="/dashboard">
-                      <Button size="lg" className="bg-gradient-to-r from-emerald-600 via-cyan-600 to-indigo-600 hover:from-emerald-700 hover:via-cyan-700 hover:to-indigo-700 text-white hover:scale-105 transition-all duration-300 shadow-xl">
-                        <Globe className="mr-2 h-5 w-5" />
-                        User Dashboard
-                        <ArrowRight className="ml-2 h-5 w-5" />
-                      </Button>
-                    </Link>
-                    <Link href="/biets">
-                      <Button variant="outline" size="lg" className="border-2 border-emerald-200 dark:border-emerald-800 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 hover:scale-105 transition-all duration-300">
-                        Explorar Biets
-                        <ArrowRight className="ml-2 h-5 w-5" />
-                      </Button>
-                    </Link>
-                    
-                    {isAdmin && (
-                      <Link href="/admin">
-                        <Button variant="outline" size="lg" className="border-2 border-purple-200 dark:border-purple-800 hover:bg-purple-50 dark:hover:bg-purple-900/20 hover:scale-105 transition-all duration-300">
-                          <Shield className="mr-2 h-5 w-5" />
-                          Panel de Administración
-                        </Button>
-                      </Link>
-                    )}
-                  </div>
                 )}
-                
-                <Link href="/governance">
-                  <Button variant="outline" size="lg" className="border-2 border-cyan-200 dark:border-cyan-800 hover:bg-cyan-50 dark:hover:bg-cyan-900/20 hover:scale-105 transition-all duration-300">
-                    Gobernanza DAO
-                    <ArrowRight className="ml-2 h-5 w-5" />
-                  </Button>
-                </Link>
               </div>
 
               {/* Features */}

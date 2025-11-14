@@ -5,7 +5,7 @@ import { base, baseSepolia } from 'wagmi/chains';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactNode } from 'react';
 
-// Create wagmi config with minimal setup
+// Create wagmi config with minimal setup - no connectors
 const config = createConfig({
   chains: [base, baseSepolia],
   transports: {
