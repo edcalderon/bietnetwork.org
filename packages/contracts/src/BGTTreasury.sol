@@ -2,7 +2,6 @@
 pragma solidity ^0.8.19;
 
 import "./finance/PaymentSplitter.sol";
-import "./access/AccessControl.sol";
 import "./token/ERC20/IERC20.sol";
 import "./token/ERC20/utils/SafeERC20.sol";
 import "./utils/ReentrancyGuard.sol";
@@ -13,7 +12,7 @@ import "./proxy/utils/Initializable.sol";
  * @dev Módulo de tesorería para la gestión de fondos de Red Biet
  * @author Biet Network Team
  */
-contract BGTTreasury is AccessControl, PaymentSplitter, ReentrancyGuard, Initializable {
+contract BGTTreasury is PaymentSplitter, ReentrancyGuard, Initializable {
     using SafeERC20 for IERC20;
     
     // Roles
