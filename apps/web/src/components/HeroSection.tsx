@@ -2,7 +2,6 @@
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { WalletButtonMock } from '@/components/WalletButtonMock';
 import { ContractsInfo } from '@/components/ContractsInfo';
 import { useWallet } from '@/contexts/WalletContext';
 import { 
@@ -51,7 +50,12 @@ export function HeroSection() {
               {/* CTA Buttons */}
               <div className="flex flex-col sm:flex-row gap-4">
                 {!isConnected ? (
-                  <WalletButtonMock />
+                  <Link href="/dashboard">
+                    <Button size="lg" variant="outline" className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm">
+                      Get Started
+                      <ArrowRight className="ml-2 h-5 w-5" />
+                    </Button>
+                  </Link>
                 ) : (
                   <div className="space-y-4">
                     <Link href="/dashboard">
@@ -144,23 +148,22 @@ export function HeroSection() {
                       <div className="space-y-4">
                         <div className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
                           <p className="text-sm text-blue-700 dark:text-blue-300">
-                            🔒 Conecta tu wallet para desbloquear funciones exclusivas
+                            🔒 Connect your wallet in the navbar to get started
                           </p>
                         </div>
-                        <WalletButtonMock />
                       </div>
                     ) : (
                       <div className="space-y-4">
                         <div className="p-4 bg-green-50 dark:bg-green-900/20 rounded-lg">
                           <p className="text-sm text-green-700 dark:text-green-300">
-                            ✅ Wallet conectada correctamente
+                            ✅ Wallet connected successfully
                           </p>
                         </div>
                         
                         {isAdmin && (
                           <div className="p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
                             <p className="text-sm text-purple-700 dark:text-purple-300">
-                              👑 Tienes privilegios de administrador
+                              👑 You have admin privileges
                             </p>
                           </div>
                         )}
@@ -173,7 +176,7 @@ export function HeroSection() {
                           </Link>
                           <Link href="/biets">
                             <Button variant="outline" className="w-full">
-                              Ver Biets
+                              View Biets
                             </Button>
                           </Link>
                         </div>

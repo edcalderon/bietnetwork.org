@@ -1,6 +1,8 @@
 'use client';
 
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
+import { useAccount, useDisconnect, useSwitchChain } from 'wagmi';
+import { base, baseSepolia } from 'wagmi/chains';
 
 // Admin addresses (these should come from environment or config)
 const ADMIN_ADDRESSES = [
@@ -9,36 +11,57 @@ const ADMIN_ADDRESSES = [
 ] as const;
 
 interface WalletContextType {
-  isAdmin: boolean;
-  address: string | undefined;
   isConnected: boolean;
-  setAdminStatus: (address: string | undefined) => void;
+  address: string | undefined;
+  isAdmin: boolean;
+  chainId: number | undefined;
+  isCorrectChain: boolean;
+  disconnect: () => void;
+  switchToBase: () => void;
+  switchToBaseSepolia: () => void;
 }
 
 const WalletContext = createContext<WalletContextType | undefined>(undefined);
 
 export function WalletProvider({ children }: { children: React.ReactNode }) {
+  const { address, isConnected, chainId } = useAccount();
+  const { disconnect } = useDisconnect();
+  const { switchChain } = useSwitchChain();
+  
   const [isAdmin, setIsAdmin] = useState(false);
-  const [address, setAddress] = useState<string | undefined>();
-  const [isConnected, setIsConnected] = useState(false);
+  const [isCorrectChain, setIsCorrectChain] = useState(false);
 
-  // Check if user is admin based on address
-  const setAdminStatus = (walletAddress: string | undefined) => {
-    setAddress(walletAddress);
-    setIsConnected(!!walletAddress);
-    
-    if (walletAddress) {
-      setIsAdmin(ADMIN_ADDRESSES.includes(walletAddress.toLowerCase() as typeof ADMIN_ADDRESSES[0]));
+  // Check if user is admin
+  useEffect(() => {
+    if (address) {
+      setIsAdmin(ADMIN_ADDRESSES.includes(address.toLowerCase() as typeof ADMIN_ADDRESSES[0]));
     } else {
       setIsAdmin(false);
     }
+  }, [address]);
+
+  // Check if connected to correct chain (Base or Base Sepolia)
+  useEffect(() => {
+    setIsCorrectChain(chainId === base.id || chainId === baseSepolia.id);
+  }, [chainId]);
+
+  const switchToBase = () => {
+    switchChain({ chainId: base.id });
+  };
+
+  const switchToBaseSepolia = () => {
+    switchChain({ chainId: baseSepolia.id });
   };
 
   const value: WalletContextType = {
-    isAdmin,
-    address,
     isConnected,
-    setAdminStatus,
+    address,
+    isAdmin,
+    chainId,
+    isCorrectChain,
+    disconnect,
+    switchToBase,
+    switchToBaseSepolia,
   };
 
   return (

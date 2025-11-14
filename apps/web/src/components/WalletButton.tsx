@@ -13,15 +13,10 @@ export function WalletButton() {
   const { connect, error, isPending } = useConnect();
   const { disconnect } = useDisconnect();
   const { switchChain } = useSwitchChain();
-  const { isAdmin, setAdminStatus } = useWallet();
+  const { isAdmin, isCorrectChain } = useWallet();
   
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
-
-  // Update wallet context when account changes
-  useEffect(() => {
-    setAdminStatus(address);
-  }, [address, setAdminStatus]);
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -57,8 +52,6 @@ export function WalletButton() {
       console.error('Failed to connect wallet:', error);
     }
   };
-
-  const isCorrectChain = chainId === base.id || chainId === baseSepolia.id;
 
   if (!isConnected) {
     return (

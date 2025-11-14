@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { WalletButtonMock } from '@/components/WalletButtonMock';
+import { WalletButton } from '@/components/WalletButton';
 import { useWallet } from '@/contexts/WalletContext';
 import { 
   Menu, 
@@ -107,7 +107,7 @@ export default function Navbar() {
 
           {/* Wallet Button & Mobile Menu */}
           <div className="flex items-center space-x-4">
-            <WalletButtonMock />
+            <WalletButton />
             
             {/* Mobile menu button */}
             <div className="lg:hidden">

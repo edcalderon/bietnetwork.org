@@ -24,6 +24,8 @@
   "devDependencies": {
     "@commitlint/cli": "^17.0.0",
     "@commitlint/config-conventional": "^17.0.0",
+    "@tanstack/query-core": "^5.0.0",
+    "@tanstack/react-query": "^5.0.0",
     "eslint": "^8.42.0",
     "husky": "^8.0.0",
     "prettier": "^3.0.0",

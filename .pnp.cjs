@@ -49,6 +49,8 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@commitlint/cli", "npm:17.8.1"],\
           ["@commitlint/config-conventional", "npm:17.8.1"],\
+          ["@tanstack/query-core", "npm:5.90.9"],\
+          ["@tanstack/react-query", "virtual:b8d8a9a5adbd3e55bcb464e0bd8843cb0bfdff98d84da8b3aacf20080fb900f5dc3a9cec9468d5d7406a7418c4275bda6f5f44608252cfb04e8efaa404bbc4c0#npm:5.90.9"],\
           ["eslint", "npm:8.57.1"],\
           ["husky", "npm:8.0.3"],\
           ["prettier", "npm:3.6.2"],\
@@ -9525,6 +9527,20 @@ const RAW_RUNTIME_STATE =
           "react"\
         ],\
         "linkType": "HARD"\
+      }],\
+      ["virtual:b8d8a9a5adbd3e55bcb464e0bd8843cb0bfdff98d84da8b3aacf20080fb900f5dc3a9cec9468d5d7406a7418c4275bda6f5f44608252cfb04e8efaa404bbc4c0#npm:5.90.9", {\
+        "packageLocation": "./.yarn/__virtual__/@tanstack-react-query-virtual-7f920821ff/3/.yarn/berry/cache/@tanstack-react-query-npm-5.90.9-15b75fab8c-10c0.zip/node_modules/@tanstack/react-query/",\
+        "packageDependencies": [\
+          ["@tanstack/react-query", "virtual:b8d8a9a5adbd3e55bcb464e0bd8843cb0bfdff98d84da8b3aacf20080fb900f5dc3a9cec9468d5d7406a7418c4275bda6f5f44608252cfb04e8efaa404bbc4c0#npm:5.90.9"],\
+          ["@tanstack/query-core", "npm:5.90.9"],\
+          ["@types/react", null],\
+          ["react", null]\
+        ],\
+        "packagePeers": [\
+          "@types/react",\
+          "react"\
+        ],\
+        "linkType": "HARD"\
       }]\
     ]],\
     ["@testing-library/dom", [\
@@ -12533,6 +12549,8 @@ const RAW_RUNTIME_STATE =
           ["biet-network", "workspace:."],\
           ["@commitlint/cli", "npm:17.8.1"],\
           ["@commitlint/config-conventional", "npm:17.8.1"],\
+          ["@tanstack/query-core", "npm:5.90.9"],\
+          ["@tanstack/react-query", "virtual:b8d8a9a5adbd3e55bcb464e0bd8843cb0bfdff98d84da8b3aacf20080fb900f5dc3a9cec9468d5d7406a7418c4275bda6f5f44608252cfb04e8efaa404bbc4c0#npm:5.90.9"],\
           ["eslint", "npm:8.57.1"],\
           ["husky", "npm:8.0.3"],\
           ["prettier", "npm:3.6.2"],\
