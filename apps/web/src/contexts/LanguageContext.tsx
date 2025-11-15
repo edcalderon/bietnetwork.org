@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
 type Language = 'en' | 'es';
 
@@ -548,7 +548,7 @@ export function LanguageProvider({ children }: LanguageProviderProps) {
       console.warn(`Translation key "${key}" not found`);
       return key;
     }
-    return translation[language] || translation.en || key;
+    return translation[language as Language] || translation.en || key;
   };
 
   return (
