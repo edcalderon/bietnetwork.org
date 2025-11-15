@@ -32,175 +32,148 @@ export function HeroSection() {
     }
   }, [isConnected, router]);
 
+  const features = [
+    {
+      icon: <Globe className="w-6 h-6" />,
+      title: t('hero.decentralized'),
+      description: t('hero.noIntermediaries')
+    },
+    {
+      icon: <Users className="w-6 h-6" />,
+      title: t('hero.daoGovernance'),
+      description: t('hero.democraticParticipation')
+    },
+    {
+      icon: <TrendingUp className="w-6 h-6" />,
+      title: t('hero.realImpact'),
+      description: t('hero.generatingValue')
+    }
+  ];
+
   return (
     <section className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-emerald-50 via-cyan-50 to-indigo-50 dark:from-gray-900 dark:via-emerald-900/20 dark:to-indigo-900/20 overflow-hidden">
-      <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-grid-black/[0.02] dark:bg-grid-white/[0.02]" />
-        <div className="absolute inset-0 bg-gradient-to-r from-emerald-400/10 via-cyan-400/10 to-indigo-400/10 animate-pulse" />
-      </div>
+      <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
       
-      <div className="absolute top-20 left-10 w-72 h-72 bg-emerald-300/20 rounded-full mix-blend-multiply filter blur-xl animate-float" />
-      <div className="absolute top-40 right-10 w-96 h-96 bg-cyan-300/20 rounded-full mix-blend-multiply filter blur-xl animate-float-delayed" />
-      <div className="absolute bottom-20 left-1/3 w-80 h-80 bg-indigo-300/20 rounded-full mix-blend-multiply filter blur-xl animate-float-slow" />
-
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+        <div className="grid lg:grid-cols-2 gap-12 items-center">
+          {/* Left Column - Hero Content */}
           <div className="space-y-8 animate-slide-in-left">
-            <div className="inline-flex items-center space-x-2 px-4 py-2 bg-emerald-100 dark:bg-emerald-900/30 rounded-full">
-              <Sparkles className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
-              <span className="text-emerald-700 dark:text-emerald-300 font-medium text-sm">
+            <div className="space-y-4">
+              <div className="inline-flex items-center px-4 py-2 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-800 dark:text-emerald-200 rounded-full text-sm font-medium">
+                <Sparkles className="w-4 h-4 mr-2" />
                 {t('hero.activeUnits')}
-              </span>
-            </div>
-            
-            <div>
-              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-gray-900 dark:text-white leading-tight animate-fade-in-up-delayed">
+              </div>
+              
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white leading-tight">
                 {t('hero.title')}
-                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 via-cyan-600 to-indigo-600 animate-gradient-shift">
-                  {t('hero.subtitle')}
-                </span>
               </h1>
               
-              <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl animate-fade-in-up-delayed-2 mt-6">
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-semibold text-emerald-600 dark:text-emerald-400">
+                {t('hero.subtitle')}
+              </h2>
+              
+              <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl">
                 {t('hero.description')}
               </p>
             </div>
 
-            <div className="animate-fade-in-up-delayed-3">
-              {!isConnected ? (
-                <div className="text-center">
-                  <p className="text-lg text-gray-600 dark:text-gray-300 mb-4">
-                    {t('hero.connectWallet')}
-                  </p>
-                  <div className="inline-flex items-center justify-center">
-                    <div className="w-3 h-3 bg-emerald-500 rounded-full animate-pulse mr-2"></div>
-                    <span className="text-emerald-600 dark:text-emerald-400 font-medium">
-                      {t('hero.ready')}
-                    </span>
-                  </div>
-                </div>
-              ) : (
-                <div className="text-center">
-                  <div className="inline-flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-emerald-500 to-cyan-500 text-white rounded-full shadow-lg">
-                    <CheckCircle className="h-5 w-5" />
-                    <span className="font-medium">{t('hero.walletConnected')}</span>
-                    <div className="w-2 h-2 bg-white rounded-full animate-pulse"></div>
-                  </div>
-                  <p className="text-sm text-emerald-600 dark:text-emerald-400 mt-3">
-                    {t('hero.redirecting')}
-                  </p>
-                </div>
-              )}
+            {!isConnected && (
+              <div className="p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
+                <p className="text-blue-700 dark:text-blue-300 font-medium">
+                  {t('hero.connectWallet')}
+                </p>
+              </div>
+            )}
+
+            <div className="flex flex-col sm:flex-row gap-4">
+              <Button
+                onClick={() => router.push('/dashboard')}
+                size="lg"
+                className="bg-gradient-to-r from-emerald-600 to-cyan-600 hover:from-emerald-700 hover:to-cyan-700 text-white px-8 py-4 text-lg font-medium rounded-full transition-all duration-200 transform hover:scale-105 shadow-lg"
+              >
+                {isConnected ? (
+                  <>
+                    {t('hero.ready')}
+                    <ArrowRight className="ml-2 w-5 h-5" />
+                  </>
+                ) : (
+                  t('hero.connectWallet')
+                )}
+              </Button>
+              
+              <Button
+                variant="outline"
+                size="lg"
+                className="px-8 py-4 text-lg font-medium rounded-full border-2 border-emerald-600 text-emerald-600 hover:bg-emerald-50 dark:border-emerald-400 dark:text-emerald-400 dark:hover:bg-emerald-900/20"
+              >
+                {t('landing.learnMore')}
+              </Button>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-8 animate-fade-in-up-delayed-4">
-              {[
-                {
-                  icon: CheckCircle,
-                  title: t('hero.decentralized'),
-                  description: t('hero.noIntermediaries'),
-                },
-                {
-                  icon: Shield,
-                  title: t('hero.daoGovernance'),
-                  description: t('hero.democraticParticipation'),
-                },
-                {
-                  icon: TrendingUp,
-                  title: t('hero.realImpact'),
-                  description: t('hero.generatingValue'),
-                },
-              ].map((feature, index) => (
-                <div
-                  key={index}
-                  className="group bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 border border-gray-100 dark:border-gray-700"
-                >
-                  <div className="flex items-center justify-center w-12 h-12 bg-emerald-100 dark:bg-emerald-900/30 rounded-xl mb-4 group-hover:bg-emerald-200 dark:group-hover:bg-emerald-900/50 transition-colors">
-                    <feature.icon className="h-6 w-6 text-emerald-600 dark:text-emerald-400" />
-                  </div>
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-                    {feature.title}
-                  </h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-300">
-                    {feature.description}
-                  </p>
-                </div>
-              ))}
-            </div>
+            {isConnected && (
+              <div className="flex items-center gap-2 text-green-600 dark:text-green-400 font-medium">
+                <CheckCircle className="w-5 h-5" />
+                <span>{t('hero.walletConnected')}</span>
+              </div>
+            )}
           </div>
 
-          <div className="hidden lg:block animate-slide-in-right">
+          {/* Right Column - Feature Cards */}
+          <div className="space-y-6 animate-slide-in-right">
             <Card className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-md border-0 shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-105">
               <CardContent className="p-8">
                 <div className="space-y-8">
-                  <div className="text-center">
-                    <div className="w-24 h-24 bg-gradient-to-br from-emerald-400 via-cyan-400 to-indigo-500 rounded-2xl flex items-center justify-center mx-auto mb-6 animate-pulse-slow shadow-xl">
-                      <Sparkles className="h-12 w-12 text-white" />
-                    </div>
-                    
-                    <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-                      {isConnected ? 'Welcome to Biet Network!' : 'Start Your Journey'}
-                    </h3>
-                    
-                    <p className="text-gray-600 dark:text-gray-300 mb-6">
-                      {isConnected 
-                        ? 'Your wallet is connected. Setting up your identity and dashboard...'
-                        : 'Connect your wallet to access the decentralized network of productive units and start creating impact.'
-                      }
-                    </p>
-
-                    {isConnected && (
-                      <div className="space-y-4">
-                        <div className="flex items-center justify-center space-x-2">
-                          <div className="w-4 h-4 bg-emerald-500 rounded-full animate-pulse"></div>
-                          <span className="text-emerald-600 dark:text-emerald-400 font-medium">
-                            Initializing your identity...
-                          </span>
-                        </div>
+                  {features.map((feature, index) => (
+                    <div key={index} className="flex items-start space-x-4">
+                      <div className="flex-shrink-0 w-12 h-12 bg-emerald-100 dark:bg-emerald-900/30 rounded-full flex items-center justify-center text-emerald-600 dark:text-emerald-400">
+                        {feature.icon}
                       </div>
-                    )}
-                  </div>
-
-                  <div className="grid grid-cols-1 gap-4">
-                    <div className="flex items-center space-x-3 p-4 bg-emerald-50 dark:bg-emerald-900/20 rounded-xl">
-                      <Users className="h-8 w-8 text-emerald-600 dark:text-emerald-400" />
-                      <div>
-                        <h4 className="font-semibold text-emerald-700 dark:text-emerald-300">
-                          Create Identity
-                        </h4>
-                        <p className="text-sm text-emerald-600 dark:text-emerald-400">
-                          Register your digital identity on the blockchain
+                      <div className="flex-1">
+                        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+                          {feature.title}
+                        </h3>
+                        <p className="text-gray-600 dark:text-gray-300">
+                          {feature.description}
                         </p>
                       </div>
                     </div>
-
-                    <div className="flex items-center space-x-3 p-4 bg-cyan-50 dark:bg-cyan-900/20 rounded-xl">
-                      <Globe className="h-8 w-8 text-cyan-600 dark:text-cyan-400" />
-                      <div>
-                        <h4 className="font-semibold text-cyan-700 dark:text-cyan-300">
-                          Mint BGT Tokens
-                        </h4>
-                        <p className="text-sm text-cyan-600 dark:text-cyan-400">
-                          Get governance tokens for participation
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center space-x-3 p-4 bg-indigo-50 dark:bg-indigo-900/20 rounded-xl">
-                      <Zap className="h-8 w-8 text-indigo-600 dark:text-indigo-400" />
-                      <div>
-                        <h4 className="font-semibold text-indigo-700 dark:text-indigo-300">
-                          Join Biets
-                        </h4>
-                        <p className="text-sm text-indigo-600 dark:text-indigo-400">
-                          Participate in productive units
-                        </p>
-                      </div>
-                    </div>
-                  </div>
+                  ))}
                 </div>
               </CardContent>
             </Card>
+          </div>
+        </div>
+
+        {/* Bottom Stats Section */}
+        <div className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="text-center p-6 bg-white dark:bg-gray-800 rounded-2xl shadow-lg">
+            <div className="text-3xl mb-4">🌍</div>
+            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">
+              {t('hero.decentralized')}
+            </h3>
+            <p className="text-gray-600 dark:text-gray-300">
+              {t('hero.noIntermediaries')}
+            </p>
+          </div>
+
+          <div className="text-center p-6 bg-white dark:bg-gray-800 rounded-2xl shadow-lg">
+            <div className="text-3xl mb-4">🏛️</div>
+            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">
+              {t('hero.daoGovernance')}
+            </h3>
+            <p className="text-gray-600 dark:text-gray-300">
+              {t('hero.democraticParticipation')}
+            </p>
+          </div>
+
+          <div className="text-center p-6 bg-white dark:bg-gray-800 rounded-2xl shadow-lg">
+            <div className="text-3xl mb-4">🌱</div>
+            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">
+              {t('hero.realImpact')}
+            </h3>
+            <p className="text-gray-600 dark:text-gray-300">
+              {t('hero.generatingValue')}
+            </p>
           </div>
         </div>
       </div>

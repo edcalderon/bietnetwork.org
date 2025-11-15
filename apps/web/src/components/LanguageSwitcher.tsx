@@ -1,21 +1,22 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { 
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
+  DropdownMenu, 
+  DropdownMenuContent, 
+  DropdownMenuItem, 
+  DropdownMenuTrigger 
 } from '@/components/ui/dropdown-menu';
 import { Globe } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 export function LanguageSwitcher() {
-  const { language, setLanguage, t } = useLanguage();
+  const { language, setLanguage } = useLanguage();
 
   const localeNames = {
-    en: t('language.english'),
-    es: t('language.spanish'),
+    en: 'English',
+    es: 'Español',
   };
 
   const handleLanguageChange = (newLanguage: 'en' | 'es') => {

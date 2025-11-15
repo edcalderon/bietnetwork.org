@@ -7,7 +7,10 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "deploy": "npm run build && gh-pages -d out"
+    "deploy": "npm run build && gh-pages -d out",
+    "extract": "lingui extract",
+    "compile": "lingui compile",
+    "i18n": "yarn extract && yarn compile"
   },
   "dependencies": {
     "@biet-network/sdk": "workspace:*",

@@ -7,15 +7,15 @@ import { WalletButton } from '@/components/WalletButton';
 import { LanguageSwitcher } from '@/components/LanguageSwitcher';
 import { useWallet } from '@/contexts/WalletContext';
 import { 
-  Menu, 
-  X, 
-  Sprout, 
-  Gem, 
+  Home, 
+  User, 
   Building, 
-  Home,
-  Settings,
-  Shield,
-  User
+  Settings, 
+  Gem, 
+  Shield, 
+  Menu, 
+  X,
+  Sprout
 } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 
