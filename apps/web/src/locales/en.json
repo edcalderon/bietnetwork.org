@@ -28,6 +28,18 @@
     "english": "English",
     "spanish": "Spanish"
   },
+  "version": {
+    "title": "Version Information",
+    "description": "Current version and changelog",
+    "current": "Current Version",
+    "changelog": "Changelog",
+    "new": "New",
+    "markAsRead": "Mark as Read",
+    "features": "Features",
+    "improvements": "Improvements",
+    "fixes": "Fixes",
+    "breaking": "Breaking Changes"
+  },
   "wallet": {
     "connect": "Connect Wallet",
     "wrongNetwork": "Wrong Network",

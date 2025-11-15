@@ -4,6 +4,7 @@ import Navbar from '../components/Navbar';
 import { WagmiProviders } from '../providers/WagmiProvider';
 import { WalletProvider } from '../contexts/WalletContext';
 import { LanguageProvider } from '../contexts/LanguageContext';
+import { VersionProvider } from '../contexts/VersionContext';
 
 export const metadata: Metadata = {
   title: 'Red Biet - BietNetwork',
@@ -24,10 +25,11 @@ export default function RootLayout({
   return (
     <html lang="es" className="h-full">
       <body className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
-        <LanguageProvider>
-          <WagmiProviders>
-            <WalletProvider>
-              <Navbar />
+        <VersionProvider>
+          <LanguageProvider>
+            <WagmiProviders>
+              <WalletProvider>
+                <Navbar />
               <main className="min-h-screen pt-16">
                 {children}
               </main>
@@ -41,6 +43,7 @@ export default function RootLayout({
             </WalletProvider>
           </WagmiProviders>
         </LanguageProvider>
+        </VersionProvider>
       </body>
     </html>
   );

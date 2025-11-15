@@ -7,19 +7,23 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "turbo run build",
+    "build": "node scripts/set-version.js && turbo run build",
     "dev": "turbo run dev",
     "lint": "turbo run lint",
     "test": "turbo run test",
     "clean": "turbo run clean",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "deploy": "turbo run deploy",
+    "deploy": "node scripts/set-version.js && turbo run deploy",
+    "version": "node scripts/set-version.js",
+    "version:patch": "npm version patch && node scripts/set-version.js",
+    "version:minor": "npm version minor && node scripts/set-version.js",
+    "version:major": "npm version major && node scripts/set-version.js",
     "contracts:build": "turbo run build --filter=contracts",
     "contracts:test": "turbo run test --filter=contracts",
     "contracts:deploy": "turbo run deploy --filter=contracts",
     "web:dev": "turbo run dev --filter=@biet-network/web",
-    "web:build": "turbo run build --filter=@biet-network/web",
-    "web:deploy": "turbo run deploy --filter=@biet-network/web"
+    "web:build": "node scripts/set-version.js && turbo run build --filter=@biet-network/web",
+    "web:deploy": "node scripts/set-version.js && turbo run deploy --filter=@biet-network/web"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.0.0",

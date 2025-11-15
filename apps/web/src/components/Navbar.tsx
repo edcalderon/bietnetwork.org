@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { WalletButton } from '@/components/WalletButton';
 import { LanguageSwitcher } from '@/components/LanguageSwitcher';
+import { VersionDisplay } from '@/components/VersionDisplay';
 import { useWallet } from '@/contexts/WalletContext';
 import { 
   Home, 
@@ -107,6 +108,7 @@ export default function Navbar() {
 
           {/* Wallet Button & Mobile Menu */}
           <div className="flex items-center space-x-4">
+            <VersionDisplay />
             <LanguageSwitcher />
             <WalletButton />
             

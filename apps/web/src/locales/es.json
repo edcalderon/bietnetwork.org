@@ -28,6 +28,18 @@
     "english": "English",
     "spanish": "Español"
   },
+  "version": {
+    "title": "Información de Versión",
+    "description": "Versión actual y registro de cambios",
+    "current": "Versión Actual",
+    "changelog": "Registro de Cambios",
+    "new": "Nuevo",
+    "markAsRead": "Marcar como Leído",
+    "features": "Características",
+    "improvements": "Mejoras",
+    "fixes": "Correcciones",
+    "breaking": "Cambios Ruptivos"
+  },
   "wallet": {
     "connect": "Conectar Billetera",
     "wrongNetwork": "Red Incorrecta",
