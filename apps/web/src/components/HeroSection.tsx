@@ -16,12 +16,12 @@ import { useWallet } from '@/contexts/WalletContext';
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { useTranslations } from '@/hooks/useTranslations';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export function HeroSection() {
   const { isConnected } = useWallet();
   const router = useRouter();
-  const { t } = useTranslations();
+  const { t } = useLanguage();
 
   useEffect(() => {
     if (isConnected) {

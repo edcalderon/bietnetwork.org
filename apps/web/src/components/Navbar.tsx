@@ -17,13 +17,13 @@ import {
   Shield,
   User
 } from 'lucide-react';
-import { useTranslations } from '@/hooks/useTranslations';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const { isAdmin } = useWallet();
-  const { t } = useTranslations();
+  const { t } = useLanguage();
 
   // Handle scroll effect
   useEffect(() => {
