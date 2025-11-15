@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useWallet } from '@/contexts/WalletContext';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { useAccount, useWriteContract, useWaitForTransactionReceipt, useReadContract } from 'wagmi';
 import { 
   User, 
@@ -76,6 +77,7 @@ const BGT_TOKEN_ABI = [
 
 export function UserDashboard() {
   const { isConnected, address, isAdmin } = useWallet();
+  const { t } = useLanguage();
   const [activeTab, setActiveTab] = useState<'overview' | 'identity' | 'tokens' | 'biets'>('overview');
   const searchParams = useSearchParams();
   const { writeContract } = useWriteContract();
@@ -94,9 +96,9 @@ export function UserDashboard() {
         <Card className="w-full max-w-md">
           <CardHeader className="text-center">
             <User className="h-12 w-12 text-blue-500 mx-auto mb-4" />
-            <CardTitle>Connect Your Wallet</CardTitle>
+            <CardTitle>{t('dashboard.connectWallet')}</CardTitle>
             <CardDescription>
-              Please connect your wallet to access your dashboard
+              {t('dashboard.connectDescription')}
             </CardDescription>
           </CardHeader>
         </Card>
@@ -105,10 +107,10 @@ export function UserDashboard() {
   }
 
   const tabs = [
-    { id: 'overview', label: 'Overview', icon: User },
-    { id: 'identity', label: 'Identity', icon: FileText },
-    { id: 'tokens', label: 'BGT Tokens', icon: Coins },
-    { id: 'biets', label: 'My Biets', icon: Plus },
+    { id: 'overview', label: t('dashboard.overview'), icon: User },
+    { id: 'identity', label: t('dashboard.identity'), icon: FileText },
+    { id: 'tokens', label: t('dashboard.bgtTokens'), icon: Coins },
+    { id: 'biets', label: t('dashboard.myBiets'), icon: Award },
   ];
 
   const renderContent = () => {

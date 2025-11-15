@@ -6,6 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Wallet, LogOut, AlertTriangle, CheckCircle, ChevronDown } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
 import { useWallet } from '@/contexts/WalletContext';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { base, baseSepolia } from 'wagmi/chains';
 
 export function WalletButton() {
@@ -14,6 +15,7 @@ export function WalletButton() {
   const { disconnect } = useDisconnect();
   const { switchChain } = useSwitchChain();
   const { isAdmin, isCorrectChain } = useWallet();
+  const { t } = useLanguage();
   
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -39,10 +41,10 @@ export function WalletButton() {
         await (window as any).ethereum.request({ method: 'eth_requestAccounts' });
         setIsOpen(false);
       } else {
-        alert('Please install MetaMask or another Web3 wallet');
+        alert(t('wallet.installMetaMask'));
       }
     } catch (error) {
-      console.error('Failed to connect wallet:', error);
+      console.error(t('wallet.connectionFailed'), error);
     }
   };
 
@@ -54,7 +56,7 @@ export function WalletButton() {
           className="flex items-center gap-2 bg-gradient-to-r from-emerald-600 to-cyan-600 hover:from-emerald-700 hover:to-cyan-700"
         >
           <Wallet className="h-4 w-4" />
-          Connect Wallet
+          {t('wallet.connect')}
           <ChevronDown className="h-4 w-4" />
         </Button>
         
@@ -62,9 +64,9 @@ export function WalletButton() {
           <div ref={dropdownRef} className="absolute right-0 mt-2 w-80 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 z-50">
             <Card className="border-0 shadow-none">
               <CardHeader className="pb-3">
-                <CardTitle className="text-lg">Connect Wallet</CardTitle>
+                <CardTitle className="text-lg">{t('wallet.connect')}</CardTitle>
                 <CardDescription>
-                  Connect your wallet to access Biet Network
+                  {t('dashboard.connectDescription')}
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-2">
@@ -125,7 +127,7 @@ export function WalletButton() {
             <CardHeader className="pb-3">
               <CardTitle className="text-lg flex items-center gap-2">
                 <Wallet className="h-5 w-5" />
-                Wallet Connected
+                {t('wallet.connected')}
                 {isAdmin && (
                   <span className="bg-yellow-400 text-yellow-900 text-xs px-2 py-1 rounded-full font-medium">
                     ADMIN
@@ -161,7 +163,7 @@ export function WalletButton() {
                     <>
                       <AlertTriangle className="h-4 w-4 text-yellow-500" />
                       <span className="text-sm text-yellow-600 dark:text-yellow-400">
-                        Wrong network detected
+                        {t('wallet.wrongNetwork')}
                       </span>
                     </>
                   )}
@@ -175,7 +177,7 @@ export function WalletButton() {
                       size="sm"
                       className="w-full"
                     >
-                      Switch to Base Mainnet
+                      {t('wallet.switchToBase')} Mainnet
                     </Button>
                     <Button
                       onClick={() => switchChain({ chainId: baseSepolia.id })}
@@ -183,7 +185,7 @@ export function WalletButton() {
                       size="sm"
                       className="w-full"
                     >
-                      Switch to Base Sepolia
+                      {t('wallet.switchToBase')} Sepolia
                     </Button>
                   </div>
                 )}
@@ -219,7 +221,7 @@ export function WalletButton() {
                 className="w-full"
               >
                 <LogOut className="h-4 w-4 mr-2" />
-                Disconnect
+                {t('wallet.disconnect')}
               </Button>
             </CardContent>
           </Card>
