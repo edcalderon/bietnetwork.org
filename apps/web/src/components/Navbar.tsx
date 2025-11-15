@@ -17,7 +17,7 @@ import {
   X,
   Sprout
 } from 'lucide-react';
-import { useLanguage } from '@/contexts/LanguageContext';
+import { useLanguage } from '@/hooks/useLanguage';
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);

@@ -6,7 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Wallet, LogOut, AlertTriangle, CheckCircle, ChevronDown } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
 import { useWallet } from '@/contexts/WalletContext';
-import { useLanguage } from '@/contexts/LanguageContext';
+import { useLanguage } from '@/hooks/useLanguage';
 import { base, baseSepolia } from 'wagmi/chains';
 
 export function WalletButton() {

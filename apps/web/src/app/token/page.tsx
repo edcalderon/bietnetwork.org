@@ -2,7 +2,7 @@
 
 import { FaCoins, FaExchangeAlt, FaChartPie } from 'react-icons/fa';
 import FeatureCard from '../../components/ui/FeatureCard';
-import { useLanguage } from '../../contexts/LanguageContext';
+import { useLanguage } from '@/hooks/useLanguage';
 
 export default function TokenPage() {
   const { t } = useLanguage();

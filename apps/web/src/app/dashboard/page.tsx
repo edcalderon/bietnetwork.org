@@ -4,7 +4,7 @@ import { UserDashboard } from '@/components/UserDashboard';
 import { Suspense } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Loader2 } from 'lucide-react';
-import { useLanguage } from '@/contexts/LanguageContext';
+import { useLanguage } from '@/hooks/useLanguage';
 
 function DashboardLoading() {
   const { t } = useLanguage();

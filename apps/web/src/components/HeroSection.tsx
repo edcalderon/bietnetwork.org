@@ -16,7 +16,7 @@ import { useWallet } from '@/contexts/WalletContext';
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { useLanguage } from '@/contexts/LanguageContext';
+import { useLanguage } from '@/hooks/useLanguage';
 
 export function HeroSection() {
   const { isConnected } = useWallet();
