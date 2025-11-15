@@ -1,7 +1,7 @@
 'use client';
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { translations, getNestedValue, Language } from '@/lib/translations';
+import { translations, getNestedValue, getTranslation, Language } from '@/lib/translations';
 
 interface LanguageContextType {
   language: Language;
@@ -33,11 +33,11 @@ export function LanguageProvider({ children }: LanguageProviderProps) {
   };
 
   const t = (key: string): string => {
-    const translation = getNestedValue(translations[language], key);
+    const translation = getTranslation(language, key);
     if (translation === key) {
       console.warn(`Translation key "${key}" not found for language "${language}"`);
       // Fallback to English if key not found in current language
-      const fallbackTranslation = getNestedValue(translations.en, key);
+      const fallbackTranslation = getTranslation('en', key);
       return fallbackTranslation === key ? key : fallbackTranslation;
     }
     return translation;

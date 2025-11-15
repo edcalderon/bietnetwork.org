@@ -17,3 +17,9 @@ export function getNestedValue(obj: any, path: string): string {
     return current && current[key] !== undefined ? current[key] : path;
   }, obj);
 }
+
+// Type-safe translation function
+export function getTranslation(language: Language, key: string): string {
+  const translationSet = translations[language];
+  return getNestedValue(translationSet, key);
+}

@@ -10,11 +10,12 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Globe } from 'lucide-react';
 import { useLanguage } from '@/hooks/useLanguage';
+import type { Language } from '@/lib/translations';
 
 export function LanguageSwitcher() {
   const { language, setLanguage } = useLanguage();
 
-  const localeNames = {
+  const localeNames: Record<Language, string> = {
     en: 'English',
     es: 'Español',
   };
