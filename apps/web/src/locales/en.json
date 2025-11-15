@@ -13,7 +13,16 @@
     "daoGovernance": "DAO Governance",
     "democraticParticipation": "Democratic participation in key decisions",
     "realImpact": "Real Impact",
-    "generatingValue": "Generating social, economic, and ecological value"
+    "generatingValue": "Generating social, economic, and ecological value",
+    "getStarted": "Get Started in 3 Steps",
+    "step1Title": "Create Your Identity",
+    "step1Desc": "Build your decentralized identity and establish your reputation in the network",
+    "step2Title": "Get BGT Tokens",
+    "step2Desc": "Acquire governance tokens to participate in decision-making",
+    "step3Title": "Participate in Governance",
+    "step3Desc": "Vote on proposals and help shape the future of the network",
+    "resultTitle": "Generate Real Value",
+    "resultDesc": "Create productive biets and generate tangible economic value"
   },
   "nav": {
     "home": "Home",

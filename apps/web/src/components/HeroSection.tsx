@@ -77,14 +77,6 @@ export function HeroSection() {
               </p>
             </div>
 
-            {!isConnected && (
-              <div className="p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
-                <p className="text-blue-700 dark:text-blue-300 font-medium">
-                  {t('hero.connectWallet')}
-                </p>
-              </div>
-            )}
-
             <div className="flex flex-col sm:flex-row gap-4">
               <Button
                 onClick={() => router.push('/dashboard')}
@@ -118,26 +110,89 @@ export function HeroSection() {
             )}
           </div>
 
-          {/* Right Column - Feature Cards */}
+          {/* Right Column - Step Flow */}
           <div className="space-y-6 animate-slide-in-right">
             <Card className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-md border-0 shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-105">
               <CardContent className="p-8">
-                <div className="space-y-8">
-                  {features.map((feature, index) => (
-                    <div key={index} className="flex items-start space-x-4">
-                      <div className="flex-shrink-0 w-12 h-12 bg-emerald-100 dark:bg-emerald-900/30 rounded-full flex items-center justify-center text-emerald-600 dark:text-emerald-400">
-                        {feature.icon}
-                      </div>
-                      <div className="flex-1">
-                        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-                          {feature.title}
-                        </h3>
-                        <p className="text-gray-600 dark:text-gray-300">
-                          {feature.description}
-                        </p>
-                      </div>
+                <div className="space-y-6">
+                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-6 text-center">
+                    {t('hero.getStarted')}
+                  </h3>
+                  
+                  {/* Step 1: Identity */}
+                  <div className="flex items-start space-x-4">
+                    <div className="flex-shrink-0 w-10 h-10 bg-emerald-100 dark:bg-emerald-900/30 rounded-full flex items-center justify-center text-emerald-600 dark:text-emerald-400 font-bold">
+                      1
                     </div>
-                  ))}
+                    <div className="flex-1">
+                      <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+                        {t('hero.step1Title')}
+                      </h4>
+                      <p className="text-gray-600 dark:text-gray-300 text-sm">
+                        {t('hero.step1Desc')}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Arrow */}
+                  <div className="flex justify-center">
+                    <ArrowRight className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
+                  </div>
+
+                  {/* Step 2: Token */}
+                  <div className="flex items-start space-x-4">
+                    <div className="flex-shrink-0 w-10 h-10 bg-emerald-100 dark:bg-emerald-900/30 rounded-full flex items-center justify-center text-emerald-600 dark:text-emerald-400 font-bold">
+                      2
+                    </div>
+                    <div className="flex-1">
+                      <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+                        {t('hero.step2Title')}
+                      </h4>
+                      <p className="text-gray-600 dark:text-gray-300 text-sm">
+                        {t('hero.step2Desc')}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Arrow */}
+                  <div className="flex justify-center">
+                    <ArrowRight className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
+                  </div>
+
+                  {/* Step 3: Governance */}
+                  <div className="flex items-start space-x-4">
+                    <div className="flex-shrink-0 w-10 h-10 bg-emerald-100 dark:bg-emerald-900/30 rounded-full flex items-center justify-center text-emerald-600 dark:text-emerald-400 font-bold">
+                      3
+                    </div>
+                    <div className="flex-1">
+                      <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+                        {t('hero.step3Title')}
+                      </h4>
+                      <p className="text-gray-600 dark:text-gray-300 text-sm">
+                        {t('hero.step3Desc')}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Arrow */}
+                  <div className="flex justify-center">
+                    <ArrowRight className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
+                  </div>
+
+                  {/* Result */}
+                  <div className="flex items-start space-x-4">
+                    <div className="flex-shrink-0 w-10 h-10 bg-gradient-to-r from-emerald-600 to-cyan-600 rounded-full flex items-center justify-center text-white">
+                      <TrendingUp className="w-5 h-5" />
+                    </div>
+                    <div className="flex-1">
+                      <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+                        {t('hero.resultTitle')}
+                      </h4>
+                      <p className="text-gray-600 dark:text-gray-300 text-sm">
+                        {t('hero.resultDesc')}
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </CardContent>
             </Card>
