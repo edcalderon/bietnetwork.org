@@ -6,12 +6,20 @@ export interface VersionInfo {
   environment: 'development' | 'staging' | 'production';
 }
 
+// Type-safe access to process.env
+const getEnvVar = (key: string, fallback: string): string => {
+  if (typeof process !== 'undefined' && process.env && process.env[key]) {
+    return process.env[key] as string;
+  }
+  return fallback;
+};
+
 export const VERSION_INFO: VersionInfo = {
-  version: process.env.NEXT_PUBLIC_APP_VERSION || '0.2.0',
-  buildNumber: process.env.NEXT_PUBLIC_BUILD_NUMBER || 'local',
-  commitHash: process.env.NEXT_PUBLIC_COMMIT_HASH || 'dev',
-  buildDate: process.env.NEXT_PUBLIC_BUILD_DATE || new Date().toISOString(),
-  environment: (process.env.NODE_ENV as 'development' | 'staging' | 'production') || 'development',
+  version: getEnvVar('NEXT_PUBLIC_APP_VERSION', '0.2.0'),
+  buildNumber: getEnvVar('NEXT_PUBLIC_BUILD_NUMBER', 'local'),
+  commitHash: getEnvVar('NEXT_PUBLIC_COMMIT_HASH', 'dev'),
+  buildDate: getEnvVar('NEXT_PUBLIC_BUILD_DATE', new Date().toISOString()),
+  environment: (getEnvVar('NODE_ENV', 'development') as 'development' | 'staging' | 'production'),
 };
 
 export function getVersionDisplay(): string {
