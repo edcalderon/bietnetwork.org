@@ -10,13 +10,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### 🐛 Patch Version
 
 ### Added
-- [TODO: Add new features here]
+- Subtle glowing 3-step hero card that highlights the Identity → Token → Governance → Value flow
 
 ### Improved
-- [TODO: Add improvements here]
+- Mobile-first layout for the landing hero (scaled typography, better spacing on small screens)
+- CTA section with `Connect Wallet` and `Learn More` buttons aligned in a single responsive row
+- Navbar right-side layout on mobile to prioritize wallet + menu while keeping version/language visible on larger screens
 
 ### Fixed
-- [TODO: Add bug fixes here]
+- Visual duplication between hero right column and lower feature cards by tightening the hero step card design
 
 ---
 
