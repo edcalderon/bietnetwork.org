@@ -64,24 +64,24 @@ export function HeroSection() {
                 {t('hero.activeUnits')}
               </div>
               
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white leading-tight">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white leading-tight">
                 {t('hero.title')}
               </h1>
               
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-semibold text-emerald-600 dark:text-emerald-400">
+              <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-emerald-600 dark:text-emerald-400">
                 {t('hero.subtitle')}
               </h2>
               
-              <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl">
+              <p className="text-base sm:text-lg text-gray-600 dark:text-gray-300 max-w-2xl">
                 {t('hero.description')}
               </p>
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-4">
+            <div className="mt-6 flex flex-col sm:flex-row gap-3 sm:gap-4 w-full sm:w-auto">
               <Button
                 onClick={() => router.push('/dashboard')}
                 size="lg"
-                className="bg-gradient-to-r from-emerald-600 to-cyan-600 hover:from-emerald-700 hover:to-cyan-700 text-white px-8 py-4 text-lg font-medium rounded-full transition-all duration-200 transform hover:scale-105 shadow-lg"
+                className="w-full sm:w-auto bg-gradient-to-r from-emerald-600 to-cyan-600 hover:from-emerald-700 hover:to-cyan-700 text-white px-8 py-4 text-lg font-medium rounded-full transition-all duration-200 transform hover:scale-105 shadow-lg"
               >
                 {isConnected ? (
                   <>
@@ -96,7 +96,7 @@ export function HeroSection() {
               <Button
                 variant="outline"
                 size="lg"
-                className="px-8 py-4 text-lg font-medium rounded-full border-2 border-emerald-600 text-emerald-600 hover:bg-emerald-50 dark:border-emerald-400 dark:text-emerald-400 dark:hover:bg-emerald-900/20"
+                className="w-full sm:w-auto px-8 py-4 text-lg font-medium rounded-full border-2 border-emerald-600 text-emerald-600 hover:bg-emerald-50 dark:border-emerald-400 dark:text-emerald-400 dark:hover:bg-emerald-900/20"
               >
                 {t('landing.learnMore')}
               </Button>
@@ -111,9 +111,9 @@ export function HeroSection() {
           </div>
 
           {/* Right Column - Step Flow */}
-          <div className="space-y-6 animate-slide-in-right">
-            <Card className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-md border-0 shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-105">
-              <CardContent className="p-8">
+          <div className="mt-10 lg:mt-0 animate-slide-in-right flex justify-center lg:justify-end">
+            <Card className="w-full max-w-md bg-white/90 dark:bg-gray-800/90 backdrop-blur-md border border-emerald-100/80 dark:border-emerald-500/30 shadow-xl lg:shadow-2xl lg:-mt-8 rounded-3xl ring-1 ring-emerald-500/10 dark:ring-emerald-400/10 transition-all duration-300 hover:shadow-3xl hover:ring-emerald-500/20 dark:hover:ring-emerald-400/20">
+              <CardContent className="p-6 sm:p-8">
                 <div className="space-y-6">
                   <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-6 text-center">
                     {t('hero.getStarted')}
@@ -133,12 +133,6 @@ export function HeroSection() {
                       </p>
                     </div>
                   </div>
-
-                  {/* Arrow */}
-                  <div className="flex justify-center">
-                    <ArrowRight className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
-                  </div>
-
                   {/* Step 2: Token */}
                   <div className="flex items-start space-x-4">
                     <div className="flex-shrink-0 w-10 h-10 bg-emerald-100 dark:bg-emerald-900/30 rounded-full flex items-center justify-center text-emerald-600 dark:text-emerald-400 font-bold">
@@ -153,12 +147,6 @@ export function HeroSection() {
                       </p>
                     </div>
                   </div>
-
-                  {/* Arrow */}
-                  <div className="flex justify-center">
-                    <ArrowRight className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
-                  </div>
-
                   {/* Step 3: Governance */}
                   <div className="flex items-start space-x-4">
                     <div className="flex-shrink-0 w-10 h-10 bg-emerald-100 dark:bg-emerald-900/30 rounded-full flex items-center justify-center text-emerald-600 dark:text-emerald-400 font-bold">
@@ -173,12 +161,6 @@ export function HeroSection() {
                       </p>
                     </div>
                   </div>
-
-                  {/* Arrow */}
-                  <div className="flex justify-center">
-                    <ArrowRight className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
-                  </div>
-
                   {/* Result */}
                   <div className="flex items-start space-x-4">
                     <div className="flex-shrink-0 w-10 h-10 bg-gradient-to-r from-emerald-600 to-cyan-600 rounded-full flex items-center justify-center text-white">

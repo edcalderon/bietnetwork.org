@@ -107,9 +107,13 @@ export default function Navbar() {
           </div>
 
           {/* Wallet Button & Mobile Menu */}
-          <div className="flex items-center space-x-4">
-            <VersionDisplay />
-            <LanguageSwitcher />
+          <div className="flex items-center space-x-2">
+            <div className="hidden md:flex items-center space-x-2">
+              <VersionDisplay />
+            </div>
+            <div className="hidden lg:flex items-center">
+              <LanguageSwitcher />
+            </div>
             <WalletButton />
             
             {/* Mobile menu button */}
