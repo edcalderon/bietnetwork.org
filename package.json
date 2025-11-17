@@ -23,7 +23,7 @@
     "contracts:test": "turbo run test --filter=contracts",
     "contracts:deploy": "turbo run deploy --filter=contracts",
     "web:dev": "turbo run dev --filter=@biet-network/web",
-    "web:dev:docs": "concurrently \"yarn web:dev\" \"turbo run dev --filter=@biet-network/docs\"",
+    "web:dev:docs": "concurrently \"yarn web:dev\" \"cd apps/docs && NODE_ENV=development yarn start --port 3001\"",
     "web:build": "node scripts/set-version.js && turbo run build --filter=@biet-network/web",
     "web:deploy": "node scripts/set-version.js && turbo run deploy --filter=@biet-network/web"
   },
@@ -42,7 +42,7 @@
     "turbo": "latest"
   },
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=22.18.0"
   },
   "packageManager": "yarn@4.5.3",
   "dependencies": {

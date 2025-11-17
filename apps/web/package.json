@@ -46,5 +46,8 @@
     "eslint-config-next": "^14.0.0",
     "gh-pages": "^6.3.0",
     "tailwindcss-animate": "^1.0.7"
+  },
+  "engines": {
+    "node": ">=22.18.0"
   }
 }

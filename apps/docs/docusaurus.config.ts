@@ -26,6 +26,9 @@ const config: Config = {
   organizationName: 'edcalderon', // Usually your GitHub org/user name.
   projectName: 'bietnetwork.org', // Usually your repo name.
 
+  // Ensure proper trailing slash handling
+  trailingSlash: false,
+
   onBrokenLinks: 'warn',
   onBrokenMarkdownLinks: 'warn',
 
