@@ -20,7 +20,7 @@ const config: Config = {
   url: isDevelopment ? 'http://localhost:3001' : 'https://bietnetwork.org',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For subdirectory deployment on main domain
-  baseUrl: isDevelopment ? '/' : '/docs/',
+  baseUrl: isDevelopment ? '/' : '/documentation/',
 
   // GitHub pages deployment config.
   organizationName: 'edcalderon', // Usually your GitHub org/user name.
@@ -40,13 +40,13 @@ const config: Config = {
         label: 'Español',
         direction: 'ltr',
         htmlLang: 'es-ES',
-        baseUrl: isDevelopment ? '/es/' : '/docs/es/',
+        baseUrl: isDevelopment ? '/es/' : '/documentation/es/',
       },
       en: {
         label: 'English',
         direction: 'ltr', 
         htmlLang: 'en-US',
-        baseUrl: isDevelopment ? '/' : '/docs/',
+        baseUrl: isDevelopment ? '/' : '/documentation/',
       },
     },
   },
@@ -113,7 +113,7 @@ const config: Config = {
         },
         {to: '/blog', label: 'Blog', position: 'left'},
         {
-          href: isDevelopment ? 'http://localhost:3000' : 'https://bietnetwork.org',
+          to: isDevelopment ? "http://localhost:3000" : "https://bietnetwork.org",
           label: 'Inicio',
           position: 'right',
         },

@@ -71,8 +71,8 @@ jobs:
           cd apps/docs
           yarn build
           # Copy docs to web app public directory
-          mkdir -p ../web/public/docs
-          cp -r build/* ../web/public/docs/
+          mkdir -p ../web/public/documentation
+          cp -r build/* ../web/public/documentation/
       - name: Install Turbo globally
         run: yarn dlx turbo@latest run build --filter=@biet-network/web
         env:
