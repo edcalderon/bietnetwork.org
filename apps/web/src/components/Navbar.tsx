@@ -75,20 +75,6 @@ export default function Navbar() {
           <div className="hidden lg:flex items-center space-x-2">
             {navigationItems.map((item) => {
               const Icon = item.icon;
-              if (item.external) {
-                return (
-                  <a
-                    key={item.name}
-                    href={item.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group flex items-center space-x-2 px-4 py-2 rounded-xl text-gray-700 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 transition-all duration-300 hover:scale-105"
-                  >
-                    <Icon className="h-4 w-4 group-hover:scale-110 transition-transform duration-300" />
-                    <span className="font-medium">{item.name}</span>
-                  </a>
-                );
-              }
               return (
                 <Link
                   key={item.name}
