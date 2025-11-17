@@ -145,21 +145,6 @@ export default function Navbar() {
             <div className="space-y-2">
               {navigationItems.map((item) => {
                 const Icon = item.icon;
-                if (item.external) {
-                  return (
-                    <a
-                      key={item.name}
-                      href={item.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      onClick={() => setIsMenuOpen(false)}
-                      className="flex items-center space-x-3 px-4 py-3 rounded-xl text-gray-700 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 transition-all duration-300"
-                    >
-                      <Icon className="h-5 w-5" />
-                      <span className="font-medium">{item.name}</span>
-                    </a>
-                  );
-                }
                 return (
                   <Link
                     key={item.name}
