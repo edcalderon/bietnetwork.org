@@ -122,7 +122,7 @@ export function HeroSection() {
               <Button
                 variant="outline"
                 size="lg"
-                onClick={() => window.open('/docs')}
+                onClick={() => router.push('/documentation')}
                 className="w-full sm:w-auto px-3 sm:px-4 lg:px-6 xl:px-8 py-2.5 sm:py-3 lg:py-4 text-xs sm:text-sm lg:text-base xl:text-lg font-medium rounded-full border-2 border-emerald-600 text-emerald-600 hover:bg-emerald-50 dark:border-emerald-400 dark:text-emerald-400 dark:hover:bg-emerald-900/20 transition-all duration-200"
               >
                 <span className="hidden sm:inline">{t('landing.learnMore')}</span>

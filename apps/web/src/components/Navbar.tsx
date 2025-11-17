@@ -43,7 +43,7 @@ export default function Navbar() {
     { name: t('nav.biets'), href: '/biets', icon: Building },
     { name: t('nav.governance'), href: '/governance', icon: Settings },
     { name: t('nav.token'), href: '/token', icon: Gem },
-    { name: t('nav.documentation'), href: '/documentation', icon: BookOpen, external: true },
+    { name: t('nav.documentation'), href: '/documentation', icon: BookOpen},
   ];
 
   const adminNavigation = [
