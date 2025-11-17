@@ -23,6 +23,7 @@
     "contracts:test": "turbo run test --filter=contracts",
     "contracts:deploy": "turbo run deploy --filter=contracts",
     "web:dev": "turbo run dev --filter=@biet-network/web",
+    "web:dev:docs": "concurrently \"yarn web:dev\" \"turbo run dev --filter=@biet-network/docs\"",
     "web:build": "node scripts/set-version.js && turbo run build --filter=@biet-network/web",
     "web:deploy": "node scripts/set-version.js && turbo run deploy --filter=@biet-network/web"
   },
@@ -47,6 +48,7 @@
   "dependencies": {
     "@biet-network/sdk": "workspace:^",
     "bs58": "^6.0.0",
+    "concurrently": "^8.2.2",
     "lucide-react": "^0.554.0",
     "next": "^14.0.0",
     "react": "^18.2.0",
