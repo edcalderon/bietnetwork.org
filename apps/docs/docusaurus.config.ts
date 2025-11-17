@@ -4,6 +4,8 @@ import type * as Preset from '@docusaurus/preset-classic';
 
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
+const isDevelopment = process.env.NODE_ENV === 'development';
+
 const config: Config = {
   title: 'BIET Network Documentation',
   tagline: 'Decentralized Impact Investment & Tokenization Platform',
@@ -15,10 +17,10 @@ const config: Config = {
   },
 
   // Set the production url of your site here
-  url: 'https://edcalderon.github.io',
+  url: isDevelopment ? 'http://localhost:3001' : 'https://edcalderon.github.io',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: '/bietnetwork.org/',
+  baseUrl: isDevelopment ? '/' : '/bietnetwork.org/',
 
   // GitHub pages deployment config.
   organizationName: 'edcalderon', // Usually your GitHub org/user name.
@@ -38,13 +40,13 @@ const config: Config = {
         label: 'Español',
         direction: 'ltr',
         htmlLang: 'es-ES',
-        baseUrl: '/bietnetwork.org/es/',
+        baseUrl: isDevelopment ? '/es/' : '/bietnetwork.org/es/',
       },
       en: {
         label: 'English',
         direction: 'ltr', 
         htmlLang: 'en-US',
-        baseUrl: '/bietnetwork.org/',
+        baseUrl: isDevelopment ? '/' : '/bietnetwork.org/',
       },
     },
   },
@@ -111,7 +113,7 @@ const config: Config = {
         },
         {to: '/blog', label: 'Blog', position: 'left'},
         {
-          href: 'https://bietnetwork.org',
+          href: isDevelopment ? 'http://localhost:3000' : 'https://bietnetwork.org',
           label: 'Inicio',
           position: 'right',
         },
@@ -172,7 +174,7 @@ const config: Config = {
             },
             {
               label: 'Sitio Principal',
-              href: 'https://bietnetwork.org',
+              href: isDevelopment ? 'http://localhost:3000' : 'https://bietnetwork.org',
             },
           ],
         },
