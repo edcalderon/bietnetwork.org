@@ -113,10 +113,9 @@ const config: Config = {
         },
         {to: '/blog', label: 'Blog', position: 'left'},
         {
-          to: isDevelopment ? "http://localhost:3000" : "https://bietnetwork.org",
+          href: isDevelopment ? "http://localhost:3000" : "https://bietnetwork.org",
           label: 'Inicio',
           position: 'right',
-          target: 'self',
         },
         {
           href: 'https://github.com/edcalderon/bietnetwork.org',
