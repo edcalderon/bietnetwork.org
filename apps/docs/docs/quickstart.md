@@ -134,7 +134,7 @@ Mantente informado sobre:
 - 📧 **Email**: support@bietnetwork.org
 - 💬 **Discord**: [Únete a nuestra comunidad](https://discord.gg/bietnetwork)
 - 🐦 **Twitter**: [@BIETNetwork](https://twitter.com/bietnetwork)
-- 📖 **Documentación**: Ver navegación lateral para más temas
+- 📖 **Documentación: Ver navegación lateral para más temas**
 
 ## ¡Felicidades! 🎉
 

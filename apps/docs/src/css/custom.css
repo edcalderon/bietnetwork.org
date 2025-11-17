@@ -28,18 +28,3 @@
   --ifm-color-primary-lightest: #4fddbf;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
 }
-
-/* Fix version modal overflow */
-#__docusaurus {
-  .navbar__item {
-    .dropdown__menu {
-      max-height: 80vh;
-      overflow-y: auto;
-    }
-  }
-}
-
-/* Ensure proper routing for GitHub Pages */
-html[data-theme] {
-  --ifm-font-family-base: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-}
