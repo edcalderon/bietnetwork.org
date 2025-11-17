@@ -3,20 +3,20 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { 
-  CheckCircle, 
   ArrowRight, 
-  Globe, 
-  Zap, 
   Sparkles,
   Users,
-  Shield,
-  TrendingUp
+  TrendingUp,
+  ArrowUpRight,
+  BarChart2,
+  Coins,
+  CheckCircle
 } from 'lucide-react';
 import { useWallet } from '@/contexts/WalletContext';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
 import { useLanguage } from '@/hooks/useLanguage';
+import { TokenInfo } from './TokenInfo';
 
 export function HeroSection() {
   const { isConnected } = useWallet();
@@ -32,35 +32,46 @@ export function HeroSection() {
     }
   }, [isConnected, router]);
 
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  // Handle scroll effect for navbar
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 10);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   const features = [
     {
-      icon: <Globe className="w-6 h-6" />,
-      title: t('hero.decentralized'),
-      description: t('hero.noIntermediaries')
+      icon: <TrendingUp className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />,
+      title: t('hero.step1Title'),
+      description: t('hero.step1Desc')
     },
     {
-      icon: <Users className="w-6 h-6" />,
-      title: t('hero.daoGovernance'),
-      description: t('hero.democraticParticipation')
+      icon: <Users className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />,
+      title: t('hero.step2Title'),
+      description: t('hero.step2Desc')
     },
     {
-      icon: <TrendingUp className="w-6 h-6" />,
-      title: t('hero.realImpact'),
-      description: t('hero.generatingValue')
+      icon: <BarChart2 className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />,
+      title: t('hero.step3Title'),
+      description: t('hero.step3Desc')
     }
   ];
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-emerald-50 via-cyan-50 to-indigo-50 dark:from-gray-900 dark:via-emerald-900/20 dark:to-indigo-900/20 overflow-hidden">
+    <section className="relative min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-emerald-50 via-cyan-50 to-indigo-50 dark:from-gray-900 dark:via-emerald-900/20 dark:to-indigo-900/20 overflow-hidden">
       <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
       
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           {/* Left Column - Hero Content */}
-          <div className="space-y-8 animate-slide-in-left">
-            <div className="space-y-4">
-              <div className="inline-flex items-center px-4 py-2 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-800 dark:text-emerald-200 rounded-full text-sm font-medium">
-                <Sparkles className="w-4 h-4 mr-2" />
+          <div className="space-y-6 md:space-y-8 animate-slide-in-left">
+            <div className="space-y-4 md:space-y-6">
+              <div className="inline-flex items-center px-3 py-1.5 bg-emerald-100/80 dark:bg-emerald-900/30 text-emerald-800 dark:text-emerald-200 rounded-full text-xs sm:text-sm font-medium backdrop-blur-sm">
+                <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-1.5" />
                 {t('hero.activeUnits')}
               </div>
               
@@ -68,7 +79,7 @@ export function HeroSection() {
                 {t('hero.title')}
               </h1>
               
-              <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-emerald-600 dark:text-emerald-400">
+              <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold bg-gradient-to-r from-emerald-600 to-cyan-600 bg-clip-text text-transparent">
                 {t('hero.subtitle')}
               </h2>
               
@@ -77,28 +88,23 @@ export function HeroSection() {
               </p>
             </div>
 
-            <div className="mt-6 flex flex-col sm:flex-row gap-3 sm:gap-4 w-full sm:w-auto">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 w-full sm:w-auto">
               <Button
                 onClick={() => router.push('/dashboard')}
                 size="lg"
-                className="w-full sm:w-auto bg-gradient-to-r from-emerald-600 to-cyan-600 hover:from-emerald-700 hover:to-cyan-700 text-white px-8 py-4 text-lg font-medium rounded-full transition-all duration-200 transform hover:scale-105 shadow-lg"
+                className="w-full sm:w-auto bg-gradient-to-r from-emerald-600 to-cyan-600 hover:from-emerald-700 hover:to-cyan-700 text-white px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-medium rounded-full transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-emerald-200/50 dark:hover:shadow-emerald-500/20"
               >
                 {isConnected ? (
-                  <>
-                    {t('hero.ready')}
-                    <ArrowRight className="ml-2 w-5 h-5" />
-                  </>
+                  <span className="flex items-center">
+                    Explore the Network
+                    <ArrowUpRight className="ml-2 w-4 h-4" />
+                  </span>
                 ) : (
-                  t('hero.connectWallet')
+                  <span className="flex items-center">
+                    {t('hero.connectWallet')}
+                    <ArrowRight className="ml-2 w-4 h-4 sm:w-5 sm:h-5" />
+                  </span>
                 )}
-              </Button>
-              
-              <Button
-                variant="outline"
-                size="lg"
-                className="w-full sm:w-auto px-8 py-4 text-lg font-medium rounded-full border-2 border-emerald-600 text-emerald-600 hover:bg-emerald-50 dark:border-emerald-400 dark:text-emerald-400 dark:hover:bg-emerald-900/20"
-              >
-                {t('landing.learnMore')}
               </Button>
             </div>
 
@@ -108,77 +114,70 @@ export function HeroSection() {
                 <span>{t('hero.walletConnected')}</span>
               </div>
             )}
+
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 w-full sm:w-auto">
+              <Button
+                variant="outline"
+                size="lg"
+                className="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-medium rounded-full border-2 border-emerald-600 text-emerald-600 hover:bg-emerald-50 dark:border-emerald-400 dark:text-emerald-400 dark:hover:bg-emerald-900/20 transition-all duration-200"
+              >
+                {t('landing.learnMore')}
+              </Button>
+            </div>
           </div>
 
-          {/* Right Column - Step Flow */}
+          {/* Right Column - 3D Step Flow Card */}
           <div className="mt-10 lg:mt-0 animate-slide-in-right flex justify-center lg:justify-end">
-            <Card className="w-full max-w-md bg-white/90 dark:bg-gray-800/90 backdrop-blur-md border border-emerald-100/80 dark:border-emerald-500/30 shadow-xl lg:shadow-2xl lg:-mt-8 rounded-3xl ring-1 ring-emerald-500/10 dark:ring-emerald-400/10 transition-all duration-300 hover:shadow-3xl hover:ring-emerald-500/20 dark:hover:ring-emerald-400/20">
-              <CardContent className="p-6 sm:p-8">
-                <div className="space-y-6">
-                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-6 text-center">
-                    {t('hero.getStarted')}
-                  </h3>
+            <Card className="w-full max-w-md bg-gradient-to-br from-white via-emerald-50/50 to-cyan-50/50 dark:from-gray-800 dark:via-emerald-900/30 dark:to-cyan-900/30 backdrop-blur-md border border-emerald-200/70 dark:border-emerald-400/30 shadow-2xl lg:-mt-8 rounded-3xl ring-4 ring-emerald-500/20 dark:ring-emerald-400/20 transition-all duration-500 hover:shadow-3xl hover:ring-emerald-500/30 dark:hover:ring-emerald-400/30 hover:-translate-y-2 transform-gpu">
+              <CardContent className="p-8 relative overflow-hidden">
+                {/* 3D Background Effects */}
+                <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 via-cyan-500/5 to-indigo-500/5 opacity-50"></div>
+                <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-400/20 rounded-full filter blur-3xl"></div>
+                <div className="absolute bottom-0 left-0 w-40 h-40 bg-cyan-400/20 rounded-full filter blur-3xl"></div>
+                
+                <div className="relative z-10 space-y-8">
+                  <div className="text-center">
+                    <h3 className="text-2xl font-bold bg-gradient-to-r from-emerald-700 to-cyan-700 dark:from-emerald-300 dark:to-cyan-300 bg-clip-text text-transparent mb-2">
+                      {t('hero.getStarted')}
+                    </h3>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                      {t('hero.getStartedDescription')}
+                    </p>
+                  </div>
                   
-                  {/* Step 1: Identity */}
-                  <div className="flex items-start space-x-4">
-                    <div className="flex-shrink-0 w-10 h-10 bg-emerald-100 dark:bg-emerald-900/30 rounded-full flex items-center justify-center text-emerald-600 dark:text-emerald-400 font-bold">
-                      1
-                    </div>
-                    <div className="flex-1">
-                      <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-                        {t('hero.step1Title')}
-                      </h4>
-                      <p className="text-gray-600 dark:text-gray-300 text-sm">
-                        {t('hero.step1Desc')}
-                      </p>
-                    </div>
-                  </div>
-                  {/* Step 2: Token */}
-                  <div className="flex items-start space-x-4">
-                    <div className="flex-shrink-0 w-10 h-10 bg-emerald-100 dark:bg-emerald-900/30 rounded-full flex items-center justify-center text-emerald-600 dark:text-emerald-400 font-bold">
-                      2
-                    </div>
-                    <div className="flex-1">
-                      <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-                        {t('hero.step2Title')}
-                      </h4>
-                      <p className="text-gray-600 dark:text-gray-300 text-sm">
-                        {t('hero.step2Desc')}
-                      </p>
-                    </div>
-                  </div>
-                  {/* Step 3: Governance */}
-                  <div className="flex items-start space-x-4">
-                    <div className="flex-shrink-0 w-10 h-10 bg-emerald-100 dark:bg-emerald-900/30 rounded-full flex items-center justify-center text-emerald-600 dark:text-emerald-400 font-bold">
-                      3
-                    </div>
-                    <div className="flex-1">
-                      <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-                        {t('hero.step3Title')}
-                      </h4>
-                      <p className="text-gray-600 dark:text-gray-300 text-sm">
-                        {t('hero.step3Desc')}
-                      </p>
-                    </div>
-                  </div>
-                  {/* Result */}
-                  <div className="flex items-start space-x-4">
-                    <div className="flex-shrink-0 w-10 h-10 bg-gradient-to-r from-emerald-600 to-cyan-600 rounded-full flex items-center justify-center text-white">
-                      <TrendingUp className="w-5 h-5" />
-                    </div>
-                    <div className="flex-1">
-                      <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-                        {t('hero.resultTitle')}
-                      </h4>
-                      <p className="text-gray-600 dark:text-gray-300 text-sm">
-                        {t('hero.resultDesc')}
-                      </p>
-                    </div>
+                  <div className="space-y-6">
+                    {features.map((feature, index) => (
+                      <div 
+                        key={index} 
+                        className="group relative p-6 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl border border-emerald-200/50 dark:border-emerald-700/30 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02] transform-gpu"
+                      >
+                        {/* Step Number */}
+                        <div className="absolute -top-3 -left-3 w-8 h-8 bg-gradient-to-br from-emerald-500 to-cyan-500 text-white rounded-full flex items-center justify-center text-sm font-bold shadow-lg group-hover:scale-110 transition-transform duration-300">
+                          {index + 1}
+                        </div>
+                        
+                        <div className="flex items-start gap-4">
+                          <div className="w-12 h-12 flex items-center justify-center rounded-xl bg-gradient-to-br from-emerald-100 to-cyan-100 dark:from-emerald-900/50 dark:to-cyan-900/50 text-emerald-600 dark:text-emerald-400 shadow-md group-hover:shadow-lg group-hover:scale-110 transition-all duration-300">
+                            {feature.icon}
+                          </div>
+                          <div className="flex-1">
+                            <h3 className="font-semibold text-gray-900 dark:text-white text-lg mb-1 group-hover:text-emerald-700 dark:group-hover:text-emerald-300 transition-colors duration-300">
+                              {feature.title}
+                            </h3>
+                            <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
+                              {feature.description}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 </div>
               </CardContent>
             </Card>
           </div>
+
+
         </div>
 
         {/* Bottom Stats Section */}

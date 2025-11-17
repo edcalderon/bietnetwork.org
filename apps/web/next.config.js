@@ -19,8 +19,28 @@ const nextConfig = {
   trailingSlash: true,
   webpack: (config, { isServer }) => {
     if (!isServer) {
-      config.resolve.fallback = { fs: false };
+      config.resolve.fallback = { 
+        fs: false,
+        crypto: false,
+        stream: false,
+        path: false,
+        os: false,
+        ws: false,
+        'pino-pretty': false,
+        '@react-native-async-storage/async-storage': false
+      };
     }
+    
+    // Ignore problematic modules that cause issues in browser
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      '@coinbase/cdp-sdk/client/solana': false,
+      '@coinbase/cdp-sdk/dist/client/solana': false,
+      '@solana/rpc-subscriptions-channel-websocket': false,
+      'pino-pretty': false,
+      '@react-native-async-storage/async-storage': false,
+    };
+    
     return config;
   },
   env: {

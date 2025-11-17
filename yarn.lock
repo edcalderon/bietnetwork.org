@@ -1301,7 +1301,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@biet-network/sdk@workspace:*, @biet-network/sdk@workspace:packages/sdk":
+"@biet-network/sdk@workspace:^, @biet-network/sdk@workspace:packages/sdk":
   version: 0.0.0-use.local
   resolution: "@biet-network/sdk@workspace:packages/sdk"
   dependencies:
@@ -1325,7 +1325,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@biet-network/ui@workspace:packages/ui":
+"@biet-network/ui@workspace:^, @biet-network/ui@workspace:packages/ui":
   version: 0.0.0-use.local
   resolution: "@biet-network/ui@workspace:packages/ui"
   dependencies:
@@ -1368,22 +1368,25 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@biet-network/web@workspace:apps/web"
   dependencies:
-    "@biet-network/sdk": "workspace:*"
+    "@biet-network/sdk": "workspace:^"
+    "@biet-network/ui": "workspace:^"
     "@radix-ui/react-dropdown-menu": "npm:^2.1.16"
     "@tailwindcss/typography": "npm:^0.5.19"
     "@tanstack/query-core": "npm:^5.0.0"
-    "@tanstack/react-query": "npm:^5.0.0"
+    "@tanstack/react-query": "npm:^5.90.10"
     "@types/node": "npm:^20.0.0"
     "@types/react": "npm:^18.2.0"
     "@types/react-dom": "npm:^18.2.0"
+    "@types/ws": "npm:^8"
     "@wagmi/core": "npm:^2.0.0"
     autoprefixer: "npm:^10.4.14"
+    bs58: "npm:^6.0.0"
     clsx: "npm:^2.1.1"
     eslint: "npm:^8.42.0"
     eslint-config-next: "npm:^14.0.0"
     ethers: "npm:^6.8.0"
     gh-pages: "npm:^6.3.0"
-    lucide-react: "npm:^0.263.1"
+    lucide-react: "npm:^0.554.0"
     next: "npm:^14.0.0"
     postcss: "npm:^8.4.24"
     react: "npm:^18.2.0"
@@ -1393,8 +1396,9 @@ __metadata:
     tailwindcss: "npm:^3.3.0"
     tailwindcss-animate: "npm:^1.0.7"
     typescript: "npm:^5.0.0"
-    viem: "npm:^2.0.0"
-    wagmi: "npm:^2.0.0"
+    viem: "npm:^2.39.0"
+    wagmi: "npm:^2.19.4"
+    ws: "npm:^8.18.3"
   languageName: unknown
   linkType: soft
 
@@ -6058,6 +6062,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@tanstack/query-core@npm:5.90.10":
+  version: 5.90.10
+  resolution: "@tanstack/query-core@npm:5.90.10"
+  checksum: 10c0/c51762d4413f99886af24d0a4897e286233fae305131df2db8294c26b1375e74e87d0cd7dafbe1b7d23338221fca0304c05058dd9a909c0988a8829d8f7283e6
+  languageName: node
+  linkType: hard
+
 "@tanstack/query-core@npm:5.90.9, @tanstack/query-core@npm:^5.0.0":
   version: 5.90.9
   resolution: "@tanstack/query-core@npm:5.90.9"
@@ -6073,6 +6084,17 @@ __metadata:
   peerDependencies:
     react: ^18 || ^19
   checksum: 10c0/3cf3e5b49580a58966db6cca9b35674af62b9322c4b9f388ee0074fe5d0f05d0fbcc83b345f2d84040cab284b02cfcf5f45bb8f79bf4ae85853f66313e0a7d6e
+  languageName: node
+  linkType: hard
+
+"@tanstack/react-query@npm:^5.90.10":
+  version: 5.90.10
+  resolution: "@tanstack/react-query@npm:5.90.10"
+  dependencies:
+    "@tanstack/query-core": "npm:5.90.10"
+  peerDependencies:
+    react: ^18 || ^19
+  checksum: 10c0/a852c44fafb0331a47ba8b46f96bc6c3c66a1bfbec8a09de15fc0ba6fd1b867da42c4974f83489a03cc4d7fd9fa40ec23b8790d2f69a930ca63b85f2bf4a4885
   languageName: node
   linkType: hard
 
@@ -6443,7 +6465,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*":
+"@types/node@npm:*, @types/node@npm:^24.10.1":
   version: 24.10.1
   resolution: "@types/node@npm:24.10.1"
   dependencies:
@@ -6637,7 +6659,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/ws@npm:^8.2.2":
+"@types/ws@npm:^8, @types/ws@npm:^8.2.2":
   version: 8.18.1
   resolution: "@types/ws@npm:8.18.1"
   dependencies:
@@ -8395,15 +8417,27 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "biet-network@workspace:."
   dependencies:
+    "@biet-network/sdk": "workspace:^"
     "@commitlint/cli": "npm:^17.0.0"
     "@commitlint/config-conventional": "npm:^17.0.0"
     "@tanstack/query-core": "npm:^5.0.0"
-    "@tanstack/react-query": "npm:^5.0.0"
+    "@tanstack/react-query": "npm:^5.90.10"
+    "@types/node": "npm:^24.10.1"
+    "@types/react": "npm:^18.2.0"
+    "@types/react-dom": "npm:^18.2.0"
+    bs58: "npm:^6.0.0"
     eslint: "npm:^8.42.0"
     husky: "npm:^8.0.0"
+    lucide-react: "npm:^0.554.0"
+    next: "npm:^14.0.0"
     prettier: "npm:^3.0.0"
+    react: "npm:^18.2.0"
+    react-dom: "npm:^18.2.0"
     standard-version: "npm:^9.5.0"
     turbo: "npm:latest"
+    viem: "npm:^2.39.0"
+    wagmi: "npm:^2.19.4"
+    ws: "npm:^8.18.3"
   languageName: unknown
   linkType: soft
 
@@ -8552,7 +8586,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bs58@npm:6.0.0":
+"bs58@npm:6.0.0, bs58@npm:^6.0.0":
   version: 6.0.0
   resolution: "bs58@npm:6.0.0"
   dependencies:
@@ -13728,21 +13762,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lucide-react@npm:^0.263.1":
-  version: 0.263.1
-  resolution: "lucide-react@npm:0.263.1"
-  peerDependencies:
-    react: ^16.5.1 || ^17.0.0 || ^18.0.0
-  checksum: 10c0/ce4b0cb79cb689d0bf6293dba132d83850407a42de49bc589e65eeb99d8ec773946fe96b23bdd6f8941b2dfa0540050b8b73226d80589704745e7e55cc0706e1
-  languageName: node
-  linkType: hard
-
 "lucide-react@npm:^0.294.0":
   version: 0.294.0
   resolution: "lucide-react@npm:0.294.0"
   peerDependencies:
     react: ^16.5.1 || ^17.0.0 || ^18.0.0
   checksum: 10c0/3c8d05743c5bac0299ac23ebcb78b6c0ae03182878cd80f4a51ccb89507ea564145cc8bc77757874066044e7a96af14a2a986cd759ae2b971dcab953c6b0c566
+  languageName: node
+  linkType: hard
+
+"lucide-react@npm:^0.554.0":
+  version: 0.554.0
+  resolution: "lucide-react@npm:0.554.0"
+  peerDependencies:
+    react: ^16.5.1 || ^17.0.0 || ^18.0.0 || ^19.0.0
+  checksum: 10c0/35b11d6f11e4b00047175fcc52f531156be66e5ae7c1f689d0d18bc7bbf06d9e0bf33c767f449e25d99f105acf420399346787491aafe0b55dc68b8d45937e87
   languageName: node
   linkType: hard
 
@@ -18804,7 +18838,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"viem@npm:>=2.29.0, viem@npm:^2.0.0, viem@npm:^2.1.1, viem@npm:^2.21.26, viem@npm:^2.27.2, viem@npm:^2.31.7":
+"viem@npm:>=2.29.0, viem@npm:^2.0.0, viem@npm:^2.1.1, viem@npm:^2.21.26, viem@npm:^2.27.2, viem@npm:^2.31.7, viem@npm:^2.39.0":
   version: 2.39.0
   resolution: "viem@npm:2.39.0"
   dependencies:
@@ -18973,7 +19007,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"wagmi@npm:^2.0.0":
+"wagmi@npm:^2.0.0, wagmi@npm:^2.19.4":
   version: 2.19.4
   resolution: "wagmi@npm:2.19.4"
   dependencies:
@@ -19265,7 +19299,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ws@npm:8.18.3, ws@npm:^8.2.3, ws@npm:^8.5.0":
+"ws@npm:8.18.3, ws@npm:^8.18.3, ws@npm:^8.2.3, ws@npm:^8.5.0":
   version: 8.18.3
   resolution: "ws@npm:8.18.3"
   peerDependencies:

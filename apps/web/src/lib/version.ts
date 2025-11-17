@@ -8,8 +8,19 @@ export interface VersionInfo {
 
 // Type-safe access to process.env
 const getEnvVar = (key: string, fallback: string): string => {
-  if (typeof process !== 'undefined' && process.env && process.env[key]) {
-    return process.env[key] as string;
+  // Check if we're in a browser environment
+  if (typeof window !== 'undefined') {
+    // In browser, return fallback for now
+    return fallback;
+  }
+  
+  // In server environment, check process.env safely
+  try {
+    if (typeof globalThis !== 'undefined' && (globalThis as any).process?.env?.[key]) {
+      return (globalThis as any).process.env[key];
+    }
+  } catch {
+    // Ignore errors and return fallback
   }
   return fallback;
 };

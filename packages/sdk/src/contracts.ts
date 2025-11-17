@@ -5,7 +5,7 @@
 
 export const wagmiContractConfig = {
   BGT: {
-    address: '0x...', // Will be set at runtime
+    address: '0x26CFcA9fD1c0EF8c6345ab4Df07E28Af838B4d02', // BGT Token on Base Sepolia
     abi: [
       {
         inputs: [

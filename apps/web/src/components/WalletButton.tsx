@@ -3,15 +3,16 @@
 import { useAccount, useConnect, useDisconnect, useSwitchChain } from 'wagmi';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Wallet, LogOut, AlertTriangle, CheckCircle, ChevronDown } from 'lucide-react';
+import { Wallet, LogOut, AlertTriangle, CheckCircle, ChevronDown, Wallet2 } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
 import { useWallet } from '@/contexts/WalletContext';
 import { useLanguage } from '@/hooks/useLanguage';
 import { base, baseSepolia } from 'wagmi/chains';
+import { walletConnect } from 'wagmi/connectors';
 
 export function WalletButton() {
   const { address, isConnected, chainId } = useAccount();
-  const { connect, error, isPending } = useConnect();
+  const { connect, error, isPending, connectors } = useConnect();
   const { disconnect } = useDisconnect();
   const { switchChain } = useSwitchChain();
   const { isAdmin, isCorrectChain } = useWallet();
@@ -34,14 +35,27 @@ export function WalletButton() {
     };
   }, []);
 
-  const handleConnect = async () => {
+  const handleConnect = async (connectorType: 'injected' | 'walletConnect' = 'injected') => {
     try {
-      // Request wallet access directly
-      if (typeof window !== 'undefined' && (window as any).ethereum) {
-        await (window as any).ethereum.request({ method: 'eth_requestAccounts' });
+      if (connectorType === 'injected') {
+        if (typeof window !== 'undefined' && (window as any).ethereum) {
+          await (window as any).ethereum.request({ method: 'eth_requestAccounts' });
+          // Get the injected connector
+          const injectedConnector = connectors.find((c: any) => c.id === 'injected');
+          if (injectedConnector) {
+            connect({ connector: injectedConnector });
+          }
+          setIsOpen(false);
+        } else {
+          alert(t('wallet.installMetaMask'));
+        }
+      } else if (connectorType === 'walletConnect') {
+        // Get the WalletConnect connector
+        const walletConnectConnector = connectors.find((c: any) => c.id === 'walletConnect');
+        if (walletConnectConnector) {
+          connect({ connector: walletConnectConnector });
+        }
         setIsOpen(false);
-      } else {
-        alert(t('wallet.installMetaMask'));
       }
     } catch (error) {
       console.error(t('wallet.connectionFailed'), error);
@@ -56,30 +70,65 @@ export function WalletButton() {
           className="flex items-center gap-2 bg-gradient-to-r from-emerald-600 to-cyan-600 hover:from-emerald-700 hover:to-cyan-700"
         >
           <Wallet className="h-4 w-4" />
-          {t('wallet.connect')}
+          <span className="hidden sm:inline">{t('wallet.connect')}</span>
           <ChevronDown className="h-4 w-4" />
         </Button>
         
         {isOpen && (
-          <div ref={dropdownRef} className="absolute right-0 mt-2 w-80 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 z-50">
+          <div 
+            ref={dropdownRef} 
+            className="absolute right-0 mt-2 w-72 sm:w-80 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 z-50"
+          >
             <Card className="border-0 shadow-none">
               <CardHeader className="pb-3">
                 <CardTitle className="text-lg">{t('wallet.connect')}</CardTitle>
-                <CardDescription>
+                <CardDescription className="text-sm">
                   {t('dashboard.connectDescription')}
                 </CardDescription>
               </CardHeader>
-              <CardContent className="space-y-2">
+              <CardContent className="space-y-3">
                 <Button
-                  onClick={handleConnect}
+                  onClick={() => handleConnect('injected')}
                   disabled={isPending}
                   variant="outline"
-                  className="w-full justify-start"
+                  className="w-full justify-start h-12"
                 >
-                  <Wallet className="h-4 w-4 mr-2" />
-                  MetaMask / Injected Wallet
-                  {isPending && ' (connecting...)'}
+                  <Wallet className="h-5 w-5 mr-3 text-amber-500" />
+                  <div className="text-left">
+                    <div className="font-medium">Browser Wallet</div>
+                    <div className="text-xs text-muted-foreground">
+                      {typeof window !== 'undefined' && (window as any).ethereum 
+                        ? 'MetaMask, Rabby, etc.' 
+                        : 'MetaMask not detected'}
+                    </div>
+                  </div>
                 </Button>
+                
+                <Button
+                  onClick={() => handleConnect('walletConnect')}
+                  disabled={isPending}
+                  variant="outline"
+                  className="w-full justify-start h-12"
+                >
+                  <svg 
+                    width="20" 
+                    height="20" 
+                    viewBox="0 0 96 96" 
+                    fill="none" 
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="mr-3"
+                  >
+                    <path d="M21.5 21.5h53v53h-53v-53z" fill="#3B99FC"/>
+                    <path d="M53.9 48.4c0-10.8-8.7-19.5-19.5-19.5s-19.5 8.7-19.5 19.5 8.7 19.5 19.5 19.5h19.5v-5.5c0-3-2.5-5.5-5.5-5.5 3 0 5.5-2.5 5.5-5.5v-.5z" fill="#3B99FC"/>
+                    <path d="M74.5 29c-3 0-5.5 2.5-5.5 5.5v23c0 3 2.5 5.5 5.5 5.5s5.5-2.5 5.5-5.5v-23c0-3-2.5-5.5-5.5-5.5z" fill="#3B99FC"/>
+                    <path d="M66.5 48.4c0 10.8-8.7 19.5-19.5 19.5h-19.5v5.5c0 3 2.5 5.5 5.5 5.5h39c3 0 5.5-2.5 5.5-5.5v-24c0-3-2.5-5.5-5.5-5.5 3 0 5.5-2.5 5.5-5.5v-.5c0-10.8-8.7-19.5-19.5-19.5s-19.5 8.7-19.5 19.5 8.7 19.5 19.5 19.5c10.8 0 19.5-8.7 19.5-19.5z" fill="#3B99FC"/>
+                  </svg>
+                  <div className="text-left">
+                    <div className="font-medium">WalletConnect</div>
+                    <div className="text-xs text-muted-foreground">Mobile, Ledger, etc.</div>
+                  </div>
+                </Button>
+                
                 {error && (
                   <div className="p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
                     <p className="text-sm text-red-600 dark:text-red-400">
@@ -100,25 +149,30 @@ export function WalletButton() {
       <Button
         onClick={() => setIsOpen(!isOpen)}
         variant={isAdmin ? "default" : "outline"}
-        className={`flex items-center gap-2 ${
+        className={`flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-4 ${
           isAdmin 
             ? 'bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700' 
-            : ''
+            : 'bg-white/80 dark:bg-gray-800/80 hover:bg-white dark:hover:bg-gray-800 border border-gray-200 dark:border-gray-700'
         }`}
       >
-        <Wallet className="h-4 w-4" />
-        <span className="hidden sm:inline">
+        <div className="relative">
+          <Wallet2 className="h-4 w-4 sm:h-4 sm:w-4" />
+          {!isCorrectChain && (
+            <span className="absolute -top-1 -right-1 h-2 w-2 rounded-full bg-yellow-500"></span>
+          )}
+        </div>
+        <span className="hidden sm:inline text-sm font-medium">
           {address?.slice(0, 6)}...{address?.slice(-4)}
         </span>
-        <span className="sm:hidden">
-          {address?.slice(0, 4)}...{address?.slice(-3)}
+        <span className="sm:hidden text-sm font-medium">
+          {address?.slice(0, 4)}...
         </span>
         {isAdmin && (
-          <span className="hidden sm:inline bg-yellow-400 text-yellow-900 text-xs px-2 py-1 rounded-full font-medium">
+          <span className="hidden sm:inline bg-yellow-400 text-yellow-900 text-[10px] px-1.5 py-0.5 rounded-full font-medium">
             ADMIN
           </span>
         )}
-        <ChevronDown className="h-4 w-4" />
+        <ChevronDown className="h-4 w-4 text-muted-foreground" />
       </Button>
 
       {isOpen && (

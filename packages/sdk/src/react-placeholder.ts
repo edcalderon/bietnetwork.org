@@ -117,7 +117,7 @@ export type Chain = {
 
 // Contract addresses (these should come from environment or config)
 const CONTRACT_ADDRESSES = {
-  bgt: '0x...', // Replace with actual deployed address
+  bgt: '0x26CFcA9fD1c0EF8c6345ab4Df07E28Af838B4d02', // BGT Token on Base Sepolia
   dao: '0x...',
   treasury: '0x...',
   identity: '0x...',
