@@ -10,13 +10,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### 🐛 Patch Version
 
 ### Added
-- [TODO: Add new features here]
+- TypeScript configuration improvements with JSX react-jsx support
+- Enhanced UI package with proper TypeScript configuration
 
 ### Improved
-- [TODO: Add improvements here]
+- Restored original styling system after glass morphism experiment
+- Maintained existing 3D effects and component styling
+- Fixed TypeScript module resolution and JSX configuration
 
 ### Fixed
-- [TODO: Add bug fixes here]
+- TypeScript JSX intrinsic elements errors
+- Module resolution issues for React, Next.js, and Lucide React
+- IDE lint errors related to TypeScript configuration
 
 ---
 
