@@ -66,69 +66,11 @@ export function HeroSection() {
       <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
       
       <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-20">
-        <div className="grid lg:grid-cols-1 xl:grid-cols-2 gap-8 lg:gap-12 items-center">
-          {/* Left Column - Hero Content */}
-          <div className="space-y-4 sm:space-y-6 lg:space-y-8 animate-slide-in-left order-2 lg:order-1">
-            <div className="space-y-3 sm:space-y-4 lg:space-y-6">
-              <div className="inline-flex items-center px-2 py-1 sm:px-3 sm:py-1.5 bg-emerald-100/80 dark:bg-emerald-900/30 text-emerald-800 dark:text-emerald-200 rounded-full text-xs sm:text-sm font-medium backdrop-blur-sm">
-                <Sparkles className="w-3 h-3 sm:w-3.5 sm:h-3.5 mr-1 sm:mr-1.5" />
-                {t('hero.activeUnits')}
-              </div>
-              
-              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900 dark:text-white leading-tight">
-                {t('hero.title')}
-              </h1>
-              
-              <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-semibold bg-gradient-to-r from-emerald-600 to-cyan-600 bg-clip-text text-transparent">
-                {t('hero.subtitle')}
-              </h2>
-              
-              <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300 max-w-2xl">
-                {t('hero.description')}
-              </p>
-            </div>
-
-            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 w-full sm:w-auto">
-              <Button
-                onClick={() => router.push('/dashboard')}
-                size="lg"
-                className="w-full sm:w-auto bg-gradient-to-r from-emerald-600 to-cyan-600 hover:from-emerald-700 hover:to-cyan-700 text-white px-4 sm:px-6 lg:px-8 py-2.5 sm:py-3 lg:py-4 text-sm sm:text-base lg:text-lg font-medium rounded-full transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-emerald-200/50 dark:hover:shadow-emerald-500/20"
-              >
-                {isConnected ? (
-                  <span className="flex items-center">
-                    Explore the Network
-                    <ArrowUpRight className="ml-2 w-4 h-4" />
-                  </span>
-                ) : (
-                  <span className="flex items-center">
-                    {t('hero.connectWallet')}
-                    <ArrowRight className="ml-2 w-4 h-4 sm:w-5 sm:h-5" />
-                  </span>
-                )}
-              </Button>
-            </div>
-
-            {isConnected && (
-              <div className="flex items-center gap-2 text-green-600 dark:text-green-400 font-medium">
-                <CheckCircle className="w-5 h-5" />
-                <span>{t('hero.walletConnected')}</span>
-              </div>
-            )}
-
-            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 w-full sm:w-auto">
-              <Button
-                variant="outline"
-                size="lg"
-                className="w-full sm:w-auto px-4 sm:px-6 lg:px-8 py-2.5 sm:py-3 lg:py-4 text-sm sm:text-base lg:text-lg font-medium rounded-full border-2 border-emerald-600 text-emerald-600 hover:bg-emerald-50 dark:border-emerald-400 dark:text-emerald-400 dark:hover:bg-emerald-900/20 transition-all duration-200"
-              >
-                {t('landing.learnMore')}
-              </Button>
-            </div>
-          </div>
-
-          {/* Right Column - 3D Step Flow Card */}
-          <div className="mt-6 lg:mt-0 animate-slide-in-right flex justify-center lg:justify-end order-1 lg:order-2">
-            <Card className="w-full max-w-sm sm:max-w-md bg-gradient-to-br from-white via-emerald-50/50 to-cyan-50/50 dark:from-gray-800 dark:via-emerald-900/30 dark:to-cyan-900/30 backdrop-blur-md border border-emerald-200/70 dark:border-emerald-400/30 shadow-2xl lg:-mt-8 rounded-2xl lg:rounded-3xl ring-2 lg:ring-4 ring-emerald-500/20 dark:ring-emerald-400/20 transition-all duration-500 hover:shadow-3xl hover:ring-emerald-500/30 dark:hover:ring-emerald-400/30 hover:-translate-y-2 transform-gpu">
+        {/* Mobile Layout: Stack vertically */}
+        <div className="flex flex-col xl:flex-row gap-8 lg:gap-12 items-center">
+          {/* 3 Steps Card - First on mobile */}
+          <div className="w-full xl:w-1/2 flex justify-center animate-slide-in-right order-1 xl:order-2">
+            <Card className="w-full max-w-sm sm:max-w-md bg-gradient-to-br from-white via-emerald-50/50 to-cyan-50/50 dark:from-gray-800 dark:via-emerald-900/30 dark:to-cyan-900/30 backdrop-blur-md border border-emerald-200/70 dark:border-emerald-400/30 shadow-2xl rounded-2xl lg:rounded-3xl ring-2 lg:ring-4 ring-emerald-500/20 dark:ring-emerald-400/20 transition-all duration-500 hover:shadow-3xl hover:ring-emerald-500/30 dark:hover:ring-emerald-400/30 hover:-translate-y-2 transform-gpu">
               <CardContent className="p-4 sm:p-6 lg:p-8 relative overflow-hidden">
                 {/* 3D Background Effects */}
                 <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 via-cyan-500/5 to-indigo-500/5 opacity-50"></div>
@@ -177,7 +119,64 @@ export function HeroSection() {
             </Card>
           </div>
 
+          {/* Hero Content - Second on mobile */}
+          <div className="w-full xl:w-1/2 space-y-4 sm:space-y-6 lg:space-y-8 animate-slide-in-left order-2 xl:order-1 text-center xl:text-left">
+            <div className="space-y-3 sm:space-y-4 lg:space-y-6">
+              <div className="inline-flex items-center px-2 py-1 sm:px-3 sm:py-1.5 bg-emerald-100/80 dark:bg-emerald-900/30 text-emerald-800 dark:text-emerald-200 rounded-full text-xs sm:text-sm font-medium backdrop-blur-sm">
+                <Sparkles className="w-3 h-3 sm:w-3.5 sm:h-3.5 mr-1 sm:mr-1.5" />
+                {t('hero.activeUnits')}
+              </div>
+              
+              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900 dark:text-white leading-tight">
+                {t('hero.title')}
+              </h1>
+              
+              <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-semibold bg-gradient-to-r from-emerald-600 to-cyan-600 bg-clip-text text-transparent">
+                {t('hero.subtitle')}
+              </h2>
+              
+              <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300 max-w-2xl">
+                {t('hero.description')}
+              </p>
+            </div>
 
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center xl:justify-start w-full sm:w-auto">
+              <Button
+                onClick={() => router.push('/dashboard')}
+                size="lg"
+                className="w-full sm:w-auto bg-gradient-to-r from-emerald-600 to-cyan-600 hover:from-emerald-700 hover:to-cyan-700 text-white px-4 sm:px-6 lg:px-8 py-2.5 sm:py-3 lg:py-4 text-sm sm:text-base lg:text-lg font-medium rounded-full transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-emerald-200/50 dark:hover:shadow-emerald-500/20"
+              >
+                {isConnected ? (
+                  <span className="flex items-center">
+                    Explore the Network
+                    <ArrowUpRight className="ml-2 w-4 h-4" />
+                  </span>
+                ) : (
+                  <span className="flex items-center">
+                    {t('hero.connectWallet')}
+                    <ArrowRight className="ml-2 w-4 h-4 sm:w-5 sm:h-5" />
+                  </span>
+                )}
+              </Button>
+            </div>
+
+            {isConnected && (
+              <div className="flex items-center gap-2 text-green-600 dark:text-green-400 font-medium">
+                <CheckCircle className="w-5 h-5" />
+                <span>{t('hero.walletConnected')}</span>
+              </div>
+            )}
+
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center xl:justify-start w-full sm:w-auto">
+              <Button
+                variant="outline"
+                size="lg"
+                className="w-full sm:w-auto px-4 sm:px-6 lg:px-8 py-2.5 sm:py-3 lg:py-4 text-sm sm:text-base lg:text-lg font-medium rounded-full border-2 border-emerald-600 text-emerald-600 hover:bg-emerald-50 dark:border-emerald-400 dark:text-emerald-400 dark:hover:bg-emerald-900/20 transition-all duration-200"
+              >
+                {t('landing.learnMore')}
+              </Button>
+            </div>
+          </div>
         </div>
 
         {/* Bottom Stats Section */}
