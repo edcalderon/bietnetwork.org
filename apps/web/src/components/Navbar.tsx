@@ -16,7 +16,8 @@ import {
   Shield, 
   Menu, 
   X,
-  Sprout
+  Sprout,
+  BookOpen
 } from 'lucide-react';
 import { useLanguage } from '@/hooks/useLanguage';
 
@@ -42,6 +43,7 @@ export default function Navbar() {
     { name: t('nav.biets'), href: '/biets', icon: Building },
     { name: t('nav.governance'), href: '/governance', icon: Settings },
     { name: t('nav.token'), href: '/token', icon: Gem },
+    { name: t('nav.documentation'), href: 'https://edcalderon.github.io/bietnetwork.org/', icon: BookOpen, external: true },
   ];
 
   const adminNavigation = [
@@ -73,6 +75,20 @@ export default function Navbar() {
           <div className="hidden lg:flex items-center space-x-2">
             {navigationItems.map((item) => {
               const Icon = item.icon;
+              if (item.external) {
+                return (
+                  <a
+                    key={item.name}
+                    href={item.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group flex items-center space-x-2 px-4 py-2 rounded-xl text-gray-700 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 transition-all duration-300 hover:scale-105"
+                  >
+                    <Icon className="h-4 w-4 group-hover:scale-110 transition-transform duration-300" />
+                    <span className="font-medium">{item.name}</span>
+                  </a>
+                );
+              }
               return (
                 <Link
                   key={item.name}
@@ -143,6 +159,21 @@ export default function Navbar() {
             <div className="space-y-2">
               {navigationItems.map((item) => {
                 const Icon = item.icon;
+                if (item.external) {
+                  return (
+                    <a
+                      key={item.name}
+                      href={item.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={() => setIsMenuOpen(false)}
+                      className="flex items-center space-x-3 px-4 py-3 rounded-xl text-gray-700 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 transition-all duration-300"
+                    >
+                      <Icon className="h-5 w-5" />
+                      <span className="font-medium">{item.name}</span>
+                    </a>
+                  );
+                }
                 return (
                   <Link
                     key={item.name}
