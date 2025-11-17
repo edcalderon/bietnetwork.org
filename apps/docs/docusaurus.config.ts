@@ -17,10 +17,10 @@ const config: Config = {
   },
 
   // Set the production url of your site here
-  url: isDevelopment ? 'http://localhost:3001' : 'https://edcalderon.github.io',
+  url: isDevelopment ? 'http://localhost:3001' : 'https://bietnetwork.org',
   // Set the /<baseUrl>/ pathname under which your site is served
-  // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: isDevelopment ? '/' : '/bietnetwork.org/',
+  // For subdirectory deployment on main domain
+  baseUrl: isDevelopment ? '/' : '/docs/',
 
   // GitHub pages deployment config.
   organizationName: 'edcalderon', // Usually your GitHub org/user name.
@@ -43,13 +43,13 @@ const config: Config = {
         label: 'Español',
         direction: 'ltr',
         htmlLang: 'es-ES',
-        baseUrl: isDevelopment ? '/es/' : '/bietnetwork.org/es/',
+        baseUrl: isDevelopment ? '/es/' : '/docs/es/',
       },
       en: {
         label: 'English',
         direction: 'ltr', 
         htmlLang: 'en-US',
-        baseUrl: isDevelopment ? '/' : '/bietnetwork.org/',
+        baseUrl: isDevelopment ? '/' : '/docs/',
       },
     },
   },
