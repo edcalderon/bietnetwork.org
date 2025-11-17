@@ -93,26 +93,28 @@ export function HeroSection() {
               <Button
                 onClick={() => router.push('/dashboard')}
                 size="lg"
-                className="w-full sm:w-auto bg-gradient-to-r from-emerald-600 to-cyan-600 hover:from-emerald-700 hover:to-cyan-700 text-white px-4 sm:px-6 lg:px-8 py-2.5 sm:py-3 lg:py-4 text-sm sm:text-base lg:text-lg font-medium rounded-full transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-emerald-200/50 dark:hover:shadow-emerald-500/20"
+                className="w-full sm:w-auto bg-gradient-to-r from-emerald-600 to-cyan-600 hover:from-emerald-700 hover:to-cyan-700 text-white px-3 sm:px-4 lg:px-6 xl:px-8 py-2.5 sm:py-3 lg:py-4 text-xs sm:text-sm lg:text-base xl:text-lg font-medium rounded-full transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-emerald-200/50 dark:hover:shadow-emerald-500/20"
               >
                 {isConnected ? (
-                  <span className="flex items-center">
-                    Explore the Network
-                    <ArrowUpRight className="ml-2 w-4 h-4" />
+                  <span className="flex items-center justify-center">
+                    <span className="hidden sm:inline">Explore the Network</span>
+                    <span className="sm:hidden">Explore</span>
+                    <ArrowUpRight className="ml-1 sm:ml-2 w-3 h-3 sm:w-4 sm:h-4" />
                   </span>
                 ) : (
-                  <span className="flex items-center">
-                    {t('hero.connectWallet')}
-                    <ArrowRight className="ml-2 w-4 h-4 sm:w-5 sm:h-5" />
+                  <span className="flex items-center justify-center">
+                    <span className="hidden sm:inline">{t('hero.connectWallet')}</span>
+                    <span className="sm:hidden">Connect</span>
+                    <ArrowRight className="ml-1 sm:ml-2 w-3 h-3 sm:w-4 sm:h-4" />
                   </span>
                 )}
               </Button>
             </div>
 
             {isConnected && (
-              <div className="flex items-center gap-2 text-green-600 dark:text-green-400 font-medium">
-                <CheckCircle className="w-5 h-5" />
-                <span>{t('hero.walletConnected')}</span>
+              <div className="flex items-center justify-center xl:justify-start gap-1.5 sm:gap-2 text-green-600 dark:text-green-400 font-medium text-xs sm:text-sm">
+                <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" />
+                <span className="truncate">{t('hero.walletConnected')}</span>
               </div>
             )}
 
@@ -120,9 +122,10 @@ export function HeroSection() {
               <Button
                 variant="outline"
                 size="lg"
-                className="w-full sm:w-auto px-4 sm:px-6 lg:px-8 py-2.5 sm:py-3 lg:py-4 text-sm sm:text-base lg:text-lg font-medium rounded-full border-2 border-emerald-600 text-emerald-600 hover:bg-emerald-50 dark:border-emerald-400 dark:text-emerald-400 dark:hover:bg-emerald-900/20 transition-all duration-200"
+                className="w-full sm:w-auto px-3 sm:px-4 lg:px-6 xl:px-8 py-2.5 sm:py-3 lg:py-4 text-xs sm:text-sm lg:text-base xl:text-lg font-medium rounded-full border-2 border-emerald-600 text-emerald-600 hover:bg-emerald-50 dark:border-emerald-400 dark:text-emerald-400 dark:hover:bg-emerald-900/20 transition-all duration-200"
               >
-                {t('landing.learnMore')}
+                <span className="hidden sm:inline">{t('landing.learnMore')}</span>
+                <span className="sm:hidden">Learn</span>
               </Button>
             </div>
           </div>
