@@ -7,6 +7,7 @@ import { WagmiProviders } from '../providers/WagmiProvider';
 import { WalletProvider } from '../contexts/WalletContext';
 import { LanguageProvider } from '../contexts/LanguageContext';
 import { VersionProvider } from '../contexts/VersionContext';
+import { ThemeProvider } from 'next-themes';
 
 function Footer() {
   return (
@@ -40,21 +41,23 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="es" className="h-full">
+    <html lang="es" className="h-full" suppressHydrationWarning>
       <body className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
-        <VersionProvider>
-          <LanguageProvider>
-            <WagmiProviders>
-              <WalletProvider>
-                <Navbar />
-                <main className="min-h-screen pt-16">
-                  {children}
-                </main>
-                <Footer />
-              </WalletProvider>
-            </WagmiProviders>
-          </LanguageProvider>
-        </VersionProvider>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <VersionProvider>
+            <LanguageProvider>
+              <WagmiProviders>
+                <WalletProvider>
+                  <Navbar />
+                  <main className="min-h-screen pt-16">
+                    {children}
+                  </main>
+                  <Footer />
+                </WalletProvider>
+              </WagmiProviders>
+            </LanguageProvider>
+          </VersionProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

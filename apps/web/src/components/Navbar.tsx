@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { WalletButton } from '@/components/WalletButton';
 import { LanguageSwitcher } from '@/components/LanguageSwitcher';
+import { ThemeToggle } from '@/components/ThemeToggle';
 import { 
   DropdownMenu,
   DropdownMenuContent,
@@ -149,7 +150,8 @@ export default function Navbar() {
 
           {/* Wallet Button & Mobile Menu */}
           <div className="flex items-center space-x-2">
-            <div className="hidden lg:flex items-center">
+            <div className="hidden lg:flex items-center space-x-2">
+              <ThemeToggle />
               <LanguageSwitcher />
             </div>
             <WalletButton />
@@ -223,8 +225,11 @@ export default function Navbar() {
                 </div>
               </div>
               
-              {/* Language Switcher for Mobile */}
-              <div className="px-4 py-3">
+              {/* Theme Toggle & Language Switcher for Mobile */}
+              <div className="px-4 py-3 space-y-3">
+                <div className="flex justify-center">
+                  <ThemeToggle />
+                </div>
                 <LanguageSwitcher />
               </div>
               
