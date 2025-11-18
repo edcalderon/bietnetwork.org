@@ -31,41 +31,41 @@
 
 /* Fix modal z-index to appear above navbar */
 .modal {
-  z-index: 9999 !important;
+  z-index: 99999 !important;
 }
 
 .modal-overlay {
-  z-index: 9998 !important;
+  z-index: 99998 !important;
 }
 
 /* Ensure dropdowns and modals appear above navbar */
 .navbar__item .dropdown__menu,
 .theme-layout-navbar .dropdown__menu {
-  z-index: 10001 !important;
+  z-index: 100001 !important;
 }
 
 /* Docusaurus modal fixes */
 .docusaurus-modal {
-  z-index: 9999 !important;
+  z-index: 99999 !important;
 }
 
 .menu__link {
-  z-index: 10001 !important;
+  z-index: 100001 !important;
 }
 
-/* Versioning modal specific fixes - higher priority */
+/* Versioning modal specific fixes - much higher priority */
 .version-dropdown,
 .version-modal,
 .versioning-modal,
 .dropdown__menu,
 .menu__list {
-  z-index: 10002 !important;
+  z-index: 100002 !important;
 }
 
 /* Navbar dropdown menu fixes */
 .navbar__link:hover + .dropdown__menu,
 .dropdown__menu:hover {
-  z-index: 10001 !important;
+  z-index: 100001 !important;
   position: absolute !important;
 }
 
@@ -74,7 +74,7 @@
 [role="menu"],
 .modal-content,
 .popup {
-  z-index: 9999 !important;
+  z-index: 99999 !important;
 }
 
 /* Additional fixes for any popup/overlay */
@@ -82,11 +82,36 @@
 .overlay,
 .dropdown,
 .tooltip {
-  z-index: 10003 !important;
+  z-index: 100003 !important;
 }
 
 /* Specific fix for version dropdown */
 .navbar__item[data-ice="versioning"] .dropdown__menu,
 .navbar__item:has([data-version]) .dropdown__menu {
-  z-index: 10004 !important;
+  z-index: 100004 !important;
+}
+
+/* Fix modal positioning and ensure it's fully visible */
+.modal,
+.modal-content,
+[role="dialog"] {
+  position: fixed !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  z-index: 100005 !important;
+  max-height: 90vh !important;
+  overflow-y: auto !important;
+}
+
+/* Modal overlay fixes */
+.modal-overlay,
+.popup-overlay {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  z-index: 99998 !important;
+  background: rgba(0, 0, 0, 0.5) !important;
 }
