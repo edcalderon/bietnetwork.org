@@ -23,8 +23,7 @@ import {
   Sprout,
   BookOpen,
   ChevronDown,
-  FileText,
-  ExternalLink
+  FileText
 } from 'lucide-react';
 import { useLanguage } from '@/hooks/useLanguage';
 
@@ -124,12 +123,6 @@ export default function Navbar() {
                     <span>{t('nav.documentation')}</span>
                   </Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <a href="https://docs.bietnetwork.org" target="_blank" rel="noopener noreferrer" className="flex items-center space-x-2">
-                    <ExternalLink className="h-4 w-4" />
-                    <span>{t('nav.externalDocs')}</span>
-                  </a>
-                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
             
@@ -227,16 +220,6 @@ export default function Navbar() {
                     <BookOpen className="h-4 w-4" />
                     <span className="font-medium">{t('nav.documentation')}</span>
                   </Link>
-                  <a
-                    href="https://docs.bietnetwork.org"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={() => setIsMenuOpen(false)}
-                    className="flex items-center space-x-3 px-4 py-2 rounded-xl text-gray-600 dark:text-gray-400 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 transition-all duration-300"
-                  >
-                    <ExternalLink className="h-4 w-4" />
-                    <span className="font-medium">{t('nav.externalDocs')}</span>
-                  </a>
                 </div>
               </div>
               
