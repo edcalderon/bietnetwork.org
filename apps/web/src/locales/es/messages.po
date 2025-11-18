@@ -1,0 +1,143 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2025-11-15 16:09-0500\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: es\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Plural-Forms: \n"
+
+#: src/components/HeroSection.tsx:153
+msgid "100% Decentralized"
+msgstr "100% Descentralizado"
+
+#: src/components/HeroSection.tsx:75
+msgid "A decentralized network of productive units that generate social, economic, and ecological value through blockchain technology."
+msgstr "Una red descentralizada de unidades productivas que generan valor social, económico y ecológico a través de la tecnología blockchain."
+
+#: src/components/Navbar.tsx:45
+msgid "Admin Panel"
+msgstr ""
+
+#: src/components/HeroSection.tsx:67
+msgid "Biet Network"
+msgstr "Biet Network"
+
+#: src/components/Navbar.tsx:39
+msgid "Biets"
+msgstr ""
+
+#: src/components/HeroSection.tsx:38
+msgid "Built on blockchain technology for transparency and security"
+msgstr "Construido con tecnología blockchain para transparencia y seguridad"
+
+#: src/components/HeroSection.tsx:42
+msgid "Community Driven"
+msgstr "Impulsado por la Comunidad"
+
+#: src/components/HeroSection.tsx:101
+msgid "Connect Wallet"
+msgstr "Conectar Billetera"
+
+#: src/components/HeroSection.tsx:84
+msgid "Connect your wallet to get started with Biet Network"
+msgstr "Conecta tu billetera para comenzar con Biet Network"
+
+#: src/components/HeroSection.tsx:163
+msgid "DAO Governance"
+msgstr "Gobernanza DAO"
+
+#: src/components/Navbar.tsx:38
+msgid "Dashboard"
+msgstr ""
+
+#: src/components/HeroSection.tsx:37
+msgid "Decentralized Network"
+msgstr "Red Descentralizada"
+
+#: src/components/HeroSection.tsx:166
+msgid "Democratic participation in key decisions"
+msgstr "Participación democrática en decisiones clave"
+
+#: src/components/HeroSection.tsx:48
+msgid "Generate social, economic, and ecological value"
+msgstr "Generar valor social, económico y ecológico"
+
+#: src/components/HeroSection.tsx:176
+msgid "Generating social, economic, and ecological value"
+msgstr "Generando valor social, económico y ecológico"
+
+#: src/components/HeroSection.tsx:97
+msgid "Get Started"
+msgstr "Comenzar"
+
+#: src/components/Navbar.tsx:40
+msgid "Governance"
+msgstr ""
+
+#: src/components/Navbar.tsx:37
+msgid "Home"
+msgstr ""
+
+#: src/components/HeroSection.tsx:110
+msgid "Learn More"
+msgstr "Saber Más"
+
+#: src/components/HeroSection.tsx:63
+msgid "Living Active Units"
+msgstr "Unidades Vivas Activas"
+
+#: src/components/HeroSection.tsx:71
+msgid "Living Units"
+msgstr "Unidades Vivas"
+
+#: src/components/HeroSection.tsx:156
+msgid "No intermediaries, full community control"
+msgstr "Sin intermediarios, control total de la comunidad"
+
+#: src/components/HeroSection.tsx:43
+msgid "Participate in governance and shape the future of the network"
+msgstr "Participa en la gobernanza y da forma al futuro de la red"
+
+#: src/components/HeroSection.tsx:47
+#: src/components/HeroSection.tsx:173
+msgid "Real Impact"
+msgstr "Impacto Real"
+
+#: src/components/Navbar.tsx:46
+msgid "Settings"
+msgstr "Configuración"
+
+#: src/components/Navbar.tsx:41
+msgid "Token"
+msgstr "Token"
+
+#: src/components/Navbar.tsx:37
+msgid "Home"
+msgstr "Inicio"
+
+#: src/components/Navbar.tsx:38
+msgid "Dashboard"
+msgstr "Panel"
+
+#: src/components/Navbar.tsx:39
+msgid "Biets"
+msgstr "Biets"
+
+#: src/components/Navbar.tsx:40
+msgid "Governance"
+msgstr "Gobernanza"
+
+#: src/components/Navbar.tsx:45
+msgid "Admin Panel"
+msgstr "Panel de Admin"
+
+#: src/components/HeroSection.tsx:117
+msgid "Wallet Connected!"
+msgstr "¡Billetera Conectada!"
