@@ -9,7 +9,8 @@ const assetPrefix = '';
 
 const nextConfig = {
   reactStrictMode: true,
-  output: 'export', // This enables static exports
+  // Only use static export for GitHub Actions builds, not development
+  output: isGithubActions ? 'export' : undefined,
   distDir: 'docs', // Output directory for the static export
   basePath: basePath,
   assetPrefix: assetPrefix,

@@ -15,12 +15,13 @@ import {
   AlertTriangle, 
   Zap, 
   Wrench,
-  Bug,
-  X
+  Bug
 } from 'lucide-react';
+import { DraggableDrawer } from '@/components/ui/draggable-drawer';
+import { ChangelogEntry } from '@/lib/changelog';
 
 export function VersionDisplay() {
-  const { versionDisplay, fullVersionString, hasUpdates, markVersionAsSeen } = useVersion();
+  const { versionDisplay, hasUpdates, fullVersionString, markVersionAsSeen, changelog = [], unreadVersions = [] } = useVersion();
   const { t } = useLanguage();
   const [showDetails, setShowDetails] = useState(false);
 
@@ -30,7 +31,7 @@ export function VersionDisplay() {
         variant="ghost" 
         size="sm" 
         className="text-xs text-muted-foreground hover:text-foreground h-6 px-2"
-        onClick={() => setShowDetails(!showDetails)}
+        onClick={() => setShowDetails(true)}
       >
         <Info className="h-3 w-3 mr-1" />
         {versionDisplay}
@@ -41,83 +42,86 @@ export function VersionDisplay() {
         )}
       </Button>
 
-      {showDetails && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50" onClick={() => setShowDetails(false)}>
-          <div className="bg-background rounded-lg shadow-lg max-w-2xl max-h-[80vh] w-full mx-4 overflow-y-auto" onClick={(e) => e.stopPropagation()}>
-            <div className="p-6">
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="text-lg font-semibold flex items-center gap-2">
-                  <Info className="h-5 w-5" />
-                  {t('version.title')}
-                </h2>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => setShowDetails(false)}
-                >
-                  <X className="h-4 w-4" />
-                </Button>
-              </div>
-              
-              <div className="space-y-6">
-                {/* Current Version Info */}
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                      <Code className="h-4 w-4" />
-                      {t('version.current')}
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="flex items-center justify-between">
-                      <span className="font-mono text-sm">{fullVersionString}</span>
-                      {hasUpdates && (
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          onClick={() => markVersionAsSeen(versionDisplay)}
-                          className="text-xs"
-                        >
-                          <CheckCircle className="h-3 w-3 mr-1" />
-                          {t('version.markAsRead')}
-                        </Button>
-                      )}
-                    </div>
-                  </CardContent>
-                </Card>
-
-                {/* Changelog */}
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                      <GitBranch className="h-4 w-4" />
-                      {t('version.changelog')}
-                    </CardTitle>
-                    <CardDescription>
-                      {t('version.description')}
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <ChangelogContent />
-                  </CardContent>
-                </Card>
-              </div>
-            </div>
+      <DraggableDrawer open={showDetails} setOpen={setShowDetails}>
+        <div className="mx-auto max-w-2xl space-y-6 text-neutral-400">
+          <div className="flex items-center gap-2 mb-6">
+            <Info className="h-5 w-5 text-neutral-400" />
+            <h2 className="text-xl font-bold text-neutral-200">
+              {t('version.title')}
+            </h2>
           </div>
+
+          {/* Current Version Info */}
+          <Card className="bg-neutral-800 border-neutral-700">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2 text-neutral-200">
+                <Code className="h-4 w-4" />
+                {t('version.current')}
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="flex items-center justify-between">
+                <span className="font-mono text-sm text-neutral-300">{fullVersionString}</span>
+                {hasUpdates && (
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={() => markVersionAsSeen(versionDisplay)}
+                    className="text-xs"
+                  >
+                    <CheckCircle className="h-3 w-3 mr-1" />
+                    {t('version.markAsRead')}
+                  </Button>
+                )}
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Changelog */}
+          <Card className="bg-neutral-800 border-neutral-700">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2 text-neutral-200">
+                <GitBranch className="h-4 w-4" />
+                {t('version.changelog')}
+              </CardTitle>
+              <CardDescription className="text-neutral-400">
+                {t('version.description')}
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <ChangelogContent changelog={changelog} hasUpdates={hasUpdates} unreadVersions={unreadVersions} />
+            </CardContent>
+          </Card>
         </div>
-      )}
+      </DraggableDrawer>
     </div>
   );
 }
 
-function ChangelogContent() {
-  const { changelog, hasUpdates, unreadVersions } = useVersion();
+interface UnreadVersion {
+  version: string;
+}
+
+function ChangelogContent({ changelog, hasUpdates, unreadVersions }: { 
+  changelog: ChangelogEntry[], 
+  hasUpdates: boolean, 
+  unreadVersions: UnreadVersion[] 
+}) {
   const { t } = useLanguage();
+
+  if (!changelog || changelog.length === 0) {
+    return (
+      <div className="text-center py-8 text-neutral-500">
+        <GitBranch className="h-8 w-8 mx-auto mb-2 opacity-50" />
+        <p>No changelog available</p>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
-      {changelog.map((entry, index) => {
-        const isUnread = unreadVersions.some(unread => unread.version === entry.version);
+      {changelog.map((entry: ChangelogEntry, index: number) => {
+        const isUnread = unreadVersions.some((unread: UnreadVersion) => unread.version === entry.version);
         const isNew = index === 0 && hasUpdates;
         
         return (
@@ -130,8 +134,8 @@ function ChangelogContent() {
             
             <div className="space-y-3">
               <div className="flex items-center justify-between">
-                <h4 className="font-semibold text-lg">v{entry.version}</h4>
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <h4 className="font-semibold text-lg text-neutral-200">v{entry.version}</h4>
+                <div className="flex items-center gap-2 text-sm text-neutral-400">
                   <Calendar className="h-3 w-3" />
                   {entry.date}
                   <Badge variant={entry.type === 'major' ? 'destructive' : entry.type === 'minor' ? 'default' : 'secondary'}>
@@ -139,63 +143,73 @@ function ChangelogContent() {
                   </Badge>
                 </div>
               </div>
+
+              {/* Description */}
+              <p className="text-neutral-300">{entry.description}</p>
               
-              <p className="text-sm text-muted-foreground">{entry.description}</p>
-              
-              {entry.features.length > 0 && (
+              {/* Features */}
+              {entry.features && entry.features.length > 0 && (
                 <div className="space-y-2">
-                  <h5 className="font-medium flex items-center gap-2 text-green-600 dark:text-green-400">
+                  <h5 className="font-medium flex items-center gap-2 text-green-600">
                     <Zap className="h-4 w-4" />
-                    {t('version.features')}
+                    Features
                   </h5>
-                  <ul className="list-disc list-inside text-sm space-y-1 ml-6">
-                    {entry.features.map((feature, idx) => (
-                      <li key={idx} className="text-muted-foreground">{feature}</li>
+                  <ul className="ml-6 list-disc text-neutral-300">
+                    {entry.features.map((feature: string, featureIndex: number) => (
+                      <li key={featureIndex}>{feature}</li>
                     ))}
                   </ul>
                 </div>
               )}
-              
-              {entry.improvements.length > 0 && (
+
+              {/* Improvements */}
+              {entry.improvements && entry.improvements.length > 0 && (
                 <div className="space-y-2">
-                  <h5 className="font-medium flex items-center gap-2 text-blue-600 dark:text-blue-400">
+                  <h5 className="font-medium flex items-center gap-2 text-blue-600">
                     <Wrench className="h-4 w-4" />
-                    {t('version.improvements')}
+                    Improvements
                   </h5>
-                  <ul className="list-disc list-inside text-sm space-y-1 ml-6">
-                    {entry.improvements.map((improvement, idx) => (
-                      <li key={idx} className="text-muted-foreground">{improvement}</li>
+                  <ul className="ml-6 list-disc text-neutral-300">
+                    {entry.improvements.map((improvement: string, improvementIndex: number) => (
+                      <li key={improvementIndex}>{improvement}</li>
                     ))}
                   </ul>
                 </div>
               )}
-              
-              {entry.fixes.length > 0 && (
+
+              {/* Fixes */}
+              {entry.fixes && entry.fixes.length > 0 && (
                 <div className="space-y-2">
-                  <h5 className="font-medium flex items-center gap-2 text-orange-600 dark:text-orange-400">
+                  <h5 className="font-medium flex items-center gap-2 text-red-600">
                     <Bug className="h-4 w-4" />
-                    {t('version.fixes')}
+                    Fixes
                   </h5>
-                  <ul className="list-disc list-inside text-sm space-y-1 ml-6">
-                    {entry.fixes.map((fix, idx) => (
-                      <li key={idx} className="text-muted-foreground">{fix}</li>
+                  <ul className="ml-6 list-disc text-neutral-300">
+                    {entry.fixes.map((fix: string, fixIndex: number) => (
+                      <li key={fixIndex}>{fix}</li>
                     ))}
                   </ul>
                 </div>
               )}
-              
+
+              {/* Breaking Changes */}
               {entry.breaking && entry.breaking.length > 0 && (
                 <div className="space-y-2">
-                  <h5 className="font-medium flex items-center gap-2 text-red-600 dark:text-red-400">
+                  <h5 className="font-medium flex items-center gap-2 text-orange-600">
                     <AlertTriangle className="h-4 w-4" />
-                    {t('version.breaking')}
+                    Breaking Changes
                   </h5>
-                  <ul className="list-disc list-inside text-sm space-y-1 ml-6">
-                    {entry.breaking.map((breaking, idx) => (
-                      <li key={idx} className="text-muted-foreground">{breaking}</li>
+                  <ul className="ml-6 list-disc text-neutral-300">
+                    {entry.breaking.map((breaking: string, breakingIndex: number) => (
+                      <li key={breakingIndex}>{breaking}</li>
                     ))}
                   </ul>
                 </div>
+              )}
+
+              {/* Show if no changes */}
+              {(!entry.features?.length && !entry.improvements?.length && !entry.fixes?.length && !entry.breaking?.length) && (
+                <p className="text-sm text-neutral-500">No changes recorded for this version</p>
               )}
             </div>
           </div>
@@ -204,3 +218,5 @@ function ChangelogContent() {
     </div>
   );
 }
+
+export default VersionDisplay;

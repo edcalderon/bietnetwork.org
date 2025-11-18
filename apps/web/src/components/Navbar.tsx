@@ -5,7 +5,12 @@ import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { WalletButton } from '@/components/WalletButton';
 import { LanguageSwitcher } from '@/components/LanguageSwitcher';
-import { VersionDisplay } from '@/components/VersionDisplay';
+import { 
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import { useWallet } from '@/contexts/WalletContext';
 import { 
   User, 
@@ -16,7 +21,10 @@ import {
   Menu, 
   X,
   Sprout,
-  BookOpen
+  BookOpen,
+  ChevronDown,
+  FileText,
+  ExternalLink
 } from 'lucide-react';
 import { useLanguage } from '@/hooks/useLanguage';
 
@@ -24,7 +32,7 @@ export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
-  const { isAdmin } = useWallet();
+  const { isAdmin, isConnected, address } = useWallet();
   const { t } = useLanguage();
 
   // Handle scroll effect and hydration
@@ -45,8 +53,6 @@ export default function Navbar() {
     { name: t('nav.biets'), href: '/biets', icon: Building },
     { name: t('nav.governance'), href: '/governance', icon: Settings },
     { name: t('nav.token'), href: '/token', icon: Gem },
-    { name: t('whitepaper.title'), href: '/whitepaper', icon: BookOpen},
-    { name: t('nav.documentation'), href: '/documentation', icon: Shield},
   ];
 
   const adminNavigation = [
@@ -76,7 +82,10 @@ export default function Navbar() {
 
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center space-x-2">
-            {navigationItems.map((item) => {
+            {navigationItems.filter((item) => {
+              // Only show items that don't require auth or when wallet is connected
+              return !item.requiresAuth || isConnected;
+            }).map((item) => {
               const Icon = item.icon;
               return (
                 <Link
@@ -89,6 +98,40 @@ export default function Navbar() {
                 </Link>
               );
             })}
+            
+            {/* Resources Dropdown - Always show */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="ghost"
+                  className="group flex items-center space-x-2 px-4 py-2 rounded-xl text-gray-700 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 transition-all duration-300 hover:scale-105"
+                >
+                  <BookOpen className="h-4 w-4 group-hover:scale-110 transition-transform duration-300" />
+                  <span className="font-medium">{t('nav.resources')}</span>
+                  <ChevronDown className="h-4 w-4 group-hover:scale-110 transition-transform duration-300" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="z-50 min-w-[8rem]">
+                <DropdownMenuItem>
+                  <Link href="/whitepaper" className="flex items-center space-x-2">
+                    <FileText className="h-4 w-4" />
+                    <span>{t('whitepaper.title')}</span>
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <Link href="/documentation" className="flex items-center space-x-2">
+                    <BookOpen className="h-4 w-4" />
+                    <span>{t('nav.documentation')}</span>
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <a href="https://docs.bietnetwork.org" target="_blank" rel="noopener noreferrer" className="flex items-center space-x-2">
+                    <ExternalLink className="h-4 w-4" />
+                    <span>{t('nav.externalDocs')}</span>
+                  </a>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
             
             {/* Admin Navigation */}
             {isAdmin && (
@@ -113,9 +156,6 @@ export default function Navbar() {
 
           {/* Wallet Button & Mobile Menu */}
           <div className="flex items-center space-x-2">
-            <div className="hidden md:flex items-center space-x-2">
-              <VersionDisplay />
-            </div>
             <div className="hidden lg:flex items-center">
               <LanguageSwitcher />
             </div>
@@ -146,7 +186,10 @@ export default function Navbar() {
         }`}>
           <div className="px-4 space-y-2">
             <div className="space-y-2">
-              {navigationItems.map((item) => {
+              {navigationItems.filter((item) => {
+                // Only show items that don't require auth or when wallet is connected
+                return !item.requiresAuth || isConnected;
+              }).map((item) => {
                 const Icon = item.icon;
                 return (
                   <Link
@@ -160,6 +203,42 @@ export default function Navbar() {
                   </Link>
                 );
               })}
+              
+              {/* Mobile Resources Section - Always show */}
+              <div className="pt-2">
+                <div className="flex items-center space-x-3 px-4 py-2 text-gray-500 dark:text-gray-400">
+                  <BookOpen className="h-5 w-5" />
+                  <span className="font-medium text-sm uppercase tracking-wider">{t('nav.resources')}</span>
+                </div>
+                <div className="ml-8 space-y-1">
+                  <Link
+                    href="/whitepaper"
+                    onClick={() => setIsMenuOpen(false)}
+                    className="flex items-center space-x-3 px-4 py-2 rounded-xl text-gray-600 dark:text-gray-400 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 transition-all duration-300"
+                  >
+                    <FileText className="h-4 w-4" />
+                    <span className="font-medium">{t('whitepaper.title')}</span>
+                  </Link>
+                  <Link
+                    href="/documentation"
+                    onClick={() => setIsMenuOpen(false)}
+                    className="flex items-center space-x-3 px-4 py-2 rounded-xl text-gray-600 dark:text-gray-400 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 transition-all duration-300"
+                  >
+                    <BookOpen className="h-4 w-4" />
+                    <span className="font-medium">{t('nav.documentation')}</span>
+                  </Link>
+                  <a
+                    href="https://docs.bietnetwork.org"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => setIsMenuOpen(false)}
+                    className="flex items-center space-x-3 px-4 py-2 rounded-xl text-gray-600 dark:text-gray-400 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 transition-all duration-300"
+                  >
+                    <ExternalLink className="h-4 w-4" />
+                    <span className="font-medium">{t('nav.externalDocs')}</span>
+                  </a>
+                </div>
+              </div>
               
               {/* Language Switcher for Mobile */}
               <div className="px-4 py-3">

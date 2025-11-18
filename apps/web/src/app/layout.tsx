@@ -1,10 +1,27 @@
 import type { Metadata } from 'next';
 import './globals.css';
+import React from 'react';
 import Navbar from '../components/Navbar';
+import { VersionDisplay } from '../components/VersionDisplay';
 import { WagmiProviders } from '../providers/WagmiProvider';
 import { WalletProvider } from '../contexts/WalletContext';
 import { LanguageProvider } from '../contexts/LanguageContext';
 import { VersionProvider } from '../contexts/VersionContext';
+
+function Footer() {
+  return (
+    <footer className="bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 py-6">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p className="text-sm text-gray-500 dark:text-gray-400">
+            © 2025 Biet Network. Todos los derechos reservados.
+          </p>
+          <VersionDisplay />
+        </div>
+      </div>
+    </footer>
+  );
+}
 
 export const metadata: Metadata = {
   title: 'Red Biet - BietNetwork',
@@ -33,13 +50,7 @@ export default function RootLayout({
                 <main className="min-h-screen pt-16">
                   {children}
                 </main>
-                <footer className="bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 py-6">
-                  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <p className="text-center text-sm text-gray-500 dark:text-gray-400">
-                      © {new Date().getFullYear()} Biet Network. Todos los derechos reservados.
-                    </p>
-                  </div>
-                </footer>
+                <Footer />
               </WalletProvider>
             </WagmiProviders>
           </LanguageProvider>
