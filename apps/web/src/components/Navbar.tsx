@@ -8,7 +8,6 @@ import { LanguageSwitcher } from '@/components/LanguageSwitcher';
 import { VersionDisplay } from '@/components/VersionDisplay';
 import { useWallet } from '@/contexts/WalletContext';
 import { 
-  Home, 
   User, 
   Building, 
   Settings, 
@@ -38,7 +37,6 @@ export default function Navbar() {
   }, []);
 
   const navigationItems = [
-    { name: t('nav.home'), href: '/', icon: Home },
     { name: t('nav.dashboard'), href: '/dashboard', icon: User, requiresAuth: true },
     { name: t('nav.biets'), href: '/biets', icon: Building },
     { name: t('nav.governance'), href: '/governance', icon: Settings },
