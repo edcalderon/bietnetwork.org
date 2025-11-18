@@ -69,7 +69,7 @@ jobs:
       - name: Build documentation
         run: |
           cd apps/docs
-          yarn build
+          yarn build:prod
           # Copy docs to web app public directory
           mkdir -p ../web/public/documentation
           cp -r build/* ../web/public/documentation/
