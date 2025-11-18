@@ -28,3 +28,49 @@
   --ifm-color-primary-lightest: #4fddbf;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
 }
+
+/* Fix modal z-index to appear above navbar */
+.modal {
+  z-index: 1000 !important;
+}
+
+.modal-overlay {
+  z-index: 999 !important;
+}
+
+/* Ensure dropdowns and modals appear above navbar */
+.navbar__item .dropdown__menu,
+.theme-layout-navbar .dropdown__menu {
+  z-index: 1001 !important;
+}
+
+/* Docusaurus modal fixes */
+.docusaurus-modal {
+  z-index: 1000 !important;
+}
+
+.menu__link {
+  z-index: 1001 !important;
+}
+
+/* Versioning modal specific fixes */
+.version-dropdown,
+.version-modal,
+.versioning-modal {
+  z-index: 1002 !important;
+}
+
+/* Navbar dropdown menu fixes */
+.navbar__link:hover + .dropdown__menu,
+.dropdown__menu:hover {
+  z-index: 1001 !important;
+  position: absolute !important;
+}
+
+/* Ensure all modal overlays are above navbar */
+[role="dialog"],
+[role="menu"],
+.modal-content,
+.popup {
+  z-index: 1000 !important;
+}
