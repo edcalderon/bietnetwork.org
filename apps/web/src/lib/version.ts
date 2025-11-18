@@ -10,7 +10,14 @@ export interface VersionInfo {
 const getEnvVar = (key: string, fallback: string): string => {
   // Check if we're in a browser environment
   if (typeof window !== 'undefined') {
-    // In browser, return fallback for now
+    // In browser, access window.env or process.env if available
+    if (typeof window !== 'undefined' && (window as any).env?.[key]) {
+      return (window as any).env[key];
+    }
+    // For Next.js public env vars, they should be available at build time
+    if (typeof process !== 'undefined' && process.env?.[key]) {
+      return process.env[key];
+    }
     return fallback;
   }
   
@@ -26,7 +33,7 @@ const getEnvVar = (key: string, fallback: string): string => {
 };
 
 export const VERSION_INFO: VersionInfo = {
-  version: getEnvVar('NEXT_PUBLIC_APP_VERSION', '0.2.0'),
+  version: getEnvVar('NEXT_PUBLIC_APP_VERSION', '0.2.10'),
   buildNumber: getEnvVar('NEXT_PUBLIC_BUILD_NUMBER', 'beta'),
   commitHash: getEnvVar('NEXT_PUBLIC_COMMIT_HASH', 'dev'),
   buildDate: getEnvVar('NEXT_PUBLIC_BUILD_DATE', new Date().toISOString()),
