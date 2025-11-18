@@ -11,9 +11,11 @@ const getEnvVar = (key: string, fallback: string): string => {
   // For Next.js public environment variables, they are available at build time
   // and can be accessed directly via process.env in the browser
   try {
-    const value = process?.env?.[key];
-    if (value !== undefined && value !== null && value !== '') {
-      return value;
+    if (typeof process !== 'undefined' && process.env) {
+      const value = process.env[key];
+      if (value !== undefined && value !== null && value !== '') {
+        return value;
+      }
     }
   } catch (error) {
     // Ignore process access errors in browser
