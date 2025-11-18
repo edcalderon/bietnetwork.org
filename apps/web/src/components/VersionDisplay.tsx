@@ -76,7 +76,7 @@ export function VersionDisplay() {
                       size="sm"
                       variant="outline"
                       onClick={() => markVersionAsSeen(versionDisplay)}
-                      className="text-xs h-7 px-3"
+                      className="text-xs h-7 px-3 bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-700 text-green-700 dark:text-green-300 hover:bg-green-100 dark:hover:bg-green-900/30 transition-all duration-200"
                     >
                       <CheckCircle className="h-3 w-3 mr-1" />
                       {t('version.markAsRead')}
