@@ -38,13 +38,13 @@
   "theme.footer.comunidad.twitter.label": {
     "message": "Twitter"
   },
-  "theme.footer.más.title": {
-    "message": "Más"
+  "theme.footer.recursos.title": {
+    "message": "Recursos"
   },
-  "theme.footer.más.blog.label": {
+  "theme.footer.recursos.blog.label": {
     "message": "Blog"
   },
-  "theme.footer.más.sitio_principal.label": {
+  "theme.footer.recursos.sitio_principal.label": {
     "message": "Sitio Principal"
   }
 }

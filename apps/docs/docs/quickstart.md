@@ -124,10 +124,7 @@ Mantente informado sobre:
 
 ## Recursos Adicionales
 
-- [Configuración Avanzada de Wallet](/docs/guides/wallet-setup)
-- [Guía de Inversión Detallada](/docs/guides/first-investment)
-- [Gobernanza y Votación](/docs/guides/governance)
-- [FAQ](/docs/resources/faq)
+Para más información, consulta la navegación lateral o visita nuestro blog para las últimas actualizaciones.
 
 ## ¿Necesitas Ayuda?
 
@@ -147,5 +144,3 @@ Ahora estás listo para:
 Bienvenido a la revolución de la inversión de impacto descentralizada. **Juntos estamos creando un futuro más sostenible y equitativo.**
 
 ---
-
-**Siguiente paso**: [Configurar tu wallet para características avanzadas](/docs/guides/wallet-setup)

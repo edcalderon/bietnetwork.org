@@ -165,7 +165,7 @@ const config: Config = {
           ],
         },
         {
-          title: 'Más',
+          title: 'Recursos',
           items: [
             {
               label: 'Blog',

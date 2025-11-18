@@ -13,8 +13,6 @@ const sidebars = {
   tutorialSidebar: [
     'intro',
     'quickstart',
-    'whitepaper',
-    'token',
     {
       type: 'category',
       label: 'Tutorial - Conceptos Básicos',
@@ -35,7 +33,6 @@ const sidebars = {
         'tutorial-extras/translate-your-site',
       ],
     },
-    'contact',
   ],
 
   // But you can create a sidebar manually

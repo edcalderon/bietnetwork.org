@@ -87,7 +87,5 @@ Cada proyecto tiene métricas de impacto claras y verificables, conectadas a ret
 ## Próximos Pasos
 
 - [Guía Rápida](/docs/quickstart) - Comienza en 5 minutos
-- [Configurar Wallet](/docs/guides/wallet-setup) - Prepara tu wallet
-- [Primera Inversión](/docs/guides/first-investment) - Invierte en tu primer proyecto
 
 ¿Listo para empezar a generar impacto y retornos? [Comienza aquí](/docs/quickstart).
