@@ -6,29 +6,20 @@ export interface VersionInfo {
   environment: 'development' | 'staging' | 'production';
 }
 
-// Type-safe access to process.env
+// Type-safe access to process.env for Next.js
 const getEnvVar = (key: string, fallback: string): string => {
-  // Check if we're in a browser environment
-  if (typeof window !== 'undefined') {
-    // In browser, access window.env or process.env if available
-    if (typeof window !== 'undefined' && (window as any).env?.[key]) {
-      return (window as any).env[key];
+  // For Next.js public environment variables, they are available at build time
+  // and can be accessed directly via process.env in the browser
+  try {
+    const value = process?.env?.[key];
+    if (value !== undefined && value !== null && value !== '') {
+      return value;
     }
-    // For Next.js public env vars, they should be available at build time
-    if (typeof process !== 'undefined' && process.env?.[key]) {
-      return process.env[key];
-    }
-    return fallback;
+  } catch (error) {
+    // Ignore process access errors in browser
   }
   
-  // In server environment, check process.env safely
-  try {
-    if (typeof globalThis !== 'undefined' && (globalThis as any).process?.env?.[key]) {
-      return (globalThis as any).process.env[key];
-    }
-  } catch {
-    // Ignore errors and return fallback
-  }
+  // Fallback for development or when env var is not set
   return fallback;
 };
 

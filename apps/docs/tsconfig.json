@@ -1,9 +1,26 @@
 {
   // This file is not used in compilation. It is here just for a nice editor experience.
-  "extends": "@docusaurus/tsconfig",
   "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["DOM", "DOM.Iterable", "ES6"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
     "baseUrl": ".",
-    "jsx": "react-jsx"
+    "types": ["node"],
+    "paths": {
+      "@theme/*": ["src/theme/*"],
+      "@site/*": ["src/*"],
+      "@generated/*": [".docusaurus/*"]
+    }
   },
   "include": [
     "src/**/*",
