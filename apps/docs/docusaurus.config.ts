@@ -125,11 +125,6 @@ const config: Config = {
           type: 'localeDropdown',
           position: 'right',
         },
-        {
-          type: 'custom',
-          position: 'right',
-          component: 'ThemeToggle',
-        },
       ],
     },
     footer: {
