@@ -10,13 +10,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### 🐛 Patch Version
 
 ### Added
-- [TODO: Add new features here]
+- Docusaurus internationalization (i18n) support for Spanish and English
+- Next.js integration to serve documentation under /documentation path
+- Automatic documentation build and copy script for deployment
 
 ### Improved
-- [TODO: Add improvements here]
+- Translation file formatting with proper JSON structure
+- Environment-based configuration for development vs production
+- Clean URL routing without duplication for language switching
 
 ### Fixed
-- [TODO: Add bug fixes here]
+- URL duplication issue with /en/en/en paths in development
+- Translation labels not displaying correctly in navbar
+- Language switching redirecting to production URLs during development
+- Double /documentation path issues in development environment
 
 ---
 
