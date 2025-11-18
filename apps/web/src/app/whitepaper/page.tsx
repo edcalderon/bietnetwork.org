@@ -7,7 +7,6 @@ import {
   BookOpen, 
   Download, 
   ExternalLink, 
-  Users, 
   TrendingUp, 
   Shield, 
   Zap,

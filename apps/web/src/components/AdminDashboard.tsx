@@ -13,8 +13,7 @@ import {
   Users, 
   Coins, 
   TrendingUp,
-  AlertTriangle,
-  CheckCircle
+  AlertTriangle
 } from 'lucide-react';
 
 export function AdminDashboard() {
@@ -29,7 +28,7 @@ export function AdminDashboard() {
             <AlertTriangle className="h-12 w-12 text-yellow-500 mx-auto mb-4" />
             <CardTitle>Access Denied</CardTitle>
             <CardDescription>
-              You don't have admin privileges to access this area.
+              You don&apos;t have admin privileges to access this area.
             </CardDescription>
           </CardHeader>
           <CardContent>

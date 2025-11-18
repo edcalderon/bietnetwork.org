@@ -2,22 +2,12 @@
 
 import { useLanguage } from '@/hooks/useLanguage';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { 
   Coins, 
-  TrendingUp, 
-  Shield, 
-  Users, 
-  Zap,
   BarChart3,
-  Globe,
-  Lock,
   Download,
   ExternalLink,
-  CheckCircle,
-  AlertTriangle,
-  Award,
-  PieChart,
   Activity
 } from 'lucide-react';
 

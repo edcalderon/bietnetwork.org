@@ -19,7 +19,7 @@ const getEnvVar = (key: string, fallback: string): string => {
         return value;
       }
     }
-  } catch (error) {
+  } catch {
     // Ignore process access errors in browser
   }
   
