@@ -33,7 +33,9 @@
     "token": "Token",
     "documentation": "Documentación",
     "adminPanel": "Panel de Admin",
-    "settings": "Configuración"
+    "settings": "Configuración",
+    "resources": "Recursos",
+    "externalDocs": "Docs Externas"
   },
   "language": {
     "english": "English",
