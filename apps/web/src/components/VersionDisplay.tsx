@@ -5,17 +5,11 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useVersion } from '@/contexts/VersionContext';
 import { useLanguage } from '@/hooks/useLanguage';
-import { 
-  Info, 
-  Code, 
-  GitBranch, 
-  CheckCircle, 
-  ChevronDown
-} from 'lucide-react';
+import { Info, Code, GitBranch, ChevronDown } from 'lucide-react';
 import { ChangelogEntry } from '@/lib/changelog';
 
 export function VersionDisplay() {
-  const { versionDisplay, hasUpdates, fullVersionString, markVersionAsSeen, changelog = [] } = useVersion();
+  const { versionDisplay, hasUpdates, fullVersionString, changelog = [] } = useVersion();
   const { t } = useLanguage();
   const [showDetails, setShowDetails] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -64,17 +58,15 @@ export function VersionDisplay() {
               <CardContent className="pt-0">
                 <div className="flex items-center justify-between">
                   <span className="font-mono text-sm text-gray-700 dark:text-gray-300">{fullVersionString}</span>
-                  {hasUpdates && (
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      onClick={() => markVersionAsSeen(versionDisplay)}
-                      className="text-xs h-7 px-3 bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-700 text-green-700 dark:text-green-300 hover:bg-green-100 dark:hover:bg-green-900/30 transition-all duration-200"
-                    >
-                      <CheckCircle className="h-3 w-3 mr-1" />
-                      {t('version.markAsRead')}
-                    </Button>
-                  )}
+                  <a
+                    href="https://github.com/edcalderon/bietnetwork.org/releases"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center px-3 py-1 text-xs font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200"
+                  >
+                    <GitBranch className="h-3 w-3 mr-1" />
+                    GitHub Changelog
+                  </a>
                 </div>
               </CardContent>
             </Card>
