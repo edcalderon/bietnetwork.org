@@ -3,7 +3,6 @@
 import { useLanguage } from '@/hooks/useLanguage';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import { 
   Coins, 
   TrendingUp, 
@@ -44,15 +43,15 @@ export default function TokenPage() {
               {t('token.subtitle')}
             </p>
             <div className="flex justify-center gap-4 mb-8">
-              <Badge variant="secondary" className="bg-white/20 text-white px-4 py-2">
+              <div className="bg-white/20 text-white px-4 py-2 rounded-full">
                 ERC-20
-              </Badge>
-              <Badge variant="secondary" className="bg-white/20 text-white px-4 py-2">
+              </div>
+              <div className="bg-white/20 text-white px-4 py-2 rounded-full">
                 300,000,000 BGT Supply
-              </Badge>
-              <Badge variant="secondary" className="bg-white/20 text-white px-4 py-2">
+              </div>
+              <div className="bg-white/20 text-white px-4 py-2 rounded-full">
                 Governance Token
-              </Badge>
+              </div>
             </div>
           </div>
         </div>

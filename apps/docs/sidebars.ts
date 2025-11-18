@@ -1,7 +1,3 @@
-import type {SidebarsConfig} from '@docusaurus/plugin-content-docs';
-
-// This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
-
 /**
  * Creating a sidebar enables you to:
  - create an ordered group of docs
@@ -12,11 +8,13 @@ import type {SidebarsConfig} from '@docusaurus/plugin-content-docs';
 
  Create as many sidebars as you want.
  */
-const sidebars: SidebarsConfig = {
+const sidebars = {
   // By default, Docusaurus generates a sidebar from the docs folder structure
   tutorialSidebar: [
     'intro',
     'quickstart',
+    'whitepaper',
+    'token',
     {
       type: 'category',
       label: 'Tutorial - Conceptos Básicos',
@@ -37,6 +35,7 @@ const sidebars: SidebarsConfig = {
         'tutorial-extras/translate-your-site',
       ],
     },
+    'contact',
   ],
 
   // But you can create a sidebar manually
