@@ -23,11 +23,15 @@ import { useLanguage } from '@/hooks/useLanguage';
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
   const { isAdmin } = useWallet();
   const { t } = useLanguage();
 
-  // Handle scroll effect
+  // Handle scroll effect and hydration
   useEffect(() => {
+    setIsMounted(true);
+    setIsScrolled(window.scrollY > 10);
+    
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 10);
     };
@@ -41,7 +45,8 @@ export default function Navbar() {
     { name: t('nav.biets'), href: '/biets', icon: Building },
     { name: t('nav.governance'), href: '/governance', icon: Settings },
     { name: t('nav.token'), href: '/token', icon: Gem },
-    { name: t('nav.documentation'), href: '/documentation', icon: BookOpen},
+    { name: t('whitepaper.title'), href: '/whitepaper', icon: BookOpen},
+    { name: t('nav.documentation'), href: '/documentation', icon: Shield},
   ];
 
   const adminNavigation = [
@@ -51,7 +56,7 @@ export default function Navbar() {
 
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-      isScrolled || isMenuOpen
+      isMounted && (isScrolled || isMenuOpen)
         ? 'bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-b border-emerald-200/50 dark:border-emerald-800/50 shadow-lg' 
         : 'bg-white/90 dark:bg-gray-900/90 backdrop-blur-md border-b border-transparent'
     }`}>
