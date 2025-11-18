@@ -11,6 +11,26 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.13',
+    date: '2025-11-18',
+    type: 'patch',
+    description: 'Version management system and GitHub changelog integration',
+    features: [
+      'Comprehensive automated version management system',
+      'GitHub changelog links in version display',
+      'Automated package synchronization across workspace',
+    ],
+    improvements: [
+      'Removed Mark as Read button, replaced with GitHub releases link',
+      'Enhanced version display with external changelog access',
+      'Updated all workspace packages to consistent versioning',
+    ],
+    fixes: [
+      'Fixed version inconsistencies across packages',
+      'Resolved TypeScript compilation errors in VersionDisplay',
+    ],
+  },
+  {
     version: '0.2.0',
     date: '2025-11-15',
     type: 'minor',

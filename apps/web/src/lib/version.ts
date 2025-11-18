@@ -24,7 +24,7 @@ const getEnvVar = (key: string, fallback: string): string => {
 };
 
 export const VERSION_INFO: VersionInfo = {
-  version: getEnvVar('NEXT_PUBLIC_APP_VERSION', '0.2.10'),
+  version: getEnvVar('NEXT_PUBLIC_APP_VERSION', '0.2.13'),
   buildNumber: getEnvVar('NEXT_PUBLIC_BUILD_NUMBER', 'beta'),
   commitHash: getEnvVar('NEXT_PUBLIC_COMMIT_HASH', 'dev'),
   buildDate: getEnvVar('NEXT_PUBLIC_BUILD_DATE', new Date().toISOString()),
