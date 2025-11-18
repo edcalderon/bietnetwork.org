@@ -116,6 +116,7 @@ const config: Config = {
           href: isDevelopment ? "http://localhost:3000" : "https://bietnetwork.org",
           label: 'Inicio',
           position: 'right',
+          target: '_self',
         },
         {
           href: 'https://github.com/edcalderon/bietnetwork.org',
