@@ -1,10 +1,10 @@
 /** @type {import('next').NextConfig} */
 const isGithubActions = process.env.GITHUB_ACTIONS === 'true';
-const repository = 'bietnetwork.org';
 
-// For GitHub Pages, we need to use the repository name as base path
-const basePath = isGithubActions ? `/${repository}` : '';
-const assetPrefix = isGithubActions ? `/${repository}` : '';
+// For GitHub Pages with custom domain, we don't need repository base path
+// Custom domain (bietnetwork.org) serves from root, not /repository-name/
+const basePath = '';
+const assetPrefix = '';
 
 const nextConfig = {
   reactStrictMode: true,
