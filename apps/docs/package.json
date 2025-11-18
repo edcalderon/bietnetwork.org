@@ -6,7 +6,7 @@
     "docusaurus": "docusaurus",
     "start": "docusaurus start",
     "build": "docusaurus build",
-    "build:prod": "URL=https://bietnetwork.org BASE_URL=/documentation/ docusaurus build",
+    "build:prod": "URL=https://bietnetwork.org BASE_URL=/documentation/ SITE_URL=https://bietnetwork.org docusaurus build",
     "build:copy": "yarn build:prod && node ../../scripts/copy-docs.js",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",
