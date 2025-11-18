@@ -2,10 +2,9 @@
 const isGithubActions = process.env.GITHUB_ACTIONS === 'true';
 const repository = 'bietnetwork.org';
 
-// For GitHub Pages, we'll use an empty basePath and assetPrefix
-// and handle the repository name in the GitHub Pages settings
-const basePath = '';
-const assetPrefix = '';
+// For GitHub Pages, we need to use the repository name as base path
+const basePath = isGithubActions ? `/${repository}` : '';
+const assetPrefix = isGithubActions ? `/${repository}` : '';
 
 const nextConfig = {
   reactStrictMode: true,
