@@ -1,0 +1,50 @@
+{
+  "theme.navbar.title": {
+    "message": "BIET Network"
+  },
+  "theme.navbar.documentación.label": {
+    "message": "Documentación"
+  },
+  "theme.navbar.blog.label": {
+    "message": "Blog"
+  },
+  "theme.navbar.inicio.label": {
+    "message": "Inicio"
+  },
+  "theme.navbar.github.label": {
+    "message": "GitHub"
+  },
+  "theme.footer.documentación.title": {
+    "message": "Documentación"
+  },
+  "theme.footer.documentación.introducción.label": {
+    "message": "Introducción"
+  },
+  "theme.footer.documentación.guía_rápida.label": {
+    "message": "Guía Rápida"
+  },
+  "theme.footer.documentación.tutorial_básico.label": {
+    "message": "Tutorial Básico"
+  },
+  "theme.footer.comunidad.title": {
+    "message": "Comunidad"
+  },
+  "theme.footer.comunidad.github.label": {
+    "message": "GitHub"
+  },
+  "theme.footer.comunidad.discord.label": {
+    "message": "Discord"
+  },
+  "theme.footer.comunidad.twitter.label": {
+    "message": "Twitter"
+  },
+  "theme.footer.más.title": {
+    "message": "Más"
+  },
+  "theme.footer.más.blog.label": {
+    "message": "Blog"
+  },
+  "theme.footer.más.sitio_principal.label": {
+    "message": "Sitio Principal"
+  }
+}

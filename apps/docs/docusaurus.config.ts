@@ -17,10 +17,10 @@ const config: Config = {
   },
 
   // Set the production url of your site here
-  url: isDevelopment ? 'http://localhost:3001' : 'https://bietnetwork.org',
+  url: process.env.URL || 'http://localhost:3004',
   // Set the /<baseUrl>/ pathname under which your site is served
-  // For subdirectory deployment on main domain
-  baseUrl: isDevelopment ? '/' : '/documentation/',
+  // Use BASE_URL env var for production, otherwise use /
+  baseUrl: process.env.BASE_URL || '/',
 
   // GitHub pages deployment config.
   organizationName: 'edcalderon', // Usually your GitHub org/user name.
@@ -40,13 +40,11 @@ const config: Config = {
         label: 'Español',
         direction: 'ltr',
         htmlLang: 'es-ES',
-        baseUrl: isDevelopment ? '/es/' : '/documentation/es/',
       },
       en: {
         label: 'English',
         direction: 'ltr', 
         htmlLang: 'en-US',
-        baseUrl: isDevelopment ? '/' : '/documentation/',
       },
     },
   },
@@ -113,7 +111,7 @@ const config: Config = {
         },
         {to: '/blog', label: 'Blog', position: 'left'},
         {
-          href: isDevelopment ? "http://localhost:3000" : "https://bietnetwork.org",
+          href: process.env.SITE_URL || "http://localhost:3003",
           label: 'Inicio',
           position: 'right',
           target: '_self',
@@ -175,7 +173,7 @@ const config: Config = {
             },
             {
               label: 'Sitio Principal',
-              href: isDevelopment ? 'http://localhost:3000' : 'https://bietnetwork.org',
+              href: process.env.SITE_URL || 'http://localhost:3003',
             },
           ],
         },
