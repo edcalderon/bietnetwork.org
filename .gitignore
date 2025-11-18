@@ -11,3 +11,11 @@ build
 .env.development.local
 **/tempobook/dynamic/
 **/tempobook/storyboards/
+**/docs/cache/
+**/.turbo/
+**/yarn/
+.yarn/cache/
+.yarn/unplugged/
+.yarn/build-state.yml
+.yarn/install-state.gz
+.pnp.*
