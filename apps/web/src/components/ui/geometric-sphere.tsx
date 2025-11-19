@@ -40,7 +40,7 @@ const lerp = (a: number, b: number, t: number): number => a + (b - a) * t;
 export default function GeometricSphere() {
   const [targetMousePos, setTargetMousePos] = useState({ x: 0, y: 0 });
   const currentMousePos = useRef({ x: 0, y: 0 });
-  const animationFrameRef = useRef();
+  const animationFrameRef = useRef<number>();
 
   const animateLerp = useCallback(() => {
     currentMousePos.current.x = lerp(
@@ -65,7 +65,11 @@ export default function GeometricSphere() {
 
   useEffect(() => {
     animationFrameRef.current = requestAnimationFrame(animateLerp);
-    return () => cancelAnimationFrame(animationFrameRef.current);
+    return () => {
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
+      }
+    };
   }, [animateLerp]);
 
   const handleMouseMove = useCallback((e: MouseEvent) => {
