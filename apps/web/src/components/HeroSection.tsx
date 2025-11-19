@@ -17,6 +17,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useLanguage } from '@/hooks/useLanguage';
 import { TokenInfo } from './TokenInfo';
+import GeometricSphere from '@/components/ui/geometric-sphere';
 
 export function HeroSection() {
   const { isConnected } = useWallet();
@@ -62,7 +63,10 @@ export function HeroSection() {
   ];
 
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-emerald-50 via-cyan-50 to-indigo-50 dark:from-gray-900 dark:via-emerald-900/20 dark:to-indigo-900/20 overflow-hidden">
+    <section className="relative min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-emerald-100 via-cyan-100 to-indigo-100 dark:from-gray-900 dark:via-emerald-900/20 dark:to-indigo-900/20 overflow-hidden">
+      {/* Geometric Sphere Background Layer */}
+      <GeometricSphere />
+      
       <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
       
       <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-20">
@@ -71,20 +75,20 @@ export function HeroSection() {
           {/* Hero Content - First on mobile, left on desktop */}
           <div className="w-full xl:w-1/2 space-y-4 sm:space-y-6 lg:space-y-8 animate-slide-in-left order-1 xl:order-1 text-center xl:text-left">
             <div className="space-y-3 sm:space-y-4 lg:space-y-6">
-              <div className="inline-flex items-center px-2 py-1 sm:px-3 sm:py-1.5 bg-emerald-100/80 dark:bg-emerald-900/30 text-emerald-800 dark:text-emerald-200 rounded-full text-xs sm:text-sm font-medium backdrop-blur-sm">
+              <div className="inline-flex items-center px-2 py-1 sm:px-3 sm:py-1.5 bg-emerald-100/80 dark:bg-emerald-900/30 text-emerald-800 dark:text-emerald-200 rounded-full text-xs sm:text-sm font-medium backdrop-blur-sm shadow-sm">
                 <Sparkles className="w-3 h-3 sm:w-3.5 sm:h-3.5 mr-1 sm:mr-1.5" />
                 {t('hero.activeUnits')}
               </div>
               
-              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900 dark:text-white leading-tight">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900 dark:text-white leading-tight drop-shadow-sm">
                 {t('hero.title')}
               </h1>
               
-              <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-semibold bg-gradient-to-r from-emerald-600 to-cyan-600 bg-clip-text text-transparent">
+              <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-semibold bg-gradient-to-r from-emerald-700 to-cyan-700 dark:from-emerald-600 to-cyan-600 bg-clip-text text-transparent drop-shadow-sm">
                 {t('hero.subtitle')}
               </h2>
               
-              <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300 max-w-2xl">
+              <p className="text-sm sm:text-base text-gray-700 dark:text-gray-300 max-w-2xl drop-shadow-sm">
                 {t('hero.description')}
               </p>
             </div>
@@ -133,7 +137,7 @@ export function HeroSection() {
 
           {/* 3 Steps Card - Second on mobile, right on desktop */}
           <div className="w-full xl:w-1/2 flex justify-center animate-slide-in-right order-2 xl:order-2">
-            <Card className="w-full max-w-sm sm:max-w-md bg-gradient-to-br from-white via-emerald-50/50 to-cyan-50/50 dark:from-gray-800 dark:via-emerald-900/30 dark:to-cyan-900/30 backdrop-blur-md border border-emerald-200/70 dark:border-emerald-400/30 shadow-2xl rounded-2xl lg:rounded-3xl ring-2 lg:ring-4 ring-emerald-500/20 dark:ring-emerald-400/20 transition-all duration-500 hover:shadow-3xl hover:ring-emerald-500/30 dark:hover:ring-emerald-400/30 hover:-translate-y-2 transform-gpu">
+            <Card className="w-full max-w-sm sm:max-w-md bg-gradient-to-br from-white via-emerald-50/70 to-cyan-50/70 dark:from-gray-800 dark:via-emerald-900/30 dark:to-cyan-900/30 backdrop-blur-md border border-emerald-300/70 dark:border-emerald-400/30 shadow-2xl rounded-2xl lg:rounded-3xl ring-2 lg:ring-4 ring-emerald-500/30 dark:ring-emerald-400/20 transition-all duration-500 hover:shadow-3xl hover:ring-emerald-500/40 dark:hover:ring-emerald-400/30 hover:-translate-y-2 transform-gpu">
               <CardContent className="p-4 sm:p-6 lg:p-8 relative overflow-hidden">
                 {/* 3D Background Effects */}
                 <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 via-cyan-500/5 to-indigo-500/5 opacity-50"></div>
@@ -154,7 +158,7 @@ export function HeroSection() {
                     {features.map((feature, index) => (
                       <div 
                         key={index} 
-                        className="group relative p-3 sm:p-4 lg:p-6 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-xl lg:rounded-2xl border border-emerald-200/50 dark:border-emerald-700/30 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02] transform-gpu"
+                        className="group relative p-3 sm:p-4 lg:p-6 bg-white/90 dark:bg-gray-800/80 backdrop-blur-sm rounded-xl lg:rounded-2xl border border-emerald-300/60 dark:border-emerald-700/30 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02] transform-gpu"
                       >
                         {/* Step Number */}
                         <div className="absolute -top-2 -left-2 w-6 h-6 sm:w-8 sm:h-8 bg-gradient-to-br from-emerald-500 to-cyan-500 text-white rounded-full flex items-center justify-center text-xs sm:text-sm font-bold shadow-lg group-hover:scale-110 transition-transform duration-300">
@@ -185,32 +189,32 @@ export function HeroSection() {
 
         {/* Bottom Stats Section */}
         <div className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="text-center p-6 bg-white dark:bg-gray-800 rounded-2xl shadow-lg">
+          <div className="text-center p-6 bg-white/90 dark:bg-gray-800 rounded-2xl shadow-lg border border-emerald-200/50 dark:border-emerald-700/30">
             <div className="text-3xl mb-4">🌍</div>
             <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">
               {t('hero.decentralized')}
             </h3>
-            <p className="text-gray-600 dark:text-gray-300">
+            <p className="text-gray-700 dark:text-gray-300">
               {t('hero.noIntermediaries')}
             </p>
           </div>
 
-          <div className="text-center p-6 bg-white dark:bg-gray-800 rounded-2xl shadow-lg">
+          <div className="text-center p-6 bg-white/90 dark:bg-gray-800 rounded-2xl shadow-lg border border-emerald-200/50 dark:border-emerald-700/30">
             <div className="text-3xl mb-4">🏛️</div>
             <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">
               {t('hero.daoGovernance')}
             </h3>
-            <p className="text-gray-600 dark:text-gray-300">
+            <p className="text-gray-700 dark:text-gray-300">
               {t('hero.democraticParticipation')}
             </p>
           </div>
 
-          <div className="text-center p-6 bg-white dark:bg-gray-800 rounded-2xl shadow-lg">
+          <div className="text-center p-6 bg-white/90 dark:bg-gray-800 rounded-2xl shadow-lg border border-emerald-200/50 dark:border-emerald-700/30">
             <div className="text-3xl mb-4">🌱</div>
             <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">
               {t('hero.realImpact')}
             </h3>
-            <p className="text-gray-600 dark:text-gray-300">
+            <p className="text-gray-700 dark:text-gray-300">
               {t('hero.generatingValue')}
             </p>
           </div>

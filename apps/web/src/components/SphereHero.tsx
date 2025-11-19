@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
-import "./SphereHero.css";
 
 // --- CONFIGURATION BLOCK for Easy Remixing ---
 export const CONFIG = {
@@ -22,7 +21,7 @@ export const CONFIG = {
 };
 
 // Helper function for linear interpolation (Lerp)
-const lerp = (a, b, t) => a + (b - a) * t;
+const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
 
 /**
  * SphereHero
@@ -57,7 +56,7 @@ export default function SphereHero() {
     // trigger minimal state update so React re-renders with new smooth position
     // using a no-op setState pattern: flip a ref-derived value into state by
     // setting targetMousePos to its current smoothed values (keeps source of truth)
-    setTargetMousePos((p) => ({
+    setTargetMousePos((p: { x: number; y: number }) => ({
       x: currentMousePos.current.x,
       y: currentMousePos.current.y,
     }));
@@ -70,7 +69,7 @@ export default function SphereHero() {
     return () => cancelAnimationFrame(animationFrameRef.current);
   }, [animateLerp]);
 
-  const handleMouseMove = useCallback((e) => {
+  const handleMouseMove = useCallback((e: { clientX: number; clientY: number }) => {
     const { clientX, clientY } = e;
     const centerX = window.innerWidth / 2;
     const centerY = window.innerHeight / 2;
@@ -131,7 +130,6 @@ export default function SphereHero() {
       "repeating-linear-gradient(to right, rgba(10,10,10,0.9) 1px, transparent 1px), repeating-linear-gradient(to bottom, rgba(10,10,10,0.9) 1px, transparent 1px)",
     backgroundSize: "40px 40px",
     opacity: 0.15,
-    animation: `gridPan ${CONFIG.gridPanDuration} linear infinite`,
   };
 
   const hazeStyle = {
@@ -171,9 +169,8 @@ export default function SphereHero() {
       {/* Layer 3: Geometric Glow Sphere (3D Animated Element) */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 sphere-container z-40 pointer-events-none">
         <div
-          className="w-[700px] h-[700px] sphere-rotation"
+          className="w-[400px] h-[400px] sphere-rotation"
           style={{
-            transform: tiltTranslate,
             transformOrigin: "center center",
             animationDuration: CONFIG.sphereRotationDuration,
           }}
@@ -200,26 +197,16 @@ export default function SphereHero() {
       {/* Layer 6: Hero Content (Foreground) */}
       <div className="relative z-20 text-center max-w-5xl mx-auto p-8 backdrop-blur-sm rounded-xl content-foreground">
         <h1 className="hero-title">
-          <span className="hero-gradient">BIET Network</span>
+          <span className="hero-gradient">Vector Intelligence</span>
         </h1>
 
         <p className="hero-sub">
-          Decentralized Impact Investment & Tokenization Platform
+          Designing at the intersection of 3D fidelity and dynamic user experience. This is excellence, redefined.
         </p>
 
         <div className="hero-cta">
-          <button 
-            className="btn-primary"
-            onClick={() => window.location.href = '/token'}
-          >
-            Get Started
-          </button>
-          <button 
-            className="btn-ghost"
-            onClick={() => window.location.href = '/documentation'}
-          >
-            View Documentation
-          </button>
+          <button className="btn-primary">Initiate Launch</button>
+          <button className="btn-ghost">View Geometric Mesh</button>
         </div>
       </div>
 

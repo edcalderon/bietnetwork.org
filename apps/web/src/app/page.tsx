@@ -1,5 +1,5 @@
-import SphereHero from '@/components/SphereHero';
+import { HeroSection } from '@/components/HeroSection';
 
 export default function HomePage() {
-  return <SphereHero />;
+  return <HeroSection />;
 }
