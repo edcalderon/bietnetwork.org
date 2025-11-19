@@ -41,7 +41,7 @@ const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
 export default function SphereHero() {
   const [targetMousePos, setTargetMousePos] = useState({ x: 0, y: 0 });
   const currentMousePos = useRef({ x: 0, y: 0 });
-  const animationFrameRef = useRef();
+  const animationFrameRef = useRef<number>();
 
   const animateLerp = useCallback(() => {
     currentMousePos.current.x = lerp(
