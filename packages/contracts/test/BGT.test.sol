@@ -68,14 +68,15 @@ contract BGTTest {
     
     function testBurn() public {
         uint256 burnAmount = 1000 * 10**18;
-        
-        // Mint tokens to user1 first
-        bgt.mint(user1, burnAmount);
-        
-        // Burn from owner instead (simplified test)
+
+        // Initial total supply after constructor mints
+        uint256 initialTotalSupply = bgt.totalSupply();
+
+        // Burn from owner (who starts with INITIAL_MINT_AMOUNT)
         bgt.burn(burnAmount);
-        
-        assert(bgt.totalSupply() == INITIAL_MINT_AMOUNT * 3 - burnAmount);
+
+        // Total supply should decrease by burnAmount
+        assert(bgt.totalSupply() == initialTotalSupply - burnAmount);
     }
     
     function testBurnZeroAmount() public pure {
