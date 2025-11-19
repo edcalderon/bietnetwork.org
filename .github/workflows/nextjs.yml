@@ -75,13 +75,32 @@ jobs:
           cp -r build/* ../web/public/documentation/
       - name: Verify WalletConnect Project ID
         run: |
+          echo "🔍 Checking WalletConnect Project ID configuration..."
+          echo "Repository: ${{ github.repository }}"
+          echo "Branch: ${{ github.ref }}"
+          echo "Event: ${{ github.event_name }}"
+          
           if [ -z "${{ secrets.WALLETCONNECT_PROJECT_ID }}" ]; then
+            echo ""
             echo "⚠️  WARNING: WALLETCONNECT_PROJECT_ID secret is not set!"
+            echo ""
             echo "WalletConnect functionality will not work in production."
-            echo "Please add WALLETCONNECT_PROJECT_ID to your GitHub repository secrets."
+            echo ""
+            echo "📋 To fix this:"
+            echo "1. Go to: https://github.com/${{ github.repository }}/settings/secrets/actions"
+            echo "2. Click 'New repository secret'"
+            echo "3. Name: WALLETCONNECT_PROJECT_ID (exactly as shown)"
+            echo "4. Value: Your WalletConnect project ID from https://cloud.walletconnect.com/"
+            echo "5. Click 'Add secret'"
+            echo ""
+            echo "⚠️  Note: Secret names are case-sensitive!"
+            echo "⚠️  Make sure there are no extra spaces in the name!"
           else
             echo "✓ WalletConnect Project ID is configured"
+            echo "✓ Secret length: ${#WALLETCONNECT_PROJECT_ID} characters"
           fi
+        env:
+          WALLETCONNECT_PROJECT_ID: ${{ secrets.WALLETCONNECT_PROJECT_ID }}
       - name: Build web app with Turbo
         run: yarn dlx turbo@latest run build --filter=@biet-network/web
         env:
