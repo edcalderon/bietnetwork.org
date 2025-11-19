@@ -60,6 +60,7 @@ export default function GeometricSphere() {
   const currentMousePos = useRef({ x: 0, y: 0 });
   const animationFrameRef = useRef<number>();
   const isMobile = useIsMobile();
+  const lastMouseUpdateRef = useRef<number>(0);
 
   // Mobile performance optimizations without changing shape
   const mobileLerpFactor = isMobile ? 0.15 : CONFIG.lerpFactor; // Faster lerp on mobile
@@ -92,8 +93,8 @@ export default function GeometricSphere() {
     // Throttle mouse updates on mobile for performance
     if (isMobile) {
       const now = Date.now();
-      if (!handleMouseMove.lastUpdate || now - handleMouseMove.lastUpdate > 50) {
-        handleMouseMove.lastUpdate = now;
+      if (!lastMouseUpdateRef.current || now - lastMouseUpdateRef.current > 50) {
+        lastMouseUpdateRef.current = now;
         setTargetMousePos({
           x: (e.clientX - window.innerWidth / 2) / window.innerWidth,
           y: (e.clientY - window.innerHeight / 2) / window.innerHeight,
