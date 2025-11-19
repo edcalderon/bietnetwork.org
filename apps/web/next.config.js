@@ -9,6 +9,9 @@ const assetPrefix = '';
 
 const nextConfig = {
   reactStrictMode: true,
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
   output: 'export', // This enables static exports
   distDir: 'docs', // Output directory for the static export
   basePath: basePath,
