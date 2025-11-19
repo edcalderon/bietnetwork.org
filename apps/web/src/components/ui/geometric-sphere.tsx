@@ -26,6 +26,23 @@ export const CONFIG = {
 // Helper function for linear interpolation (Lerp)
 const lerp = (a: number, b: number, t: number): number => a + (b - a) * t;
 
+// Hook to detect mobile devices
+const useIsMobile = () => {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
+    };
+
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  return isMobile;
+};
+
 /**
  * GeometricSphere
  *
@@ -42,27 +59,25 @@ export default function GeometricSphere() {
   const [targetMousePos, setTargetMousePos] = useState({ x: 0, y: 0 });
   const currentMousePos = useRef({ x: 0, y: 0 });
   const animationFrameRef = useRef<number>();
+  const isMobile = useIsMobile();
+
+  // Mobile performance optimizations without changing shape
+  const mobileLerpFactor = isMobile ? 0.15 : CONFIG.lerpFactor; // Faster lerp on mobile
+  const mobileParallaxDepth = isMobile ? 10 : CONFIG.parallaxDepth; // Reduced parallax on mobile
 
   const animateLerp = useCallback(() => {
     currentMousePos.current.x = lerp(
       currentMousePos.current.x,
       targetMousePos.x,
-      CONFIG.lerpFactor
+      mobileLerpFactor
     );
     currentMousePos.current.y = lerp(
       currentMousePos.current.y,
       targetMousePos.y,
-      CONFIG.lerpFactor
+      mobileLerpFactor
     );
-
-    // trigger minimal state update so React re-renders with new smooth position
-    setTargetMousePos((p: { x: number; y: number }) => ({
-      x: currentMousePos.current.x,
-      y: currentMousePos.current.y,
-    }));
-
     animationFrameRef.current = requestAnimationFrame(animateLerp);
-  }, [targetMousePos.x, targetMousePos.y]);
+  }, [targetMousePos, mobileLerpFactor]);
 
   useEffect(() => {
     animationFrameRef.current = requestAnimationFrame(animateLerp);
@@ -74,13 +89,23 @@ export default function GeometricSphere() {
   }, [animateLerp]);
 
   const handleMouseMove = useCallback((e: MouseEvent) => {
-    const { clientX, clientY } = e;
-    const centerX = window.innerWidth / 2;
-    const centerY = window.innerHeight / 2;
-    const x = (clientX - centerX) / centerX;
-    const y = (clientY - centerY) / centerY;
-    setTargetMousePos({ x, y });
-  }, []);
+    // Throttle mouse updates on mobile for performance
+    if (isMobile) {
+      const now = Date.now();
+      if (!handleMouseMove.lastUpdate || now - handleMouseMove.lastUpdate > 50) {
+        handleMouseMove.lastUpdate = now;
+        setTargetMousePos({
+          x: (e.clientX - window.innerWidth / 2) / window.innerWidth,
+          y: (e.clientY - window.innerHeight / 2) / window.innerHeight,
+        });
+      }
+    } else {
+      setTargetMousePos({
+        x: (e.clientX - window.innerWidth / 2) / window.innerWidth,
+        y: (e.clientY - window.innerHeight / 2) / window.innerHeight,
+      });
+    }
+  }, [isMobile]);
 
   useEffect(() => {
     window.addEventListener("mousemove", handleMouseMove);
@@ -90,7 +115,7 @@ export default function GeometricSphere() {
   const { x: smoothX, y: smoothY } = currentMousePos.current;
 
   // Parallax & rotation math
-  const parallaxDepth = CONFIG.parallaxDepth;
+  const parallaxDepth = mobileParallaxDepth;
   const rotationStrength = 5;
 
   const baseTranslate = `translate3d(${smoothX * parallaxDepth}px, ${smoothY * parallaxDepth}px, 0)`;
@@ -101,14 +126,14 @@ export default function GeometricSphere() {
   const tiltRotateY = -smoothX * rotationStrength;
   const tiltTranslate = `rotateX(${tiltRotateX}deg) rotateY(${tiltRotateY}deg)`;
 
-  // Generate sphere rings with true 3D positioning
+  // Generate sphere rings with true 3D positioning - shape preserved
   const sphereRings = Array.from({ length: CONFIG.sphereDensity }, (_, i) => {
     const step = 90 / (CONFIG.sphereDensity / 2);
     const angle = i * step;
-    const radius = 350; // Radius of the sphere
+    const radius = 350; // Radius of the sphere - keep original for shape
     const depth = Math.sin((angle * Math.PI) / 180) * radius; // Calculate 3D depth
     
-    const commonStyle = {
+    const commonStyle: CSSProperties = {
       transform: `
         translateZ(${depth}px)
         ${i % 2 === 0 ? `rotateY(${angle}deg)` : `rotateX(${angle}deg)`}
@@ -116,6 +141,7 @@ export default function GeometricSphere() {
       `,
       transformStyle: 'preserve-3d' as const,
       opacity: 0.3 + (Math.abs(depth) / radius) * 0.7, // Depth-based opacity
+      willChange: 'transform', // GPU acceleration for mobile performance
     };
     return (
       <div
@@ -127,47 +153,52 @@ export default function GeometricSphere() {
     );
   });
 
-  // Inline style values derived from CONFIG to be set on elements
-  const coreLightStyle = {
+  // Inline style values derived from CONFIG to be set on elements - mobile optimized
+  const coreLightStyle: CSSProperties = {
     width: "400px",
     height: "400px",
     backgroundImage: `radial-gradient(circle, rgba(${CONFIG.secondaryColor}, 0.45) 0%, transparent 70%)`,
-    filter: `blur(${CONFIG.coreBlur}px)`,
-    boxShadow: `0 0 ${CONFIG.coreBlur / 2}px 30px rgba(${CONFIG.secondaryColor}, 0.2), 0 0 ${CONFIG.coreBlur}px 50px rgba(${CONFIG.primaryColor}, 0.15)`,
+    filter: `blur(${isMobile ? CONFIG.coreBlur / 2 : CONFIG.coreBlur}px)`, // Reduced blur on mobile
+    boxShadow: `0 0 ${isMobile ? CONFIG.coreBlur / 3 : CONFIG.coreBlur / 2}px 30px rgba(${CONFIG.secondaryColor}, 0.2), 0 0 ${isMobile ? CONFIG.coreBlur / 2 : CONFIG.coreBlur}px 50px rgba(${CONFIG.primaryColor}, 0.15)`, // Optimized for mobile
     animation: `coreGlow ${CONFIG.coreGlowDuration} ease-in-out infinite`,
+    willChange: 'transform', // GPU acceleration
   };
 
-  const panningGridStyle = {
+  const panningGridStyle: CSSProperties = {
     transform: gridTranslate,
     backgroundImage:
       "repeating-linear-gradient(to right, rgba(10,10,10,0.9) 1px, transparent 1px), repeating-linear-gradient(to bottom, rgba(10,10,10,0.9) 1px, transparent 1px)",
     backgroundSize: "40px 40px",
-    opacity: 0.15,
+    opacity: isMobile ? 0.1 : 0.15, // Slightly reduced on mobile
     animation: `gridPan ${CONFIG.gridPanDuration} linear infinite`,
+    willChange: 'transform', // GPU acceleration
   };
 
   const hazeStyle: CSSProperties = {
     transform: hazeTranslate,
     backgroundImage: `radial-gradient(circle at 50% 50%, rgba(${CONFIG.primaryColor}, 0.15) 0%, transparent 50%)`,
-    filter: "blur(150px)",
-    opacity: 0.6,
+    filter: `blur(${isMobile ? "75px" : "150px"})`, // Reduced blur on mobile
+    opacity: isMobile ? 0.4 : 0.6, // Reduced opacity on mobile
     mixBlendMode: "screen" as const,
+    willChange: 'transform', // GPU acceleration
   };
 
-  const deepBaseStyle = {
+  const deepBaseStyle: CSSProperties = {
     transform: baseTranslate,
     backgroundImage: `radial-gradient(at 50% 50%, rgba(${CONFIG.primaryColor}, 0.08) 0%, #030712 90%)`,
+    willChange: 'transform', // GPU acceleration
   };
 
   const bloomStyle: CSSProperties = {
     transform: baseTranslate,
     backgroundImage: `radial-gradient(circle at 50% 50%, rgba(${CONFIG.primaryColor}, 0.35) 0%, transparent 50%), radial-gradient(circle at 10% 10%, rgba(${CONFIG.secondaryColor}, 0.25) 0%, transparent 30%)`,
     mixBlendMode: "screen" as const,
-    filter: "blur(100px)",
-    opacity: 0.95,
+    filter: `blur(${isMobile ? "50px" : "100px"})`, // Reduced blur on mobile
+    opacity: isMobile ? 0.7 : 0.95, // Reduced opacity on mobile
+    willChange: 'transform', // GPU acceleration
   };
 
-  // Generate 3D floating particles
+  // Generate 3D floating particles - mobile optimized
   const particles = Array.from({ length: 20 }, (_, i) => {
     const angle = (i / 20) * Math.PI * 2;
     const radius = 200 + Math.random() * 150;
@@ -181,11 +212,12 @@ export default function GeometricSphere() {
         style={{
           width: `${size}px`,
           height: `${size}px`,
-          backgroundColor: `rgba(${CONFIG.secondaryColor}, ${0.3 + Math.random() * 0.4})`,
+          backgroundColor: `rgba(${CONFIG.secondaryColor}, ${isMobile ? 0.2 + Math.random() * 0.2 : 0.3 + Math.random() * 0.4})`, // Reduced opacity on mobile
           transform: `translate3d(${Math.cos(angle) * radius}px, ${height}px, ${Math.sin(angle) * radius}px)`,
           animation: `float ${10 + Math.random() * 20}s ease-in-out infinite`,
           animationDelay: `${Math.random() * 5}s`,
-          boxShadow: `0 0 ${size * 2}px rgba(${CONFIG.secondaryColor}, 0.5)`,
+          boxShadow: `0 0 ${size * 2}px rgba(${CONFIG.secondaryColor}, ${isMobile ? 0.3 : 0.5})`, // Reduced glow on mobile
+          willChange: 'transform', // GPU acceleration
         }}
       />
     );
