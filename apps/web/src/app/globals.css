@@ -357,17 +357,95 @@
   pointer-events: none;
 }
 
-/* Responsive adjustments for geometric sphere */
+/* Mobile performance optimizations for geometric sphere */
 @media (max-width: 768px) {
   .wireframe-line {
     width: 400px;
     height: 400px;
     margin: -200px 0 0 -200px;
+    /* Reduce expensive effects on mobile */
+    box-shadow: 
+      0 0 30px rgba(139, 92, 246, 0.3),
+      inset 0 0 30px rgba(139, 92, 246, 0.2);
+    /* Enable hardware acceleration */
+    transform: translateZ(0);
+    will-change: transform;
+    /* Reduce animation intensity */
+    animation-duration: 300s !important;
   }
   
   .sphere-rotation {
     width: 400px !important;
     height: 400px !important;
+    /* Disable complex animations on mobile */
+    animation: none !important;
+  }
+  
+  /* Disable expensive blur effects on mobile */
+  .panning-grid {
+    filter: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+  
+  .noise-layer {
+    display: none !important; /* Hide noise layer on mobile */
+  }
+  
+  /* Reduce backdrop blur on mobile */
+  .glass-effect {
+    backdrop-filter: blur(8px) !important;
+    -webkit-backdrop-filter: blur(8px) !important;
+  }
+  
+  /* Optimize animations for mobile */
+  .geometric-sphere * {
+    animation-duration: 2s !important;
+    transition-duration: 0.2s !important;
+  }
+  
+  /* Force GPU acceleration for smooth scrolling */
+  .geometric-sphere {
+    transform: translateZ(0);
+    will-change: transform;
+  }
+  
+  /* Reduce particle effects on mobile */
+  .absolute.rounded-full {
+    opacity: 0.3 !important;
+  }
+}
+
+/* Dark mode neon purple sphere - mobile optimized */
+@media (max-width: 768px) {
+  html.dark .wireframe-line {
+    border-color: rgba(168, 85, 247, 0.7);
+    box-shadow: 
+      0 0 20px rgba(168, 85, 247, 0.4),
+      inset 0 0 20px rgba(168, 85, 247, 0.2);
+  }
+}
+
+/* Light mode Biet Network green sphere - mobile optimized */
+@media (max-width: 768px) {
+  html:not(.dark) .wireframe-line {
+    border-color: rgba(16, 185, 129, 0.7);
+    box-shadow: 
+      0 0 25px rgba(16, 185, 129, 0.4),
+      inset 0 0 25px rgba(16, 185, 129, 0.2);
+  }
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+  .geometric-sphere {
+    /* Disable mouse parallax on touch devices */
+    transform: none !important;
+  }
+  
+  .wireframe-line {
+    /* Simplified animation for touch devices */
+    animation: sphereRotate 300s linear infinite !important;
   }
 }
 
