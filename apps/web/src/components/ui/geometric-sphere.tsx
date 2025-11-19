@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useCallback, useRef } from "react";
+import { CSSProperties } from "react";
 
 // --- CONFIGURATION BLOCK for Easy Remixing ---
 export const CONFIG = {
@@ -145,12 +146,12 @@ export default function GeometricSphere() {
     animation: `gridPan ${CONFIG.gridPanDuration} linear infinite`,
   };
 
-  const hazeStyle = {
+  const hazeStyle: CSSProperties = {
     transform: hazeTranslate,
     backgroundImage: `radial-gradient(circle at 50% 50%, rgba(${CONFIG.primaryColor}, 0.15) 0%, transparent 50%)`,
     filter: "blur(150px)",
     opacity: 0.6,
-    mixBlendMode: "screen",
+    mixBlendMode: "screen" as const,
   };
 
   const deepBaseStyle = {
@@ -158,10 +159,10 @@ export default function GeometricSphere() {
     backgroundImage: `radial-gradient(at 50% 50%, rgba(${CONFIG.primaryColor}, 0.08) 0%, #030712 90%)`,
   };
 
-  const bloomStyle = {
+  const bloomStyle: CSSProperties = {
     transform: baseTranslate,
     backgroundImage: `radial-gradient(circle at 50% 50%, rgba(${CONFIG.primaryColor}, 0.35) 0%, transparent 50%), radial-gradient(circle at 10% 10%, rgba(${CONFIG.secondaryColor}, 0.25) 0%, transparent 30%)`,
-    mixBlendMode: "screen",
+    mixBlendMode: "screen" as const,
     filter: "blur(100px)",
     opacity: 0.95,
   };
@@ -231,8 +232,8 @@ export default function GeometricSphere() {
             'url("https://framerusercontent.com/images/g0QcWrxr87K0ufOxIUFBakwYA8.png")',
           backgroundSize: "200px",
           opacity: 0.05,
-          mixBlendMode: "overlay",
-        }}
+          mixBlendMode: "overlay" as const,
+        } as CSSProperties}
       />
 
       {/* Final Vignette overlay */}

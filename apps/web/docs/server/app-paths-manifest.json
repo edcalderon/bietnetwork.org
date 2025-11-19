@@ -1,7 +1,0 @@
-{
-  "/page": "app/page.js",
-  "/token/page": "app/token/page.js",
-  "/governance/page": "app/governance/page.js",
-  "/biets/page": "app/biets/page.js",
-  "/whitepaper/page": "app/whitepaper/page.js"
-}
