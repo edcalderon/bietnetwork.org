@@ -73,6 +73,15 @@ jobs:
           # Copy docs to web app public directory
           mkdir -p ../web/public/documentation
           cp -r build/* ../web/public/documentation/
+      - name: Verify WalletConnect Project ID
+        run: |
+          if [ -z "${{ secrets.WALLETCONNECT_PROJECT_ID }}" ]; then
+            echo "⚠️  WARNING: WALLETCONNECT_PROJECT_ID secret is not set!"
+            echo "WalletConnect functionality will not work in production."
+            echo "Please add WALLETCONNECT_PROJECT_ID to your GitHub repository secrets."
+          else
+            echo "✓ WalletConnect Project ID is configured"
+          fi
       - name: Build web app with Turbo
         run: yarn dlx turbo@latest run build --filter=@biet-network/web
         env:
