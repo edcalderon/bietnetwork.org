@@ -68,7 +68,11 @@ export default function SphereHero() {
 
   useEffect(() => {
     animationFrameRef.current = requestAnimationFrame(animateLerp);
-    return () => cancelAnimationFrame(animationFrameRef.current);
+    return () => {
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
+      }
+    };
   }, [animateLerp]);
 
   const handleMouseMove = useCallback((e: { clientX: number; clientY: number }) => {
