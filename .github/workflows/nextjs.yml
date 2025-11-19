@@ -78,6 +78,8 @@ jobs:
         env:
           GITHUB_ACTIONS: 'true'
           NEXT_TELEMETRY_DISABLED: 1
+      - name: Remove cache files
+        run: rm -rf ./apps/web/docs/cache
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
