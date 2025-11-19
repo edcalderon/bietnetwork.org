@@ -39,8 +39,8 @@ const ParticleSphereCanvas = () => {
                 this.color = `rgba(16, 185, 129, ${Math.random() * 0.5 + 0.2})`; // Biet Network green
             }
 
-            draw(rotation: number, canvas: HTMLCanvasElement) {
-                if (!canvas) return;
+            draw(rotation: number, canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
+                if (!canvas || !ctx) return;
                 
                 const x3d = this.radius * Math.cos(this.angle + rotation);
                 const z3d = this.radius * Math.sin(this.angle + rotation);
@@ -86,7 +86,7 @@ const ParticleSphereCanvas = () => {
             ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            particles.forEach(p => p.draw(rotation, canvas));
+            particles.forEach(p => p.draw(rotation, canvas, ctx));
             animationFrameId = requestAnimationFrame(animate);
         };
 
