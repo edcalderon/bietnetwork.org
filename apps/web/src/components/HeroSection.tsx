@@ -140,7 +140,7 @@ export function HeroSection() {
             <Card className="w-full max-w-sm sm:max-w-md bg-gradient-to-br from-white via-emerald-50/70 to-cyan-50/70 dark:from-gray-800 dark:via-emerald-900/30 dark:to-cyan-900/30 backdrop-blur-md border border-emerald-300/70 dark:border-emerald-400/30 shadow-2xl rounded-2xl lg:rounded-3xl ring-2 lg:ring-4 ring-emerald-500/30 dark:ring-emerald-400/20 transition-all duration-500 hover:shadow-3xl hover:ring-emerald-500/40 dark:hover:ring-emerald-400/30 hover:-translate-y-2 transform-gpu">
               <CardContent className="p-4 sm:p-6 lg:p-8 relative overflow-hidden">
                 {/* 3D Background Effects */}
-                <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 via-cyan-500/5 to-indigo-500/5 opacity-50"></div>
+                <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 via-cyan-500/5 to-indigo-500/5 opacity-50 rounded-2xl lg:rounded-3xl"></div>
                 <div className="absolute top-0 right-0 w-24 h-24 sm:w-32 sm:h-32 bg-emerald-400/20 rounded-full filter blur-2xl sm:blur-3xl"></div>
                 <div className="absolute bottom-0 left-0 w-32 h-32 sm:w-40 sm:h-40 bg-cyan-400/20 rounded-full filter blur-2xl sm:blur-3xl"></div>
                 
@@ -158,10 +158,10 @@ export function HeroSection() {
                     {features.map((feature, index) => (
                       <div 
                         key={index} 
-                        className="group relative p-3 sm:p-4 lg:p-6 bg-white/90 dark:bg-gray-800/80 backdrop-blur-sm rounded-xl lg:rounded-2xl border border-emerald-300/60 dark:border-emerald-700/30 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02] transform-gpu"
+                        className="group relative p-3 sm:p-4 lg:p-6 bg-white/90 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl lg:rounded-3xl border border-emerald-300/60 dark:border-emerald-700/30 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02] transform-gpu"
                       >
                         {/* Step Number */}
-                        <div className="absolute -top-2 -left-2 w-6 h-6 sm:w-8 sm:h-8 bg-gradient-to-br from-emerald-500 to-cyan-500 text-white rounded-full flex items-center justify-center text-xs sm:text-sm font-bold shadow-lg group-hover:scale-110 transition-transform duration-300">
+                        <div className="absolute top-3 left-3 w-6 h-6 sm:w-8 sm:h-8 bg-gradient-to-br from-emerald-500 to-cyan-500 text-white rounded-full flex items-center justify-center text-xs sm:text-sm font-bold shadow-lg group-hover:scale-110 transition-transform duration-300 z-20">
                           {index + 1}
                         </div>
                         

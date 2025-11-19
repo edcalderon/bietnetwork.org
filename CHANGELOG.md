@@ -5,7 +5,7 @@ All notable changes to Biet Network will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.2.15] - 2025-11-19
+## [0.2.16] - 2025-11-19
 
 ### 🐛 Patch Version
 
@@ -17,6 +17,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - [TODO: Add bug fixes here]
+
+---
+
+## [0.2.15] - 2025-11-19
+
+### 🐛 Patch Version
+
+### Added
+- Fixed version management system to include documentation package updates
+- Ensured all packages are synchronized during version bumps
+
+### Improved
+- Enhanced version bump script to include apps/docs/package.json
+- Better synchronization across all workspace packages
+
+### Fixed
+- Documentation package version not updating with main version bumps
+- Version consistency across all packages in the monorepo
 
 ---
 
