@@ -1,19 +1,15 @@
 /** @type {import('next').NextConfig} */
 const isGithubActions = process.env.GITHUB_ACTIONS === 'true';
+const repository = 'bietnetwork.org';
 
-// For GitHub Pages with custom domain, we don't need repository base path
-// Custom domain (bietnetwork.org) serves from root, not /repository-name/
+// For GitHub Pages, we'll use an empty basePath and assetPrefix
+// and handle the repository name in the GitHub Pages settings
 const basePath = '';
 const assetPrefix = '';
 
 const nextConfig = {
   reactStrictMode: true,
-  eslint: {
-    // Disable ESLint during builds to allow deployment
-    ignoreDuringBuilds: true,
-  },
-  // Only use static export for GitHub Actions builds, not development
-  output: isGithubActions ? 'export' : undefined,
+  output: 'export', // This enables static exports
   distDir: 'docs', // Output directory for the static export
   basePath: basePath,
   assetPrefix: assetPrefix,
@@ -31,7 +27,7 @@ const nextConfig = {
         os: false,
         ws: false,
         'pino-pretty': false,
-        '@react-native-async-storage/async-storage': false
+        '@react-native-async-storage/async-storage': false,
       };
     }
     
