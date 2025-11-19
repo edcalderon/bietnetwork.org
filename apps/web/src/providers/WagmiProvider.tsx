@@ -6,22 +6,21 @@ import { injected, walletConnect } from 'wagmi/connectors';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactNode } from 'react';
 
-// Get WalletConnect project ID with fallback
+// Get WalletConnect project ID from env with safe fallback
 const getWalletConnectProjectId = (): string => {
-  // In browser environment, return fallback
+  const fromEnv = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID;
+
+  if (fromEnv && fromEnv.length > 0) {
+    return fromEnv;
+  }
+
+  // As a last resort, use a dummy value to avoid crashing,
+  // but this will not work with WalletConnect until env is set correctly.
   if (typeof window !== 'undefined') {
-    return 'default-project-id';
+    console.warn('NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID is not set; WalletConnect will not work correctly.');
   }
-  
-  // In server environment, check safely
-  try {
-    if (typeof globalThis !== 'undefined' && (globalThis as any).process?.env?.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID) {
-      return (globalThis as any).process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID;
-    }
-  } catch {
-    // Ignore errors and return fallback
-  }
-  return 'default-project-id';
+
+  return 'missing-walletconnect-project-id';
 };
 
 // Create wagmi config with connectors
