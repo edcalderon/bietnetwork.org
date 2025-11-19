@@ -10,13 +10,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### 🐛 Patch Version
 
 ### Added
-- [TODO: Add new features here]
+- WalletConnect Project ID verification step in GitHub Actions workflow
+- Comprehensive deployment setup guide (`.github/DEPLOYMENT_SETUP.md`)
+- Environment variable template file (`.env.example`) for local development
+- Clear error messaging for missing WalletConnect configuration
 
 ### Improved
-- [TODO: Add improvements here]
+- GitHub Actions workflow now validates required secrets before deployment
+- Better documentation for setting up GitHub repository secrets
+- Enhanced developer onboarding with environment setup instructions
 
 ### Fixed
-- [TODO: Add bug fixes here]
+- Production deployment warning for missing `NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID`
+- Missing documentation for WalletConnect configuration requirements
 
 ---
 
