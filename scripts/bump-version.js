@@ -39,6 +39,7 @@ fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2));
 // Update workspace packages
 const packages = [
   'apps/web/package.json',
+  'apps/docs/package.json',
   'packages/sdk/package.json',
   'packages/ui/package.json',
   'packages/contracts/package.json'

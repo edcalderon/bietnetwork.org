@@ -9,7 +9,7 @@ import { Info, Code, GitBranch, ChevronDown } from 'lucide-react';
 import { ChangelogEntry } from '@/lib/changelog';
 
 export function VersionDisplay() {
-  const { versionDisplay, hasUpdates, fullVersionString, changelog = [] } = useVersion();
+  const { versionDisplay, fullVersionString, changelog = [] } = useVersion();
   const { t } = useLanguage();
   const [showDetails, setShowDetails] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);

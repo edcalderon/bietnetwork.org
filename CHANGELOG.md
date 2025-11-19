@@ -5,7 +5,7 @@ All notable changes to Biet Network will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.2.14] - 2025-11-19
+## [0.2.15] - 2025-11-19
 
 ### 🐛 Patch Version
 
@@ -17,6 +17,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - [TODO: Add bug fixes here]
+
+---
+
+## [0.2.14] - 2025-11-19
+
+### 🐛 Patch Version
+
+### Added
+- SphereHero component with animated wireframe sphere
+- Theme switching support for sphere colors (green in light mode, purple in dark mode)
+- Consistent background colors across navbar, hero, and footer sections
+
+### Improved
+- Enhanced text contrast in dark mode for better readability
+- Feature cards with perfect rounded corners and improved contrast
+- Static sphere animation without floating or shape distortion
+- Version management system to include documentation package updates
+
+### Fixed
+- Sphere shape distortion during rotation by using Z-axis only rotation
+- Theme switcher integration for proper color transitions
+- Background color consistency across all application sections
 
 ---
 
