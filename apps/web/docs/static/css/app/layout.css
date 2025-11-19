@@ -1086,6 +1086,9 @@ h4 {
 .pointer-events-none {
   pointer-events: none;
 }
+.static {
+  position: static;
+}
 .fixed {
   position: fixed;
 }
@@ -1340,6 +1343,9 @@ h4 {
 .h-screen {
   height: 100vh;
 }
+.h-\[500px\] {
+  height: 500px;
+}
 .max-h-0 {
   max-height: 0px;
 }
@@ -1411,6 +1417,9 @@ h4 {
 }
 .w-px {
   width: 1px;
+}
+.w-\[500px\] {
+  width: 500px;
 }
 .min-w-0 {
   min-width: 0px;
