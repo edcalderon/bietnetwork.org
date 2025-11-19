@@ -19,8 +19,8 @@ const config: Config = {
   // Set the production url of your site here
   url: process.env.URL || 'http://localhost:3004',
   // Set the /<baseUrl>/ pathname under which your site is served
-  // Use BASE_URL env var for production, otherwise use /
-  baseUrl: process.env.BASE_URL || '/',
+  // Documentation is served from /documentation/ in the Next.js app
+  baseUrl: '/documentation/',
 
   // GitHub pages deployment config.
   organizationName: 'edcalderon', // Usually your GitHub org/user name.
