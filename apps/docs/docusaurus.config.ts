@@ -17,7 +17,7 @@ const config: Config = {
   },
 
   // Set the production url of your site here
-  url: process.env.URL || 'http://localhost:3004',
+  url: process.env.URL || 'https://bietnetwork.org',
   // Set the /<baseUrl>/ pathname under which your site is served
   // Documentation is served from /documentation/ in the Next.js app
   baseUrl: '/documentation/',
@@ -111,7 +111,7 @@ const config: Config = {
         },
         {to: '/blog', label: 'Blog', position: 'left'},
         {
-          href: process.env.SITE_URL || "http://localhost:3003",
+          href: process.env.SITE_URL || "https://bietnetwork.org",
           label: 'Inicio',
           position: 'right',
           target: '_self',
@@ -173,7 +173,7 @@ const config: Config = {
             },
             {
               label: 'Sitio Principal',
-              href: process.env.SITE_URL || 'http://localhost:3003',
+              href: process.env.SITE_URL || 'https://bietnetwork.org',
             },
           ],
         },
