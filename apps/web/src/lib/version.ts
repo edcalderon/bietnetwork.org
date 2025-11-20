@@ -1,3 +1,5 @@
+import { getLatestVersion } from '@/lib/changelog';
+
 export interface VersionInfo {
   version: string;
   buildNumber: string;
@@ -6,29 +8,12 @@ export interface VersionInfo {
   environment: 'development' | 'staging' | 'production';
 }
 
-// Type-safe access to process.env for Next.js
 const getEnvVar = (key: string, fallback: string): string => {
-  // For Next.js public environment variables, they are available at build time
-  // and can be accessed directly via process.env in the browser
-  try {
-    // Use globalThis to access process in a type-safe way
-    const globalProcess = globalThis as any;
-    if (globalProcess?.env?.[key]) {
-      const value = globalProcess.env[key];
-      if (value !== undefined && value !== null && value !== '') {
-        return value;
-      }
-    }
-  } catch {
-    // Ignore process access errors in browser
-  }
-  
-  // Fallback for development or when env var is not set
-  return fallback;
+  return process.env[key] ?? fallback;
 };
 
 export const VERSION_INFO: VersionInfo = {
-  version: getEnvVar('NEXT_PUBLIC_APP_VERSION', '0.2.13'),
+  version: getEnvVar('NEXT_PUBLIC_APP_VERSION', getLatestVersion()),
   buildNumber: getEnvVar('NEXT_PUBLIC_BUILD_NUMBER', 'beta'),
   commitHash: getEnvVar('NEXT_PUBLIC_COMMIT_HASH', 'dev'),
   buildDate: getEnvVar('NEXT_PUBLIC_BUILD_DATE', new Date().toISOString()),

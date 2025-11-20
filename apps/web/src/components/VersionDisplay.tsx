@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
+import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useVersion } from '@/contexts/VersionContext';
@@ -39,25 +40,27 @@ export function VersionDisplay() {
       </Button>
 
       {showDetails && (
-        <div className="absolute bottom-full right-0 mb-2 w-96 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg shadow-xl z-50 max-h-96 overflow-y-auto">
+        <div className="fixed left-1/2 bottom-16 -translate-x-1/2 sm:absolute sm:bottom-10 sm:right-0 sm:left-auto sm:translate-x-0 mx-4 sm:mx-0 w-[calc(100vw-2rem)] sm:w-96 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg shadow-xl z-50 max-h-[70vh] overflow-y-auto">
           <div className="p-4">
             <div className="flex items-center gap-2 mb-4">
-              <Info className="h-4 w-4 text-gray-600 dark:text-gray-400" />
-              <h3 className="text-sm font-semibold text-gray-900 dark:text-gray-100">
+              <Info className="h-4 w-4 text-gray-700 dark:text-gray-200" />
+              <h3 className="text-sm font-semibold text-gray-900 dark:text-gray-50">
                 {t('version.title')}
               </h3>
             </div>
 
-            <Card className="mb-4 bg-gray-50 dark:bg-gray-800 border-gray-200 dark:border-gray-700">
+            <Card className="mb-4 bg-gray-50 dark:bg-gray-800/80 border-gray-200 dark:border-gray-700">
               <CardHeader className="pb-3">
-                <CardTitle className="flex items-center gap-2 text-sm">
+                <CardTitle className="flex items-center gap-2 text-sm text-gray-900 dark:text-gray-50">
                   <Code className="h-4 w-4" />
                   {t('version.current')}
                 </CardTitle>
               </CardHeader>
               <CardContent className="pt-0">
                 <div className="flex items-center justify-between">
-                  <span className="font-mono text-sm text-gray-700 dark:text-gray-300">{fullVersionString}</span>
+                  <span className="font-mono text-xs sm:text-sm text-gray-800 dark:text-gray-100">
+                    {fullVersionString}
+                  </span>
                   <a
                     href="https://github.com/edcalderon/bietnetwork.org/releases"
                     target="_blank"
@@ -71,16 +74,25 @@ export function VersionDisplay() {
               </CardContent>
             </Card>
 
-            <Card className="bg-gray-50 dark:bg-gray-800 border-gray-200 dark:border-gray-700">
+            <Card className="bg-gray-50 dark:bg-gray-800/80 border-gray-200 dark:border-gray-700">
               <CardHeader className="pb-3">
-                <CardTitle className="flex items-center gap-2 text-sm">
-                  <GitBranch className="h-4 w-4" />
-                  {t('version.changelog')}
-                </CardTitle>
+                <div className="flex items-center justify-between gap-2">
+                  <CardTitle className="flex items-center gap-2 text-sm text-gray-900 dark:text-gray-50">
+                    <GitBranch className="h-4 w-4" />
+                    {t('version.changelog')}
+                  </CardTitle>
+                  <Link
+                    href="/version"
+                    className="text-[11px] font-medium text-blue-600 dark:text-blue-400 hover:underline"
+                    onClick={() => setShowDetails(false)}
+                  >
+                    Ver todo
+                  </Link>
+                </div>
               </CardHeader>
               <CardContent className="pt-0">
                 <div className="space-y-4">
-                  {changelog.map((entry: ChangelogEntry, index: number) => (
+                  {changelog.slice(0, 3).map((entry: ChangelogEntry, index: number) => (
                     <div key={index} className="border-l-2 border-gray-200 dark:border-gray-600 pl-4">
                       <div className="flex items-center justify-between mb-2">
                         <span className="font-mono text-sm font-bold text-gray-700 dark:text-gray-300">
