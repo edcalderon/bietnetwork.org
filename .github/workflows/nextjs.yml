@@ -100,13 +100,16 @@ jobs:
             echo "✓ Secret length: ${#WALLETCONNECT_PROJECT_ID} characters"
           fi
         env:
-          WALLETCONNECT_PROJECT_ID: ${{ secrets.WALLETCONNECT_PROJECT_ID }}
+          WALLETCONNECT_PROJECT_ID: ${{ secrets.WALLETCONNECT_PROJECT_ID }}      
       - name: Build web app with Turbo
         run: yarn dlx turbo@latest run build --filter=@biet-network/web
         env:
           GITHUB_ACTIONS: 'true'
           NEXT_TELEMETRY_DISABLED: 1
           NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID: ${{ secrets.WALLETCONNECT_PROJECT_ID }}
+          NEXT_PUBLIC_BIET_IDENTITY_ADDRESS: ${{ vars.BIET_IDENTITY_ADDRESS }}
+          NEXT_PUBLIC_BGT_TOKEN_ADDRESS: ${{ vars.BGT_TOKEN_ADDRESS }}
+          NEXT_PUBLIC_BGT_SALE_ADDRESS: ${{ vars.BGT_SALE_ADDRESS }}
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
