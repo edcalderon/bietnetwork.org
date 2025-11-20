@@ -3,16 +3,7 @@
 import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 import { VERSION_INFO, getVersionDisplay, getFullVersionString } from '@/lib/version';
 import { getChangelog, getLatestVersion, getUnreadVersions } from '@/lib/changelog';
-
-type ChangelogEntry = {
-  version: string;
-  date: string;
-  type: 'major' | 'minor' | 'patch';
-  description: string;
-  features: string[];
-  improvements: string[];
-  fixes: string[];
-};
+import type { ChangelogEntry } from '@/types/changelog';
 
 interface VersionContextType {
   currentVersion: string;

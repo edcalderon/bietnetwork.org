@@ -6,16 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useVersion } from '@/contexts/VersionContext';
 import { useLanguage } from '@/hooks/useLanguage';
 import { Info, Code, GitBranch, ChevronDown } from 'lucide-react';
-
-type ChangelogEntry = {
-  version: string;
-  date: string;
-  type: 'major' | 'minor' | 'patch';
-  description: string;
-  features: string[];
-  improvements: string[];
-  fixes: string[];
-};
+import type { ChangelogEntry } from '@/types/changelog';
 
 export function VersionDisplay() {
   const { versionDisplay, fullVersionString, changelog = [] } = useVersion();
