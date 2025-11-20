@@ -2,6 +2,40 @@ import type { ChangelogEntry } from '@/types/changelog';
 
 export const CHANGELOG = [
   {
+    version: '0.3.10',
+    date: '2025-11-20',
+    type: 'patch',
+    description: 'Version 0.3.10 release',
+    features: [
+      'Version synchronization across all packages',
+      'Automated version management system',
+    ],
+    improvements: [
+      'Updated all workspace packages to version 0.3.10',
+      'Enhanced version display with GitHub changelog links',
+    ],
+    fixes: [
+      'Fixed version inconsistencies across packages',
+    ],
+  },
+  {
+    version: '0.3.9',
+    date: '2025-11-20',
+    type: 'patch',
+    description: 'Version 0.3.9 release',
+    features: [
+      'Version synchronization across all packages',
+      'Automated version management system',
+    ],
+    improvements: [
+      'Updated all workspace packages to version 0.3.9',
+      'Enhanced version display with GitHub changelog links',
+    ],
+    fixes: [
+      'Fixed version inconsistencies across packages',
+    ],
+  },
+  {
     version: '0.3.8',
     date: '2025-11-20',
     type: 'patch',
@@ -218,7 +252,7 @@ export function getChangelog(): ChangelogEntry[] {
   return CHANGELOG.slice().sort((a, b) => {
     const versionA = a.version.replace(/^v/, '').split('.').map(Number);
     const versionB = b.version.replace(/^v/, '').split('.').map(Number);
-    
+
     for (let i = 0; i < 3; i++) {
       if (versionA[i] !== versionB[i]) {
         return versionB[i] - versionA[i];
@@ -239,10 +273,10 @@ export function getChangelogByVersion(version: string): ChangelogEntry | undefin
 export function getUnreadVersions(lastSeenVersion: string): ChangelogEntry[] {
   const changelog = getChangelog();
   const currentIndex = changelog.findIndex(entry => entry.version === lastSeenVersion);
-  
+
   if (currentIndex === -1) {
     return changelog; // All versions are unread
   }
-  
+
   return changelog.slice(0, currentIndex);
 }
