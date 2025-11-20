@@ -39,7 +39,9 @@ function FloatingPaths({ position }: { position: number }) {
                             pathOffset: [0, 1, 0],
                         }}
                         transition={{
-                            duration: 20 + Math.random() * 10,
+                            // Use a deterministic duration based on the path id to avoid
+                            // hydration mismatches from Math.random() while keeping variety.
+                            duration: 20 + (path.id % 10),
                             repeat: Number.POSITIVE_INFINITY,
                             ease: "linear",
                         }}

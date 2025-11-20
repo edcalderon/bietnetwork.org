@@ -8,6 +8,7 @@ import { WalletProvider } from '../contexts/WalletContext';
 import { LanguageProvider } from '../contexts/LanguageContext';
 import { VersionProvider } from '../contexts/VersionContext';
 import { ThemeProvider } from 'next-themes';
+import { ServiceWorkerRegister } from '../components/ServiceWorkerRegister';
 
 function Footer() {
   return (
@@ -48,6 +49,7 @@ export default function RootLayout({
             <LanguageProvider>
               <WagmiProviders>
                 <WalletProvider>
+                  <ServiceWorkerRegister />
                   <Navbar />
                   <main className="min-h-screen pt-16">
                     {children}

@@ -90,7 +90,7 @@ export function UserDashboard() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="mb-8">
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <div>
               <div className="flex items-center space-x-3 mb-4">
                 <User className="h-8 w-8 text-blue-600" />
@@ -102,17 +102,11 @@ export function UserDashboard() {
                 Manage your Biet Network identity and assets
               </p>
             </div>
-            <div className="text-right">
-              <p className="text-sm text-gray-600 dark:text-gray-400">Connected Address</p>
-              <p className="font-mono text-sm bg-gray-100 dark:bg-gray-800 px-3 py-1 rounded">
-                {address?.slice(0, 6)}...{address?.slice(-4)}
-              </p>
-            </div>
           </div>
         </div>
 
         {/* Navigation Tabs */}
-        <div className="flex space-x-1 mb-8 bg-gray-100 dark:bg-gray-800 p-1 rounded-lg">
+        <div className="flex flex-wrap gap-2 mb-8 bg-gray-100 dark:bg-gray-800 p-1 rounded-lg">
           {tabs.map((tab) => {
             const Icon = tab.icon;
             return (
@@ -139,6 +133,19 @@ export function UserDashboard() {
       </div>
     </div>
   );
+}
+
+function formatBgtHuman(amount?: bigint, decimals: number = 18): string {
+  if (!amount || amount === 0n) return '0';
+
+  const value = Number(amount) / Math.pow(10, decimals);
+  if (!Number.isFinite(value)) {
+    return amount.toString();
+  }
+  return value.toLocaleString(undefined, {
+    maximumFractionDigits: 0,
+    minimumFractionDigits: 0,
+  });
 }
 
 function OverviewTab() {
@@ -197,10 +204,19 @@ function OverviewTab() {
           <Coins className="h-4 w-4 text-muted-foreground" />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">{bgtBalance ? Number(bgtBalance) : '0'}</div>
+          <div className="text-2xl font-bold">{bgtBalance ? formatBgtHuman(bgtBalance as bigint) : '0'}</div>
           <p className="text-xs text-muted-foreground">
             Governance tokens
           </p>
+          {address && (
+            <button
+              type="button"
+              onClick={() => window.open(`https://sepolia.basescan.org/token/${BGT_TOKEN_ADDRESS}?a=${address}`, '_blank')}
+              className="mt-2 text-xs text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 underline-offset-2 hover:underline"
+            >
+              View balance on explorer
+            </button>
+          )}
         </CardContent>
       </Card>
 
@@ -246,7 +262,7 @@ function OverviewTab() {
           <TrendingUp className="h-4 w-4 text-muted-foreground" />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">{bgtBalance ? Number(bgtBalance) : '0'}</div>
+          <div className="text-2xl font-bold">{bgtBalance ? formatBgtHuman(bgtBalance as bigint) : '0'}</div>
           <p className="text-xs text-muted-foreground">
             DAO influence
           </p>
@@ -453,14 +469,17 @@ function BietsTab() {
         <CardContent>
           <div className="space-y-4">
             {[1, 2, 3].map((i) => (
-              <div key={i} className="flex items-center justify-between p-4 border rounded-lg">
+              <div
+                key={i}
+                className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between p-4 border rounded-lg"
+              >
                 <div>
                   <h4 className="font-medium">Agricultural Biet #{i}</h4>
                   <p className="text-sm text-gray-600 dark:text-gray-400">
                     Sustainable farming project • 15% APR
                   </p>
                 </div>
-                <Button variant="outline" size="sm">
+                <Button variant="outline" size="sm" className="w-full sm:w-auto">
                   View Details
                 </Button>
               </div>

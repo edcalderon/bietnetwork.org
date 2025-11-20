@@ -10,6 +10,12 @@ import { useLanguage } from '@/hooks/useLanguage';
 import { base, baseSepolia } from 'wagmi/chains';
 import { walletConnect } from 'wagmi/connectors';
 
+function formatAddressMiddle(address?: string | null, start: number = 6, end: number = 4) {
+  if (!address) return '';
+  if (address.length <= start + end + 3) return address;
+  return `${address.slice(0, start)}...${address.slice(-end)}`;
+}
+
 export function WalletButton() {
   const { address, isConnected, chainId } = useAccount();
   const { connect, error, isPending, connectors } = useConnect();
@@ -161,11 +167,11 @@ export function WalletButton() {
             <span className="absolute -top-1 -right-1 h-2 w-2 rounded-full bg-yellow-500"></span>
           )}
         </div>
-        <span className="hidden sm:inline text-sm font-medium">
-          {address?.slice(0, 6)}...{address?.slice(-4)}
+        <span className="hidden sm:inline text-sm font-medium font-mono max-w-[140px] truncate">
+          {formatAddressMiddle(address, 6, 4)}
         </span>
-        <span className="sm:hidden text-sm font-medium">
-          {address?.slice(0, 4)}...
+        <span className="sm:hidden text-sm font-medium font-mono max-w-[100px] truncate">
+          {formatAddressMiddle(address, 4, 3)}
         </span>
         {isAdmin && (
           <span className="hidden sm:inline bg-yellow-400 text-yellow-900 text-[10px] px-1.5 py-0.5 rounded-full font-medium">
@@ -176,8 +182,11 @@ export function WalletButton() {
       </Button>
 
       {isOpen && (
-        <div ref={dropdownRef} className="absolute right-0 mt-2 w-80 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 z-50">
-          <Card className="border-0 shadow-none">
+        <div
+          ref={dropdownRef}
+          className="absolute right-0 mt-2 w-80 max-w-[90vw] bg-gradient-to-b from-white/95 to-gray-50/95 dark:from-gray-900/95 dark:to-gray-950/95 rounded-2xl shadow-xl border border-gray-200/80 dark:border-gray-700/80 z-50 backdrop-blur-md"
+        >
+          <Card className="border-0 shadow-none bg-transparent">
             <CardHeader className="pb-3">
               <CardTitle className="text-lg flex items-center gap-2">
                 <Wallet className="h-5 w-5" />
@@ -197,10 +206,18 @@ export function WalletButton() {
             </CardHeader>
             <CardContent className="space-y-4">
               {/* Address Display */}
-              <div className="p-3 bg-gray-50 dark:bg-gray-900 rounded-lg">
-                <p className="text-sm font-mono text-gray-900 dark:text-gray-100">
-                  {address}
-                </p>
+              <div className="p-3 rounded-xl bg-gray-50/90 dark:bg-gray-900/90 border border-gray-200/60 dark:border-gray-700/60 flex items-center justify-between gap-3">
+                <div className="flex flex-col min-w-0">
+                  <span className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">
+                    Wallet address
+                  </span>
+                  <p className="text-sm font-mono text-gray-900 dark:text-gray-100 break-all sm:break-normal sm:truncate max-w-[220px]">
+                    {formatAddressMiddle(address, 8, 6)}
+                  </p>
+                </div>
+                <span className="hidden sm:inline-flex text-[10px] px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-300 font-medium whitespace-nowrap">
+                  Connected
+                </span>
               </div>
 
               {/* Chain Status */}

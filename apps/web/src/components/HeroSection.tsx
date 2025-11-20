@@ -18,6 +18,8 @@ import { useRouter } from 'next/navigation';
 import { useLanguage } from '@/hooks/useLanguage';
 import { TokenInfo } from './TokenInfo';
 import GeometricSphere from '@/components/ui/geometric-sphere';
+import { ParticleTextEffect } from '@/components/ParticleTextEffect';
+import { InstallPwaButton } from '@/components/InstallPwaButton';
 
 export function HeroSection() {
   const { isConnected } = useWallet();
@@ -70,10 +72,14 @@ export function HeroSection() {
                 <Sparkles className="w-3 h-3 sm:w-3.5 sm:h-3.5 mr-1 sm:mr-1.5" />
                 {t('hero.activeUnits')}
               </div>
-              
-              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900 dark:text-white leading-tight drop-shadow-sm">
+              {/* Static title on small screens */}
+              <h1 className="md:hidden text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white leading-tight drop-shadow-sm">
                 {t('hero.title')}
               </h1>
+              {/* Particle animation title on md+ screens */}
+              <div className="hidden md:flex justify-center">
+                <ParticleTextEffect words={[t('hero.title'), '$BGT']} />
+              </div>
               
               <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-semibold bg-gradient-to-r from-emerald-700 to-cyan-700 dark:from-emerald-600 to-cyan-600 bg-clip-text text-transparent drop-shadow-sm">
                 {t('hero.subtitle')}
@@ -104,6 +110,7 @@ export function HeroSection() {
                   </span>
                 )}
               </Button>
+              <InstallPwaButton />
             </div>
 
             {isConnected && (
