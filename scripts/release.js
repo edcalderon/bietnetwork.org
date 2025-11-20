@@ -67,7 +67,7 @@ function runBuildAndTests() {
     
     // Run build
     console.log('🏗️  Building applications...');
-    execSync('yarn build', { stdio: 'inherit' });
+    execSync('yarn dlx turbo@latest run build', { stdio: 'inherit' });
     
     console.log('✅ All checks passed!');
     return true;
