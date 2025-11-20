@@ -11,6 +11,23 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.0',
+    date: '2025-11-20',
+    type: 'minor',
+    description: 'Version 0.3.0 release',
+    features: [
+      'Version synchronization across all packages',
+      'Automated version management system',
+    ],
+    improvements: [
+      'Updated all workspace packages to version 0.3.0',
+      'Enhanced version display with GitHub changelog links',
+    ],
+    fixes: [
+      'Fixed version inconsistencies across packages',
+    ],
+  },
+  {
     version: '0.2.13',
     date: '2025-11-18',
     type: 'patch',
