@@ -101,6 +101,44 @@ jobs:
           fi
         env:
           WALLETCONNECT_PROJECT_ID: ${{ secrets.WALLETCONNECT_PROJECT_ID }}      
+      - name: Verify critical contract addresses
+        run: |
+          echo "🔍 Checking critical contract address configuration..."
+          echo "Repository: ${{ github.repository }}"
+          echo "Branch: ${{ github.ref }}"
+          echo "Event: ${{ github.event_name }}"
+
+          check_var() {
+            local name="$1"
+            local value="$2"
+
+            if [ -z "$value" ]; then
+              echo ""
+              echo "⚠️  WARNING: $name is not set!"
+              echo ""
+              echo "This value is required for production deployments."
+              echo ""
+              echo "📋 To fix this:"
+              echo "1. Go to: https://github.com/${{ github.repository }}/settings/variables/actions"
+              echo "2. Click 'New repository variable'"
+              echo "3. Name: $name (exactly as shown)"
+              echo "4. Value: The correct on-chain address"
+              echo "5. Click 'Add variable'"
+              echo ""
+              echo "⚠️  Note: Variable names are case-sensitive!"
+              echo "⚠️  Make sure there are no extra spaces in the name!"
+            else
+              echo "✓ $name is configured: $value"
+            fi
+          }
+
+          check_var "BIET_IDENTITY_ADDRESS" "$BIET_IDENTITY_ADDRESS"
+          check_var "BGT_TOKEN_ADDRESS" "$BGT_TOKEN_ADDRESS"
+          check_var "BGT_SALE_ADDRESS" "$BGT_SALE_ADDRESS"
+        env:
+          BIET_IDENTITY_ADDRESS: ${{ vars.BIET_IDENTITY_ADDRESS }}
+          BGT_TOKEN_ADDRESS: ${{ vars.BGT_TOKEN_ADDRESS }}
+          BGT_SALE_ADDRESS: ${{ vars.BGT_SALE_ADDRESS }}
       - name: Build web app with Turbo
         run: yarn dlx turbo@latest run build --filter=@biet-network/web
         env:
