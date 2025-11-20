@@ -24,15 +24,6 @@ export function HeroSection() {
   const router = useRouter();
   const { t } = useLanguage();
 
-  useEffect(() => {
-    if (isConnected) {
-      const timer = setTimeout(() => {
-        router.push('/dashboard?tab=identity');
-      }, 1500);
-      return () => clearTimeout(timer);
-    }
-  }, [isConnected, router]);
-
   const [isScrolled, setIsScrolled] = useState(false);
 
   // Handle scroll effect for navbar

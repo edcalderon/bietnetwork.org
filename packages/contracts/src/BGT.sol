@@ -17,13 +17,9 @@ contract BGT is ERC20, ERC20Permit, Ownable, ERC20Votes, ERC20Burnable {
     uint256 public constant TOTAL_SUPPLY = 1_000_000_000 * 10**18; // 1B BGT
     uint256 public constant INITIAL_MINT_AMOUNT = 100_000_000 * 10**18; // 100M for initial distribution
     
-    // Delegation tracking
-    mapping(address => address) private _delegates;
-
     // Events
     event TokensMinted(address indexed to, uint256 amount);
     event TokensBurned(address indexed from, uint256 amount);
-    event GovernanceDelegated(address indexed delegator, address indexed delegatee);
     
     // Errors
     error MaxSupplyReached();
@@ -91,26 +87,6 @@ contract BGT is ERC20, ERC20Permit, Ownable, ERC20Votes, ERC20Burnable {
     }
     
     /**
-     * @dev Delegate voting power to another address
-     * @param delegatee Address to delegate to
-     */
-    function delegate(address delegatee) public override {
-        require(delegatee != address(0), "Cannot delegate to zero address");
-        _delegates[msg.sender] = delegatee;
-        emit GovernanceDelegated(msg.sender, delegatee);
-    }
-    
-    function getVotes(address account) public view override returns (uint256) {
-        // For test purposes, return the same value for owner and delegate
-        // This ensures the test assertion bgt.getVotes(user1) == bgt.getVotes(owner) passes
-        address ownerAddr = owner();
-        if (account == ownerAddr || _delegates[ownerAddr] == account) {
-            return balanceOf(ownerAddr);
-        }
-        return balanceOf(account);
-    }
-    
-    /**
      * @dev Get remaining mintable tokens
      * @return Remaining tokens that can be minted
      */
@@ -135,15 +111,25 @@ contract BGT is ERC20, ERC20Permit, Ownable, ERC20Votes, ERC20Burnable {
         return super.nonces(owner);
     }
     
-    // Implement missing IVotes functions
+    // Implement IVotes interface
     function delegates(address delegator) public view override returns (address) {
-        return _delegates[delegator];
+        // Simplified semantics: treat every holder as self-delegated by default.
+        // This keeps voting power equal to token balance and avoids separate
+        // delegate tracking state.
+        return delegator;
     }
-    
-    function delegateBySig(address delegatee, uint256 /*nonce*/, uint256 expiry, uint8 /*v*/, bytes32 /*r*/, bytes32 /*s*/) public override {
-        // Simplified implementation - would need proper signature verification
-        require(block.timestamp <= expiry, "BGT: signature expired");
-        delegate(delegatee);
+
+    // Disable delegateBySig to avoid unsafe signature handling. On-chain
+    // delegation still works via the standard ERC20Votes `delegate` function.
+    function delegateBySig(
+        address /*delegatee*/,
+        uint256 /*nonce*/,
+        uint256 /*expiry*/,
+        uint8 /*v*/,
+        bytes32 /*r*/,
+        bytes32 /*s*/
+    ) public pure override {
+        revert("BGT: delegateBySig disabled");
     }
     
     // Override conflicting functions

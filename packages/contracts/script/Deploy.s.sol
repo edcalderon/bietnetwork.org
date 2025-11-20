@@ -10,6 +10,7 @@ import "../src/BietIdentity.sol";
 import "../src/ProductiveUnit.sol";
 import "../src/RevenueShare.sol";
 import "../src/TimelockController.sol";
+import "../src/BGTSale.sol";
 
 /**
  * @title Deploy Script
@@ -29,6 +30,7 @@ contract DeployScript is Script {
     BietIdentity public identity;
     ProductiveUnit public productiveUnit;
     RevenueShare public revenueShare;
+    BGTSale public bgtSale;
     
     // Multi-sig addresses for production
     address[] public proposers;
@@ -91,11 +93,25 @@ contract DeployScript is Script {
             address(treasury),
             250 // 2.5% platform fee
         );
+
+        // 8. Deploy BGT Sale contract
+        // Base price: 0.0001 ETH per 1 BGT
+        uint256 basePrice = 0.0001 ether;
+        bgtSale = new BGTSale(
+            address(bgt),
+            address(productiveUnit),
+            payable(address(treasury)),
+            basePrice
+        );
+
+        // Pre-mint an initial BGT pool for the sale while deployer is owner
+        uint256 saleInitialAmount = 10_000_000 * 10**18; // 10M BGT
+        bgt.mint(address(bgtSale), saleInitialAmount);
         
-        // 8. Setup roles and permissions
+        // 9. Setup roles and permissions
         _setupRoles();
         
-        // 9. Transfer ownerships to DAO/Timelock
+        // 10. Transfer ownerships to DAO/Timelock
         _transferOwnerships();
         
         vm.stopBroadcast();
@@ -152,6 +168,9 @@ contract DeployScript is Script {
         // Transfer Revenue Share ownership to timelock
         revenueShare.transferOwnership(address(timelock));
         
+        // Transfer BGT Sale ownership to timelock
+        bgtSale.transferOwnership(address(timelock));
+        
         // Renounce deployer's admin role in timelock (after setup is complete)
         // timelock.renounceRole(timelock.DEFAULT_ADMIN_ROLE(), deployer);
     }
@@ -169,6 +188,7 @@ contract DeployScript is Script {
         console.log("Identity:", address(identity));
         console.log("Productive Unit:", address(productiveUnit));
         console.log("Revenue Share:", address(revenueShare));
+        console.log("BGT Sale:", address(bgtSale));
         console.log("");
         console.log("=== Verification Commands ===");
         console.log("BGT:", _getVerificationCommand(address(bgt)));

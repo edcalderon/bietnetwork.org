@@ -102,22 +102,16 @@ contract BGTDAO is Governor, GovernorSettings, GovernorCountingSimple, GovernorV
         address[] memory targets = proposalTargets(proposalId);
         uint256[] memory values = proposalValues(proposalId);
         bytes[] memory calldatas = proposalCalldatas(proposalId);
-        
-        // Execute the proposal
+
+        // Execute the proposal through the Governor/Timelock pipeline only once
         super.execute(targets, values, calldatas, keccak256(bytes(proposalDescription(proposalId))));
-        
-        // Get execution results
-        bytes[] memory results = new bytes[](targets.length);
+
+        // We cannot safely re-execute the calls to obtain return data without
+        // causing double side effects. Instead, emit an event indicating
+        // execution success and omit per-target results.
+        bytes[] memory results = new bytes[](0);
         bool success = true;
-        
-        for (uint256 i = 0; i < targets.length; i++) {
-            (bool result, ) = targets[i].call{value: values[i]}(calldatas[i]);
-            results[i] = abi.encode(result);
-            if (!result) {
-                success = false;
-            }
-        }
-        
+
         emit ProposalExecutedWithResults(proposalId, success, results);
     }
     

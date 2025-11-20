@@ -6,7 +6,6 @@ import "./token/ERC721/extensions/ERC721URIStorage.sol";
 import "./access/AccessControl.sol";
 import "./access/Ownable.sol";
 import "./utils/Counters.sol";
-import "./finance/PaymentSplitter.sol";
 import "./token/ERC20/IERC20.sol";
 import "./token/ERC20/utils/SafeERC20.sol";
 import "./proxy/utils/Initializable.sol";
@@ -16,7 +15,7 @@ import "./proxy/utils/Initializable.sol";
  * @dev Contrato para unidades productivas (Biets) en Red Biet
  * @author Biet Network Team
  */
-contract ProductiveUnit is ERC721, ERC721URIStorage, AccessControl, PaymentSplitter, Initializable, Ownable {
+contract ProductiveUnit is ERC721, ERC721URIStorage, AccessControl, Initializable, Ownable {
     using Counters for Counters.Counter;
     using SafeERC20 for IERC20;
     
@@ -109,7 +108,7 @@ contract ProductiveUnit is ERC721, ERC721URIStorage, AccessControl, PaymentSplit
     error CategoryAlreadyExists();
     error CategoryNotFound();
     
-    constructor(address admin, address _bgtToken, address _identityContract, address _treasuryAddress, uint256 feePercentage, address[] memory payees, uint256[] memory shares_) ERC721("Biet Productive Unit", "BIET") PaymentSplitter(payees, shares_) Ownable() {
+    constructor(address admin, address _bgtToken, address _identityContract, address _treasuryAddress, uint256 feePercentage, address[] memory /*payees*/, uint256[] memory /*shares_*/) ERC721("Biet Productive Unit", "BIET") Ownable() {
         if (admin == address(0) || _bgtToken == address(0) || _identityContract == address(0)) {
             revert InvalidAddress();
         }
@@ -208,17 +207,6 @@ contract ProductiveUnit is ERC721, ERC721URIStorage, AccessControl, PaymentSplit
             location: location,
             tags: tags
         });
-        
-        // Set up payment splitting for this Biet
-        address[] memory payees = new address[](2);
-        payees[0] = creator;
-        payees[1] = treasuryAddress;
-        
-        uint256[] memory shares = new uint256[](2);
-        shares[0] = MAX_ROYALTY_PERCENTAGE - royaltyPercentage; // Creator share
-        shares[1] = royaltyPercentage; // Platform share
-        
-        _setPayeesForToken(tokenId, payees, shares);
         
         emit BietCreated(tokenId, creator, name, category, royaltyPercentage);
         
@@ -524,18 +512,6 @@ contract ProductiveUnit is ERC721, ERC721URIStorage, AccessControl, PaymentSplit
         categoryExists["manufactura"] = true;
         categoryExists["servicios"] = true;
         categoryExists["turismo"] = true;
-    }
-    
-    /**
-     * @dev Internal function to set payees for specific token
-     */
-    function _setPayeesForToken(
-        uint256 tokenId,
-        address[] memory payees,
-        uint256[] memory shares
-    ) internal {
-        // This would require custom implementation in PaymentSplitter
-        // For now, we'll store the data and handle distribution manually
     }
     
     /**

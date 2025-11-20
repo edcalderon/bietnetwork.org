@@ -45,6 +45,9 @@ contract BietIdentity is ERC721, AccessControl, Initializable, Ownable {
     mapping(address => uint256) public addressToTokenId;
     mapping(bytes32 => bool) public usedHashes;
     mapping(string => bool) public didExists;
+    // Nonces for replay protection
+    mapping(address => uint256) public mintNonces;
+    mapping(uint256 => uint256) public updateNonces;
     
     // Events
     event IdentityMinted(
@@ -139,8 +142,9 @@ contract BietIdentity is ERC721, AccessControl, Initializable, Ownable {
             revert InsufficientFee();
         }
         
-        // Verify signature
-        bytes32 identityHash = keccak256(abi.encodePacked(to, name, did, country, verificationLevel));
+        // Verify signature with per-address nonce for replay protection
+        uint256 nonce = mintNonces[to];
+        bytes32 identityHash = keccak256(abi.encodePacked(to, name, did, country, verificationLevel, nonce));
         if (usedHashes[identityHash]) {
             revert IdentityHashAlreadyUsed();
         }
@@ -152,8 +156,9 @@ contract BietIdentity is ERC721, AccessControl, Initializable, Ownable {
             revert InvalidSignature();
         }
         
-        // Mint token
-        uint256 tokenId = _tokenIdCounter.current();
+        // Mint token starting from ID 1 so that "0" can safely represent
+        // "no identity" in addressToTokenId.
+        uint256 tokenId = _tokenIdCounter.current() + 1;
         _tokenIdCounter.increment();
         
         _safeMint(to, tokenId);
@@ -172,6 +177,7 @@ contract BietIdentity is ERC721, AccessControl, Initializable, Ownable {
         addressToTokenId[to] = tokenId;
         usedHashes[identityHash] = true;
         didExists[did] = true;
+        mintNonces[to] = nonce + 1;
         
         emit IdentityMinted(to, tokenId, name, did, verificationLevel);
         
@@ -200,8 +206,9 @@ contract BietIdentity is ERC721, AccessControl, Initializable, Ownable {
         
         Identity storage identity = identities[tokenId];
         
-        // Verify signature for update
-        bytes32 updateHash = keccak256(abi.encodePacked(tokenId, name, verificationLevel, block.timestamp));
+        // Verify signature for update with per-token nonce for replay protection
+        uint256 nonce = updateNonces[tokenId];
+        bytes32 updateHash = keccak256(abi.encodePacked(tokenId, name, verificationLevel, nonce));
         bytes32 messageHash = keccak256(abi.encodePacked("\x19Ethereum Signed Message:\n32", updateHash));
         address recoveredSigner = recoverSigner(messageHash, signature);
         
@@ -211,6 +218,7 @@ contract BietIdentity is ERC721, AccessControl, Initializable, Ownable {
         
         identity.name = name;
         identity.verificationLevel = verificationLevel;
+        updateNonces[tokenId] = nonce + 1;
         
         emit IdentityUpdated(tokenId, name, verificationLevel);
     }

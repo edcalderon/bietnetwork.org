@@ -1,0 +1,528 @@
+\documentclass[12pt]{report}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,shorthands=off]{babel}
+\usepackage{geometry}
+\usepackage{setspace}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    citecolor=blue,
+    filecolor=magenta,
+    urlcolor=blue,
+}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,shapes.geometric,fit,calc,babel}
+\newenvironment{tikzspanish}[1][]{%
+  \begingroup
+  \catcode`\;=12\relax
+  \catcode`\:=12\relax
+  \catcode`\!=12\relax
+  \catcode`\?=12\relax
+  \catcode`\< =12\relax
+  \catcode`\>=12\relax
+  \begin{tikzpicture}[#1]}{%
+  \end{tikzpicture}\endgroup}
+\usepackage{titlesec}
+\usepackage{float}
+\usepackage{verbatim}
+
+\geometry{a4paper, margin=1in}
+\onehalfspacing
+
+\title{\textbf{Whitepaper Red Biet}\\
+Distribución Justa de Recursos Sociales Mediante Blockchain}
+\author{Team Red Biet -- MinTIC Bootcamp 2025}
+\date{2025}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Red Biet (BietNetwork) es un marco bioeconómico descentralizado orientado a transformar la distribución de recursos sociales en comunidades vulnerables. 
+El modelo se basa en unidades vivas llamadas \textit{Biets}, gobernadas por una DAO, con identidad digital descentralizada (DID), trazabilidad en blockchain y un token nativo de utilidad y gobernanza denominado Biet Coin (BGT). 
+Este documento unifica la visión conceptual, el estado del arte, la arquitectura Web3, los modelos criptográficos, los flujos de dinero y operación, así como los indicadores de impacto social y mecanismos de transparencia, en el contexto de la opción de proyecto ``Distribución justa de los recursos sociales mediante Blockchain''.
+\end{abstract}
+
+\tableofcontents
+\clearpage
+
+%----------------------------------
+\chapter{Resumen ejecutivo}
+%----------------------------------
+
+Los modelos de asistencia social tradicionales en América Latina se enfrentan a problemas estructurales de ineficiencia, opacidad y falta de sostenibilidad. 
+En muchos casos, los subsidios y transferencias condicionadas no logran romper los ciclos de pobreza, ni fortalecen capacidades productivas ni la autonomía de las comunidades [1], [2].
+
+Red Biet propone una alternativa: un sistema en el que cada unidad social (Biet) se convierte en una célula viva productiva, conectada a una red blockchain que garantiza trazabilidad, participación y distribución justa de recursos. 
+A través de identidad digital descentralizada (DID), gobernanza mediante DAO, contratos inteligentes en una red EVM y el token Biet Coin (BGT), el proyecto articula una infraestructura técnico-social para canalizar recursos de manera transparente, medir impacto y fortalecer economías locales.
+
+El presente whitepaper desarrolla:
+\begin{itemize}
+    \item El contexto y el problema de la asistencia tradicional.
+    \item Un estado del arte de blockchain para inclusión social, DID y DAOs.
+    \item El diseño conceptual de Red Biet y el rol de BGT.
+    \item La arquitectura Web3 e integración con Next.js y EVM.
+    \item Flujos operativos, financieros, de gobernanza y auditoría.
+    \item Un anexo técnico con esbozos de contratos inteligentes.
+\end{itemize}
+
+%----------------------------------
+\chapter{Introducción y estado del arte}
+%----------------------------------
+
+\section{Contexto del problema}
+Los programas sociales en la región suelen operar con estructuras centralizadas, registros fragmentados y sistemas de información cerrados. 
+Diversos estudios de la OCDE y el Banco Mundial señalan que el gasto social no siempre se traduce en mejoras sostenibles, en parte por la falta de mecanismos robustos de seguimiento, evaluación y control ciudadano [1], [2].
+
+La corrupción, la captura de rentas y la mala focalización de subsidios afectan la legitimidad de las políticas públicas. 
+Informes de Transparencia Internacional muestran cómo la percepción de corrupción en el sector público sigue siendo elevada en buena parte de América Latina [3]. 
+Al mismo tiempo, los sistemas de protección social aún dependen de bases de datos cerradas, sin identidad digital interoperable ni trazabilidad abierta.
+
+\section{Estado del arte: blockchain, identidad y gobernanza}
+En la última década han surgido propuestas que integran blockchain con:
+\begin{itemize}
+    \item \textbf{Identidad digital descentralizada (DID):} la recomendación del W3C sobre DID define un estándar para identidades auto-soberanas, controladas por los propios usuarios, verificables criptográficamente y portables entre sistemas [4]. Ver: \href{https://www.w3.org/TR/did-core/}{w3.org/TR/did-core/}.
+    \item \textbf{Gobernanza descentralizada (DAOs):} autores como Buterin han descrito las DAOs como estructuras de gobernanza programables donde reglas y decisiones se ejecutan mediante contratos inteligentes [5].
+    \item \textbf{Gestión de cadenas de suministro y trazabilidad:} Cong y He analizan cómo blockchain permite mejorar la transparencia en cadenas de valor complejas, reduciendo la necesidad de intermediarios de confianza [6].
+\end{itemize}
+
+En paralelo, la Comisión Europea ha promovido la \textit{bioeconomía} como paradigma que integra sostenibilidad ecológica, producción basada en recursos biológicos y nuevas formas de organización territorial [7]. 
+Red Biet conecta estos conceptos: bioeconomía, identidad digital, blockchain y gobernanza descentralizada.
+
+\section{Motivación de Red Biet}
+La motivación central es pasar de una lógica de “beneficiarios pasivos” a una red de Biets como unidades productivas, sociales y educativas que:
+\begin{itemize}
+    \item participan activamente en la gobernanza del uso de recursos,
+    \item generan y registran valor (económico, social, ambiental),
+    \item acceden a incentivos y oportunidades de mercado de forma transparente.
+\end{itemize}
+
+%----------------------------------
+\chapter{Diseño conceptual: Red Biet y Biet Coin (BGT)}
+%----------------------------------
+
+\section{Red Biet como red de unidades vivas}
+Red Biet se concibe como una malla de Biets (unidades vivas) conectadas por contratos inteligentes. 
+Cada Biet puede representar:
+\begin{itemize}
+    \item una unidad doméstica,
+    \item una organización comunitaria,
+    \item un grupo productivo,
+    \item un laboratorio social o educativo.
+\end{itemize}
+
+Cada Biet cuenta con:
+\begin{itemize}
+    \item Identidad DID.
+    \item Perfil productivo y social.
+    \item Historial de interacciones on-chain.
+    \item Reputación asociada a indicadores objetivos.
+\end{itemize}
+
+\section{Biet Coin (BGT)}
+El token Biet Coin (BGT) cumple cuatro funciones:
+\begin{enumerate}
+    \item \textbf{Gobernanza:} da derecho a voto y a proponer cambios en la DAO.
+    \item \textbf{Incentivos:} recompensa producción, impacto social y ambiental.
+    \item \textbf{Reputación:} refleja trayectoria de contribución del Biet.
+    \item \textbf{Medio de intercambio:} facilita intercambios en mercados locales y en el marketplace Web3 de la red.
+\end{enumerate}
+
+La emisión de BGT no se basa en minería tradicional, sino en \textit{pruebas de impacto} y contribuciones verificables, alineadas con objetivos de desarrollo.
+
+%----------------------------------
+\chapter{Arquitectura Web3 e integración técnica}
+%----------------------------------
+
+\section{Capas de la arquitectura}
+La arquitectura de Red Biet se organiza en capas:
+
+\begin{itemize}
+    \item \textbf{Capa de identidad (DID):} basada en el estándar W3C DID [4], con anclajes on-chain.
+    \item \textbf{Capa de contratos inteligentes (EVM):} incluye BGT, BietRegistry, BietDAO, Treasury, BietVault y otros módulos.
+    \item \textbf{Capa de aplicación Web:} desarrollada en Next.js, integrando WalletConnect, Metamask u otros proveedores.
+    \item \textbf{Capa de datos y analítica:} paneles para monitoreo de impacto social y trazabilidad financiera.
+\end{itemize}
+
+\section{Integración con Next.js y EVM}
+La dApp de Red Biet se desarrolla con Next.js, conectándose a la red EVM (por ejemplo, Base testnet) mediante librerías como \texttt{ethers.js} o \texttt{wagmi}. 
+El flujo típico es:
+\begin{enumerate}
+    \item El usuario se autentica con su wallet y DID.
+    \item La dApp consulta los contratos (BietRegistry, BietDAO, BGT) para mostrar estado.
+    \item Las interacciones (votos, propuestas, transacciones) se firman desde el cliente y se envían a la red.
+    \item Los eventos on-chain alimentan dashboards y paneles de impacto.
+\end{enumerate}
+
+\section*{Arquitectura del sistema}
+\addcontentsline{toc}{section}{Arquitectura del sistema}
+\par\noindent
+\begin{otherlanguage*}{english}
+\begin{figure}[H]
+\centering
+\begin{tikzspanish}[node distance=10mm, >=Latex]
+\tikzset{
+ layer/.style={rectangle,draw,rounded corners,align=center,minimum width=40mm,minimum height=8mm,fill=white},
+ box/.style={rectangle,draw,rounded corners,align=center,minimum width=28mm,minimum height=6mm,fill=white},
+ every node/.style={font=\small}
+}
+
+\node[layer] (ui) {Capa de Aplicación Web\\(Next.js, Dashboard, UX comunitaria)};
+\node[layer,below=of ui] (logic) {Capa de Lógica Web3\\(APIs, WalletConnect, DIDKit)};
+\node[layer,below=of logic] (contracts) {Capa de Contratos Inteligentes\\(EVM L2 -- Base u otra compatible)};
+\node[layer,below=of contracts] (infra) {Infraestructura Blockchain\\Nodos, indexadores, oráculos};
+
+\node[box,right=18mm of contracts] (bgt) {BGT Token};
+\node[box,above=3mm of bgt] (dao) {BietDAO};
+\node[box,below=3mm of bgt] (vault) {BietVault};
+\node[box,right=18mm of dao] (reg) {BietRegistry};
+
+\draw[->] (ui) -- (logic);
+\draw[->] (logic) -- (contracts);
+\draw[->] (contracts) -- (infra);
+
+\draw[->] (contracts.east) -- (bgt.west);
+\draw[->] (bgt.north) -- (dao.south);
+\draw[->] (bgt.south) -- (vault.north);
+\draw[->] (dao.east) -- (reg.west);
+
+\node[box,above=8mm of ui] (users) {Biets, organizaciones, veedores};
+\draw[->] (users) -- (ui);
+
+\end{tikzspanish}
+\caption{Arquitectura general Web3 de la Red Biet.}
+\end{figure}
+\end{otherlanguage*}
+
+%----------------------------------
+\chapter{Flujos operativos y financieros}
+%----------------------------------
+
+\section{Flujo operativo de un Biet}
+El flujo operativo recoge las fases que atraviesa una comunidad para convertirse en un conjunto de Biets productivos integrados en la red.
+
+\subsection*{Flujo operativo}
+\addcontentsline{toc}{subsection}{Flujo operativo}
+\par\noindent
+\begin{otherlanguage*}{english}
+\begin{figure}[H]
+\centering
+\begin{tikzspanish}[
+  node distance=10mm,
+  every node/.style={font=\small},
+  box/.style={rectangle,draw,rounded corners,align=center,minimum width=35mm,minimum height=8mm,fill=white},
+  arrow/.style={-{Latex[length=3mm]},thick}
+]
+  % First row
+  \node[box] (org) {Organización comunitaria};
+  \node[box,right=of org] (diag) {Diagnóstico y selección de Biets};
+  \node[box,right=of diag] (form) {Formación integral (BietLab)};
+
+  % Second row
+  \node[box,below=15mm of diag] (create) {Creación y formalización de Biets};
+  \node[box,right=of create] (prod) {Producción y servicios en red};
+  \node[box,right=of prod] (eval) {Evaluación e incentivos BGT};
+
+  % Flow
+  \draw[arrow] (org) -- (diag);
+  \draw[arrow] (diag) -- (form);
+  \draw[arrow] (form.south) -- (create);
+  \draw[arrow] (create) -- (prod);
+  \draw[arrow] (prod) -- (eval);
+
+  % Feedback
+  \draw[arrow,green!60!black] (eval.north) .. controls +(0,15mm) and +(0,15mm) .. (form.north);
+  \draw[arrow,green!60!black] (prod.west) .. controls +(-22mm,0) and +(22mm,0) .. (diag.south);
+
+\end{tikzspanish}
+\caption{Flujo operativo para la creación y consolidación de Biets.}
+\end{figure}
+\end{otherlanguage*}
+
+\section{Flujo de dinero en la red}
+
+\subsection*{Flujo financiero}
+\addcontentsline{toc}{subsection}{Flujo financiero}
+\par\noindent
+\begin{otherlanguage*}{english}
+\begin{figure}[H]
+\centering
+\begin{tikzspanish}[
+    node distance=24mm,
+    every node/.style={font=\footnotesize,align=center,inner sep=4pt},
+    fund/.style={ellipse, draw, align=center, minimum width=36mm, minimum height=10mm, fill=white},
+    entity/.style={rectangle, draw, rounded corners, align=center, minimum width=38mm, minimum height=10mm, fill=white},
+    arrow/.style={-{Latex[length=3mm]}, thick},
+    flowlabel/.style={font=\scriptsize, fill=white, inner sep=1pt}
+]
+
+% NODES
+\node[fund] (donor) {Donantes / Organismos\\Internacionales};
+\node[entity, right=30mm of donor] (platform) {Fondo Red Biet\\(Tesorería DAO)};
+\node[entity, right=30mm of platform] (bgtfund) {Reserva BGT\\(Liquidez + Incentivos)};
+
+\node[entity, below=22mm of platform] (biets) {Biets Productivos\\(Unidades sociales)};
+\node[entity, right=30mm of biets] (markets) {Mercado local\\y Marketplace Web3};
+
+\node[fund, above=22mm of platform] (cit) {Veeduría Ciudadana\\Auditoría comunitaria};
+
+% ARROWS
+\draw[arrow] (donor) -- node[flowlabel,above]{Subvenciones / fondos sociales} (platform);
+
+\draw[arrow] (platform) -- node[flowlabel,left]{Asignación automática\\(smart contracts)} (biets);
+\draw[arrow] (platform) -- node[flowlabel,above]{Provisión / compra BGT} (bgtfund);
+
+\draw[arrow] (biets) -- node[flowlabel,below]{Productos / servicios} (markets);
+\draw[arrow] (markets) -- node[flowlabel,below]{Ingresos FIAT / cripto} (biets);
+
+\draw[arrow] (biets) -- node[flowlabel,right]{Reinversión productiva} (platform);
+\draw[arrow] (bgtfund) -- node[flowlabel,right]{Recompensas BGT} (biets);
+
+\draw[arrow,dashed] (cit) -- node[flowlabel,right]{Auditoría pública on-chain} (platform);
+
+\end{tikzspanish}
+\caption{Flujo financiero corregido y centrado en la Red Biet.}
+\end{figure}
+\end{otherlanguage*}
+
+%----------------------------------
+\chapter{Gobernanza DAO, tokenomics y auditoría}
+%----------------------------------
+
+\section{Gobernanza DAO}
+La DAO de Red Biet define reglas para:
+\begin{itemize}
+    \item presentar propuestas,
+    \item priorizar proyectos,
+    \item asignar presupuestos y BGT,
+    \item modificar parámetros del protocolo.
+\end{itemize}
+
+\subsection*{Flujo de gobernanza}
+\addcontentsline{toc}{subsection}{Flujo de gobernanza}
+\par\noindent
+\begin{otherlanguage*}{english}
+\begin{figure}[H]
+\centering
+\begin{tikzspanish}[
+  node distance=12mm,
+  every node/.style={font=\small},
+  box/.style={rectangle,draw,rounded corners,align=center,minimum width=32mm,minimum height=8mm,fill=white},
+  arrow/.style={-{Latex[length=3mm]},thick}
+]
+  \node[box] (prop) {Propuesta comunitaria};
+  \node[box,right=of prop] (review) {Revisión técnica / social};
+  \node[box,right=of review] (vote) {Votación DAO\\(ponderada por BGT y reputación)};
+  \node[box,right=of vote] (exec) {Ejecución on-chain\\(smart contract)};
+  \node[box,below=of vote] (report) {Reporte y monitoreo};
+  \node[box,below=of prop] (audit) {Auditoría y evaluación};
+
+  \draw[arrow] (prop) -- (review);
+  \draw[arrow] (review) -- (vote);
+  \draw[arrow] (vote) -- (exec);
+  \draw[arrow] (exec) -- (report);
+  \draw[arrow] (report) -- (audit);
+  \draw[arrow] (audit.west) .. controls +(-22mm,0) and +(0,-15mm) .. (prop.south);
+
+\end{tikzspanish}
+\caption{Flujo de gobernanza DAO en Red Biet.}
+\end{figure}
+\end{otherlanguage*}
+
+\section{Tokenomics y modelo criptográfico}
+La tokenomics de BGT se diseña para alinear incentivos con objetivos de desarrollo:
+
+\begin{itemize}
+    \item \textbf{Suministro inicial:} fijado por la DAO en el despliegue.
+    \item \textbf{Emisión dinámica:} ligada a indicadores de impacto social y productivo.
+    \item \textbf{Pools de incentivos y liquidez:} gestionados por el Treasury.
+    \item \textbf{Modelo criptográfico:} uso de firmas ECDSA/ECDSA-secp256k1 (como en Ethereum) y gestión de roles mediante contratos de acceso \textit{role-based}.
+\end{itemize}
+
+\subsection*{Tokenomics BGT}
+\addcontentsline{toc}{subsection}{Tokenomics BGT}
+\par\noindent
+\begin{otherlanguage*}{english}
+\begin{figure}[H]
+\centering
+\begin{tikzspanish}[
+  node distance=12mm,
+  every node/.style={font=\small},
+  box/.style={rectangle,draw,rounded corners,align=center,minimum width=34mm,minimum height=8mm,fill=white},
+  arrow/.style={-{Latex[length=3mm]},thick}
+]
+  \node[box] (treasury) {Treasury DAO};
+  \node[box,above left=of treasury] (poolIncent) {Pool de incentivos BGT};
+  \node[box,above right=of treasury] (poolLiq) {Pool de liquidez / DEX};
+  \node[box,below left=of treasury] (biets) {Biets productivos};
+  \node[box,below right=of treasury] (partners) {Aliados / Programas sociales};
+
+  \draw[arrow] (treasury) -- node[left]{Asignación} (poolIncent);
+  \draw[arrow] (treasury) -- node[right]{Provisión} (poolLiq);
+  \draw[arrow] (poolIncent) -- node[left]{Recompensas} (biets);
+  \draw[arrow] (biets) -- node[below]{Datos de impacto / méritos} (treasury);
+  \draw[arrow] (poolLiq) -- node[right]{Swap / mercado} (partners);
+  \draw[arrow] (partners) -- node[below]{Aportes financieros} (treasury);
+
+\end{tikzspanish}
+\caption{Esquema simplificado de la tokenomics de BGT.}
+\end{figure}
+\end{otherlanguage*}
+
+\section{Modelo de auditoría y transparencia}
+La auditoría en Red Biet combina:
+\begin{itemize}
+    \item registros on-chain accesibles vía exploradores y APIs,
+    \item dashboards públicos en la dApp,
+    \item participación de veedurías ciudadanas,
+    \item acompañamiento de universidades y ONGs.
+\end{itemize}
+
+\subsection*{Modelo de auditoría}
+\addcontentsline{toc}{subsection}{Modelo de auditoría}
+\par\noindent
+\begin{otherlanguage*}{english}
+\begin{figure}[H]
+\centering
+\begin{tikzspanish}[
+  node distance=10mm,
+  every node/.style={font=\small},
+  box/.style={rectangle,draw,rounded corners,align=center,minimum width=36mm,minimum height=8mm,fill=white},
+  arrow/.style={-{Latex[length=3mm]},thick}
+]
+  \node[box] (data) {Datos on-chain (transacciones, votos, emisión BGT)};
+  \node[box,below=of data] (dash) {Dashboards públicos y analítica};
+  \node[box,below left=of dash] (cit) {Veeduría ciudadana};
+  \node[box,below right=of dash] (acad) {Universidades / ONGs};
+  \node[box,below=of dash,yshift=-20mm] (dao) {DAO Red Biet};
+
+  \draw[arrow] (data) -- (dash);
+  \draw[arrow] (dash) -- (cit);
+  \draw[arrow] (dash) -- (acad);
+  \draw[arrow] (cit) -- node[below]{Alertas / propuestas} (dao.west);
+  \draw[arrow] (acad) -- node[below]{Informes / métricas} (dao.east);
+  \draw[arrow] (dao.north) -- node[right]{Decisiones / cambios de protocolo} (data.east);
+
+\end{tikzspanish}
+\caption{Modelo de auditoría participativa y transparencia en Red Biet.}
+\end{figure}
+\end{otherlanguage*}
+
+%----------------------------------
+\chapter{Impacto social, ODS e indicadores}
+%----------------------------------
+
+\section{Alineación con los ODS}
+Red Biet se alinea explícitamente con los siguientes Objetivos de Desarrollo Sostenible (ODS):
+\begin{itemize}
+    \item \textbf{ODS 1:} Fin de la pobreza.
+    \item \textbf{ODS 8:} Trabajo decente y crecimiento económico.
+    \item \textbf{ODS 10:} Reducción de las desigualdades.
+    \item \textbf{ODS 16:} Paz, justicia e instituciones sólidas.
+\end{itemize}
+
+\section{Indicadores propuestos}
+Algunos indicadores para evaluar impacto:
+\begin{itemize}
+    \item Número de Biets activos y sostenibles en el tiempo.
+    \item Incremento del ingreso promedio por Biet.
+    \item Porcentaje de transacciones auditables públicamente.
+    \item Participación efectiva en votaciones DAO.
+    \item Reducción de dependencia de subsidios puramente asistenciales.
+\end{itemize}
+
+%----------------------------------
+\chapter{Anexo técnico: esbozo de contratos}
+%----------------------------------
+
+\section{Ejemplo (esquemático) — BGT token (Solidity)}
+\begin{verbatim}
+pragma solidity ^0.8.19;
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+
+contract BGT is ERC20 {
+  constructor(uint256 initialSupply) ERC20("Biet Coin", "BGT") {
+    _mint(msg.sender, initialSupply);
+  }
+}
+\end{verbatim}
+
+\section{Otros contratos (esbozo conceptual)}
+De manera análoga se implementan:
+\begin{itemize}
+    \item \textbf{BietRegistry:} registro de Biets, roles y estados.
+    \item \textbf{BietDAO:} módulo de propuestas, votos y ejecución.
+    \item \textbf{Treasury:} gestión de fondos, reservas y distribución.
+    \item \textbf{BietVault:} almacenamiento de reputación e indicadores.
+\end{itemize}
+
+Las firmas se basan en el esquema ECDSA de Ethereum; el control de acceso puede implementarse con \texttt{AccessControl} de OpenZeppelin.
+
+%----------------------------------
+\chapter*{Referencias}
+\addcontentsline{toc}{chapter}{Referencias}
+%----------------------------------
+
+
+\begin{thebibliography}{99}
+
+\bibitem{OECD2019}
+OECD (2019).
+\newblock Social Expenditure Database (SOCX).
+\newblock \href{https://www.oecd.org/social/expenditure.htm}{https://www.oecd.org/social/expenditure.htm}.
+
+\bibitem{WorldBank2020}
+World Bank (2020).
+\newblock World Development Report 2020.
+\newblock \href{https://www.worldbank.org}{https://www.worldbank.org}.
+
+\bibitem{TI2021}
+Transparency International (2021).
+\newblock Corruption Perceptions Index 2020.
+\newblock \href{https://www.transparency.org/en/cpi/2020}{https://www.transparency.org/en/cpi/2020}.
+
+\bibitem{Allen2017}
+Allen, C. et al. (2017).
+\newblock Decentralized Identifiers (DIDs) v1.0.
+\newblock W3C Recommendation.
+\newblock \href{https://www.w3.org/TR/did-core/}{https://www.w3.org/TR/did-core/}.
+
+\bibitem{Buterin2014}
+Buterin, V. (2014).
+\newblock DAOs, DACs, DAs and More: An Incomplete Terminology Guide.
+\newblock Ethereum Blog.
+\newblock \href{https://blog.ethereum.org}{https://blog.ethereum.org}.
+
+\bibitem{Cong2019}
+Cong, L. W., \& He, Z. (2019).
+\newblock Blockchain Disruption and Smart Contracts.
+\newblock \textit{Review of Financial Studies}.
+\newblock \href{https://doi.org/10.1093/rfs/hhz007}{https://doi.org/10.1093/rfs/hhz007}.
+
+\bibitem{EC2018}
+European Commission (2018).
+\newblock A sustainable bioeconomy for Europe.
+\newblock \href{https://ec.europa.eu}{https://ec.europa.eu}.
+
+\bibitem{Putnam2000}
+Putnam, R. D. (2000).
+\newblock Bowling Alone: The Collapse and Revival of American Community.
+\newblock Simon \& Schuster.
+
+\bibitem{Ravallion1995}
+Ravallion, M. (1995).
+\newblock Measuring Poverty.
+\newblock \textit{The World Bank Economic Review}, 9(3).
+
+\bibitem{Sen1999}
+Sen, A. (1999).
+\newblock Development as Freedom.
+\newblock Oxford University Press.
+
+\end{thebibliography}
+
+\end{document}
