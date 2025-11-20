@@ -1,6 +1,23 @@
 import type { ChangelogEntry } from '@/types/changelog';
 
-export const CHANGELOG: ChangelogEntry[] = [
+export const CHANGELOG = [
+  {
+    version: '0.3.4',
+    date: '2025-11-20',
+    type: 'patch',
+    description: 'Version 0.3.4 release',
+    features: [
+      'Version synchronization across all packages',
+      'Automated version management system',
+    ],
+    improvements: [
+      'Updated all workspace packages to version 0.3.4',
+      'Enhanced version display with GitHub changelog links',
+    ],
+    fixes: [
+      'Fixed version inconsistencies across packages',
+    ],
+  },
   {
     version: '0.3.3',
     date: '2025-11-20',
@@ -127,7 +144,7 @@ export const CHANGELOG: ChangelogEntry[] = [
       'Dependency management with Yarn workspaces',
     ],
   },
-];
+] satisfies ChangelogEntry[];
 
 export function getChangelog(): ChangelogEntry[] {
   return CHANGELOG.slice().sort((a, b) => {
