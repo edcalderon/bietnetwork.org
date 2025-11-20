@@ -7,11 +7,11 @@
  * or disable the default devtool with "devtool: false".
  * If you are looking for production-ready output files, see mode: "production" (https://webpack.js.org/configuration/mode/).
  */
-self["webpackHotUpdate_N_E"]("_app-pages-browser_yarn_berry_cache_xmtp-browser-sdk-npm-5_0_1-fd53d5364c-10c0_zip_node_modul-9e7a01",{},
+self["webpackHotUpdate_N_E"]("_app-pages-browser_yarn_berry_cache_xmtp-browser-sdk-npm-5_0_1-fd53d5364c-10c0_zip_node_modul-17c3e1",{},
 /******/ function(__webpack_require__) { // webpackRuntimeModules
 /******/ /* webpack/runtime/getFullHash */
 /******/ !function() {
-/******/ 	__webpack_require__.h = function() { return "736f22775b3409d7"; }
+/******/ 	__webpack_require__.h = function() { return "8557805a4be53376"; }
 /******/ }();
 /******/ 
 /******/ }
