@@ -4,6 +4,40 @@ All notable changes to Biet Network will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+## [0.3.1] - 2025-11-20
+
+### 🐛 Patch Version
+
+### Added
+- [TODO: Add new features here]
+
+### Improved
+- [TODO: Add improvements here]
+
+### Fixed
+- [TODO: Add bug fixes here]
+
+---
+
+## [0.3.0] - 2025-11-20
+
+### 🚀 Minor Version
+
+### Added
+- Identity dashboard status showing on-chain identity state and creation date
+- `/verify` flow for VERIFIER_ROLE wallets to sign identity attestations
+- Client-only verify page wrapper with Suspense for safer rendering
+
+### Improved
+- Unified `BIET_IDENTITY_ADDRESS` usage via shared config to avoid env drift
+- Simplified web changelog data source used by the version display
+- Normalized workspace package versions to 0.3.0 across apps and packages
+
+### Fixed
+- TypeScript errors in identity dashboard and verify flow (public client typing, icons)
+- Next.js build failures caused by TypeScript-only syntax in `changelog.ts`
+- Repeated docs build artifacts blocking git operations during release
+
 ## [0.2.21] - 2025-11-20
 
 ### 🐛 Patch Version
