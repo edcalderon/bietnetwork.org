@@ -7,9 +7,7 @@ import { keccak256, encodePacked } from 'viem';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { AlertCircle, CheckCircle, Loader2, Shield } from 'lucide-react';
-
-const BIET_IDENTITY_ADDRESS = process.env
-  .NEXT_PUBLIC_BIET_IDENTITY_ADDRESS as `0x${string}`;
+import { BIET_IDENTITY_ADDRESS } from '@/config/contracts';
 
 export default function VerifyIdentityClient() {
   const searchParams = useSearchParams();
