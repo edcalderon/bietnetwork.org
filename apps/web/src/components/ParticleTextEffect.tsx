@@ -376,7 +376,7 @@ export function ParticleTextEffect({ words = DEFAULT_WORDS }: ParticleTextEffect
     <div className="w-full max-w-3xl mx-auto">
       <canvas
         ref={canvasRef}
-        className="w-full h-32 sm:h-40 md:h-48 lg:h-56 rounded-2xl border border-emerald-200/40 dark:border-emerald-500/30 bg-slate-950/80 dark:bg-slate-950/80 shadow-[0_0_80px_rgba(45,212,191,0.25)]"
+        className="w-full h-32 sm:h-40 md:h-48 lg:h-56 rounded-2xl border border-emerald-200/60 dark:border-emerald-500/40 bg-emerald-50/80 dark:bg-slate-950/80 shadow-[0_0_80px_rgba(45,212,191,0.25)]"
       />
     </div>
   );
