@@ -239,6 +239,8 @@ export function IdentityTab() {
   const handleAdminGenerateSignature = async () => {
     if (!adminTarget) return;
 
+    if (!publicClient) return;
+
     const nonce = await publicClient.readContract({
       address: BIET_IDENTITY_ADDRESS,
       abi: [
@@ -257,7 +259,7 @@ export function IdentityTab() {
     const identityHash = keccak256(
       encodePacked(
         ["address", "string", "string", "string", "string", "uint256"],
-        [adminTarget, adminName, adminDid, adminCountry, adminLevel, nonce as bigint],
+        [adminTarget as `0x${string}`, adminName, adminDid, adminCountry, adminLevel, nonce as bigint],
       ),
     );
 

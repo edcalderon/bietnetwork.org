@@ -14,6 +14,9 @@ import {
   TrendingUp,
   Award,
   ExternalLink,
+  Loader2,
+  AlertCircle,
+  CheckCircle,
 } from 'lucide-react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
