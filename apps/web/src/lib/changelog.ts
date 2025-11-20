@@ -2,6 +2,23 @@ import type { ChangelogEntry } from '@/types/changelog';
 
 export const CHANGELOG = [
   {
+    version: '0.3.6',
+    date: '2025-11-20',
+    type: 'patch',
+    description: 'Version 0.3.6 release',
+    features: [
+      'Version synchronization across all packages',
+      'Automated version management system',
+    ],
+    improvements: [
+      'Updated all workspace packages to version 0.3.6',
+      'Enhanced version display with GitHub changelog links',
+    ],
+    fixes: [
+      'Fixed version inconsistencies across packages',
+    ],
+  },
+  {
     version: '0.3.5',
     date: '2025-11-20',
     type: 'patch',
