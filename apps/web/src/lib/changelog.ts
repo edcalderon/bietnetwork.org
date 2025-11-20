@@ -1,15 +1,4 @@
-export interface ChangelogEntry {
-  version: string;
-  date: string;
-  type: 'major' | 'minor' | 'patch';
-  description: string;
-  features: string[];
-  improvements: string[];
-  fixes: string[];
-  breaking?: string[];
-}
-
-export const CHANGELOG: ChangelogEntry[] = [
+export const CHANGELOG = [
   {
     version: '0.3.0',
     date: '2025-11-20',
@@ -104,7 +93,7 @@ export const CHANGELOG: ChangelogEntry[] = [
   },
 ];
 
-export function getChangelog(): ChangelogEntry[] {
+export function getChangelog() {
   return CHANGELOG.sort((a, b) => {
     const versionA = a.version.replace(/^v/, '').split('.').map(Number);
     const versionB = b.version.replace(/^v/, '').split('.').map(Number);
@@ -118,15 +107,15 @@ export function getChangelog(): ChangelogEntry[] {
   });
 }
 
-export function getLatestVersion(): string {
+export function getLatestVersion() {
   return getChangelog()[0]?.version || '0.1.0';
 }
 
-export function getChangelogByVersion(version: string): ChangelogEntry | undefined {
+export function getChangelogByVersion(version) {
   return getChangelog().find(entry => entry.version === version);
 }
 
-export function getUnreadVersions(lastSeenVersion: string): ChangelogEntry[] {
+export function getUnreadVersions(lastSeenVersion) {
   const changelog = getChangelog();
   const currentIndex = changelog.findIndex(entry => entry.version === lastSeenVersion);
   
