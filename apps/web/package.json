@@ -23,6 +23,7 @@
     "@types/react-dom": "^18.2.0",
     "@types/three": "^0.181.0",
     "@wagmi/core": "^2.0.0",
+    "@xmtp/browser-sdk": "^5.0.1",
     "autoprefixer": "^10.4.14",
     "bs58": "^6.0.0",
     "clsx": "^2.1.1",

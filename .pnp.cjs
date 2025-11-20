@@ -3053,6 +3053,7 @@ const RAW_RUNTIME_STATE =
           ["@types/three", "npm:0.181.0"],\
           ["@types/ws", "npm:8.18.1"],\
           ["@wagmi/core", "virtual:9974d8cf0f2b02d26326a7de6d9508091413febc05916aa87992c6be762b4578b7da9d249ebace2a3b2adb6facec3ef71707e317df9b367ffaa4d9800e2023b8#npm:2.22.1"],\
+          ["@xmtp/browser-sdk", "npm:5.0.1"],\
           ["autoprefixer", "virtual:f1bb6e611359e930be10f20e12f2aa67ed0f18318049b188951ba0f2a916ca6a835ddf0595c56a5010968ddba5ce7064e7cc0fa4ba16cc1e4fd896ed6c88d340#npm:10.4.22"],\
           ["bs58", "npm:6.0.0"],\
           ["clsx", "npm:2.1.1"],\
@@ -6310,6 +6311,15 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["@fastify/busboy", [\
+      ["npm:2.1.1", {\
+        "packageLocation": "../../.yarn/berry/cache/@fastify-busboy-npm-2.1.1-455d8b6bf5-10c0.zip/node_modules/@fastify/busboy/",\
+        "packageDependencies": [\
+          ["@fastify/busboy", "npm:2.1.1"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["@floating-ui/core", [\
       ["npm:1.7.3", {\
         "packageLocation": "../../.yarn/berry/cache/@floating-ui-core-npm-1.7.3-2fe40b3781-10c0.zip/node_modules/@floating-ui/core/",\
@@ -7730,6 +7740,98 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "../../.yarn/berry/cache/@polka-url-npm-1.0.0-next.29-b32b372106-10c0.zip/node_modules/@polka/url/",\
         "packageDependencies": [\
           ["@polka/url", "npm:1.0.0-next.29"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@protobufjs/aspromise", [\
+      ["npm:1.1.2", {\
+        "packageLocation": "../../.yarn/berry/cache/@protobufjs-aspromise-npm-1.1.2-71d00b938f-10c0.zip/node_modules/@protobufjs/aspromise/",\
+        "packageDependencies": [\
+          ["@protobufjs/aspromise", "npm:1.1.2"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@protobufjs/base64", [\
+      ["npm:1.1.2", {\
+        "packageLocation": "../../.yarn/berry/cache/@protobufjs-base64-npm-1.1.2-cd8ca6814a-10c0.zip/node_modules/@protobufjs/base64/",\
+        "packageDependencies": [\
+          ["@protobufjs/base64", "npm:1.1.2"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@protobufjs/codegen", [\
+      ["npm:2.0.4", {\
+        "packageLocation": "../../.yarn/berry/cache/@protobufjs-codegen-npm-2.0.4-36e188bbe6-10c0.zip/node_modules/@protobufjs/codegen/",\
+        "packageDependencies": [\
+          ["@protobufjs/codegen", "npm:2.0.4"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@protobufjs/eventemitter", [\
+      ["npm:1.1.0", {\
+        "packageLocation": "../../.yarn/berry/cache/@protobufjs-eventemitter-npm-1.1.0-029cc7d431-10c0.zip/node_modules/@protobufjs/eventemitter/",\
+        "packageDependencies": [\
+          ["@protobufjs/eventemitter", "npm:1.1.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@protobufjs/fetch", [\
+      ["npm:1.1.0", {\
+        "packageLocation": "../../.yarn/berry/cache/@protobufjs-fetch-npm-1.1.0-ca857b7df4-10c0.zip/node_modules/@protobufjs/fetch/",\
+        "packageDependencies": [\
+          ["@protobufjs/fetch", "npm:1.1.0"],\
+          ["@protobufjs/aspromise", "npm:1.1.2"],\
+          ["@protobufjs/inquire", "npm:1.1.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@protobufjs/float", [\
+      ["npm:1.0.2", {\
+        "packageLocation": "../../.yarn/berry/cache/@protobufjs-float-npm-1.0.2-5678f64d08-10c0.zip/node_modules/@protobufjs/float/",\
+        "packageDependencies": [\
+          ["@protobufjs/float", "npm:1.0.2"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@protobufjs/inquire", [\
+      ["npm:1.1.0", {\
+        "packageLocation": "../../.yarn/berry/cache/@protobufjs-inquire-npm-1.1.0-3c7759e9ce-10c0.zip/node_modules/@protobufjs/inquire/",\
+        "packageDependencies": [\
+          ["@protobufjs/inquire", "npm:1.1.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@protobufjs/path", [\
+      ["npm:1.1.2", {\
+        "packageLocation": "../../.yarn/berry/cache/@protobufjs-path-npm-1.1.2-641d08de76-10c0.zip/node_modules/@protobufjs/path/",\
+        "packageDependencies": [\
+          ["@protobufjs/path", "npm:1.1.2"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@protobufjs/pool", [\
+      ["npm:1.1.0", {\
+        "packageLocation": "../../.yarn/berry/cache/@protobufjs-pool-npm-1.1.0-47a76f96a1-10c0.zip/node_modules/@protobufjs/pool/",\
+        "packageDependencies": [\
+          ["@protobufjs/pool", "npm:1.1.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@protobufjs/utf8", [\
+      ["npm:1.1.0", {\
+        "packageLocation": "../../.yarn/berry/cache/@protobufjs-utf8-npm-1.1.0-02c590807c-10c0.zip/node_modules/@protobufjs/utf8/",\
+        "packageDependencies": [\
+          ["@protobufjs/utf8", "npm:1.1.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -16125,6 +16227,73 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "../../.yarn/berry/cache/@webgpu-types-npm-0.1.66-14822b5678-10c0.zip/node_modules/@webgpu/types/",\
         "packageDependencies": [\
           ["@webgpu/types", "npm:0.1.66"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@xmtp/browser-sdk", [\
+      ["npm:5.0.1", {\
+        "packageLocation": "../../.yarn/berry/cache/@xmtp-browser-sdk-npm-5.0.1-fd53d5364c-10c0.zip/node_modules/@xmtp/browser-sdk/",\
+        "packageDependencies": [\
+          ["@xmtp/browser-sdk", "npm:5.0.1"],\
+          ["@xmtp/content-type-group-updated", "npm:2.0.2"],\
+          ["@xmtp/content-type-primitives", "npm:2.0.2"],\
+          ["@xmtp/content-type-text", "npm:2.0.2"],\
+          ["@xmtp/wasm-bindings", "npm:1.5.4"],\
+          ["uuid", "npm:11.1.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@xmtp/content-type-group-updated", [\
+      ["npm:2.0.2", {\
+        "packageLocation": "../../.yarn/berry/cache/@xmtp-content-type-group-updated-npm-2.0.2-989b0b4e85-10c0.zip/node_modules/@xmtp/content-type-group-updated/",\
+        "packageDependencies": [\
+          ["@xmtp/content-type-group-updated", "npm:2.0.2"],\
+          ["@xmtp/content-type-primitives", "npm:2.0.2"],\
+          ["@xmtp/proto", "npm:3.87.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@xmtp/content-type-primitives", [\
+      ["npm:2.0.2", {\
+        "packageLocation": "../../.yarn/berry/cache/@xmtp-content-type-primitives-npm-2.0.2-1725672a32-10c0.zip/node_modules/@xmtp/content-type-primitives/",\
+        "packageDependencies": [\
+          ["@xmtp/content-type-primitives", "npm:2.0.2"],\
+          ["@xmtp/proto", "npm:3.87.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@xmtp/content-type-text", [\
+      ["npm:2.0.2", {\
+        "packageLocation": "../../.yarn/berry/cache/@xmtp-content-type-text-npm-2.0.2-519ba680b6-10c0.zip/node_modules/@xmtp/content-type-text/",\
+        "packageDependencies": [\
+          ["@xmtp/content-type-text", "npm:2.0.2"],\
+          ["@xmtp/content-type-primitives", "npm:2.0.2"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@xmtp/proto", [\
+      ["npm:3.87.0", {\
+        "packageLocation": "../../.yarn/berry/cache/@xmtp-proto-npm-3.87.0-6c0084ac91-10c0.zip/node_modules/@xmtp/proto/",\
+        "packageDependencies": [\
+          ["@xmtp/proto", "npm:3.87.0"],\
+          ["long", "npm:5.3.2"],\
+          ["protobufjs", "npm:7.5.4"],\
+          ["rxjs", "npm:7.8.2"],\
+          ["undici", "npm:5.29.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@xmtp/wasm-bindings", [\
+      ["npm:1.5.4", {\
+        "packageLocation": "../../.yarn/berry/cache/@xmtp-wasm-bindings-npm-1.5.4-55ac9e7634-10c0.zip/node_modules/@xmtp/wasm-bindings/",\
+        "packageDependencies": [\
+          ["@xmtp/wasm-bindings", "npm:1.5.4"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -26342,6 +26511,15 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["long", [\
+      ["npm:5.3.2", {\
+        "packageLocation": "../../.yarn/berry/cache/long-npm-5.3.2-f80d0f7d39-10c0.zip/node_modules/long/",\
+        "packageDependencies": [\
+          ["long", "npm:5.3.2"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["longest-streak", [\
       ["npm:3.1.0", {\
         "packageLocation": "../../.yarn/berry/cache/longest-streak-npm-3.1.0-e2ab1c40ee-10c0.zip/node_modules/longest-streak/",\
@@ -31780,6 +31958,27 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["protobufjs", [\
+      ["npm:7.5.4", {\
+        "packageLocation": "./.yarn/unplugged/protobufjs-npm-7.5.4-4d6f681551/node_modules/protobufjs/",\
+        "packageDependencies": [\
+          ["protobufjs", "npm:7.5.4"],\
+          ["@protobufjs/aspromise", "npm:1.1.2"],\
+          ["@protobufjs/base64", "npm:1.1.2"],\
+          ["@protobufjs/codegen", "npm:2.0.4"],\
+          ["@protobufjs/eventemitter", "npm:1.1.0"],\
+          ["@protobufjs/fetch", "npm:1.1.0"],\
+          ["@protobufjs/float", "npm:1.0.2"],\
+          ["@protobufjs/inquire", "npm:1.1.0"],\
+          ["@protobufjs/path", "npm:1.1.2"],\
+          ["@protobufjs/pool", "npm:1.1.0"],\
+          ["@protobufjs/utf8", "npm:1.1.0"],\
+          ["@types/node", "npm:24.10.1"],\
+          ["long", "npm:5.3.2"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["proxy-addr", [\
       ["npm:2.0.7", {\
         "packageLocation": "../../.yarn/berry/cache/proxy-addr-npm-2.0.7-dae6552872-10c0.zip/node_modules/proxy-addr/",\
@@ -36033,6 +36232,16 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "../../.yarn/berry/cache/uncrypto-npm-0.1.3-3f3076a8ff-10c0.zip/node_modules/uncrypto/",\
         "packageDependencies": [\
           ["uncrypto", "npm:0.1.3"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["undici", [\
+      ["npm:5.29.0", {\
+        "packageLocation": "../../.yarn/berry/cache/undici-npm-5.29.0-caeb96c8ee-10c0.zip/node_modules/undici/",\
+        "packageDependencies": [\
+          ["undici", "npm:5.29.0"],\
+          ["@fastify/busboy", "npm:2.1.1"]\
         ],\
         "linkType": "HARD"\
       }]\

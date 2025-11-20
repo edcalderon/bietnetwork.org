@@ -218,9 +218,34 @@ export default function VerifyIdentityPage() {
                     readOnly
                     value={signature}
                   />
-                  <Button size="sm" variant="outline" onClick={handleCopySignature}>
-                    Copy signature
-                  </Button>
+                  <div className="flex flex-col sm:flex-row gap-2">
+                    <Button size="sm" variant="outline" onClick={handleCopySignature}>
+                      Copy signature
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={() => {
+                        const lines = [
+                          'Biet identity verification signature',
+                          '',
+                          `Target address: ${targetAddress}`,
+                          `Full name: ${name}`,
+                          `DID: ${did}`,
+                          `Country: ${country}`,
+                          `Verification level: ${level}`,
+                          '',
+                          'Signature (paste this into the mint form):',
+                          signature,
+                        ];
+                        const body = encodeURIComponent(lines.join('\n'));
+                        const mailto = `mailto:?subject=Biet%20Identity%20Verification%20Signature&body=${body}`;
+                        window.location.href = mailto;
+                      }}
+                    >
+                      Send signature via email
+                    </Button>
+                  </div>
                 </div>
               )}
 

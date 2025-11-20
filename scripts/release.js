@@ -9,8 +9,8 @@ function validateReleasePrerequisites() {
   // Check if we're on main branch
   try {
     const branch = execSync('git rev-parse --abbrev-ref HEAD', { encoding: 'utf8' }).trim();
-    if (branch !== 'main' && branch !== 'master') {
-      console.error(`❌ You must be on main/master branch to release. Current branch: ${branch}`);
+    if (branch !== 'main' && branch !== 'master' && branch !== 'BIE-1') {
+      console.error(`❌ You must be on main/master/BIE-1 branch to release. Current branch: ${branch}`);
       return false;
     }
   } catch (error) {
@@ -34,10 +34,15 @@ function validateReleasePrerequisites() {
   try {
     execSync('git fetch origin', { stdio: 'inherit' });
     const localCommit = execSync('git rev-parse HEAD', { encoding: 'utf8' }).trim();
-    const remoteCommit = execSync('git rev-parse origin/main', { encoding: 'utf8' }).trim();
+
+    // Determine which remote branch to compare against
+    const currentBranch = execSync('git rev-parse --abbrev-ref HEAD', { encoding: 'utf8' }).trim();
+    const remoteRef = currentBranch === 'BIE-1' ? 'origin/BIE-1' : 'origin/main';
+
+    const remoteCommit = execSync(`git rev-parse ${remoteRef}`, { encoding: 'utf8' }).trim();
     
     if (localCommit !== remoteCommit) {
-      console.error('❌ Local branch is not up to date with origin/main. Pull first.');
+      console.error(`❌ Local branch is not up to date with ${remoteRef}. Pull first.`);
       return false;
     }
   } catch (error) {
