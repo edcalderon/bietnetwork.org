@@ -16,7 +16,7 @@ import {
   TrendingUp,
   User,
 } from "lucide-react";
-import { Client, ConsentState, type Identifier, type Signer } from "@xmtp/browser-sdk";
+import type { Client, ConsentState, Identifier, Signer } from "@xmtp/browser-sdk";
 import { encodePacked, hexToBytes, keccak256 } from "viem";
 import { useWallet } from "@/contexts/WalletContext";
 import { 
@@ -185,6 +185,9 @@ export function IdentityTab() {
         setXmtpError("Unable to build XMTP signer for this wallet.");
         return;
       }
+
+      // Dynamically import XMTP browser SDK at runtime to avoid SSR build issues
+      const { Client, ConsentState } = await import("@xmtp/browser-sdk");
 
       let client = xmtpClient;
       if (!client) {
