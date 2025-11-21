@@ -173,7 +173,7 @@ export default function GeometricSphere() {
   const isMobile = useIsMobile();
   const [targetMousePos, setTargetMousePos] = useState({ x: 0, y: 0 });
   const currentMousePos = useRef({ x: 0, y: 0 });
-  const animationFrameRef = useRef<number>();
+  const animationFrameRef = useRef<number>(0);
 
   // Desktop-only hooks - wrapped in condition but still called every render
   const animateLerp = useCallback(() => {
