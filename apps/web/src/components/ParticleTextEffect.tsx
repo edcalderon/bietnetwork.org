@@ -140,8 +140,10 @@ export function ParticleTextEffect({ words = DEFAULT_WORDS }: ParticleTextEffect
   const frameCountRef = useRef(0);
   const wordIndexRef = useRef(0);
   const mouseRef = useRef({ x: 0, y: 0, isPressed: false, isRightClick: false });
+  const isVisibleRef = useRef(true);
 
-  const pixelSteps = 6;
+  // Slightly larger step to reduce total particles and improve performance
+  const pixelSteps = 10;
   const drawAsPoints = true;
 
   const generateRandomPos = (x: number, y: number, mag: number): Vector2D => {
@@ -278,6 +280,12 @@ export function ParticleTextEffect({ words = DEFAULT_WORDS }: ParticleTextEffect
 
     const particles = particlesRef.current;
 
+    // If the canvas is off-screen, skip rendering work but keep the RAF loop alive
+    if (!isVisibleRef.current) {
+      animationRef.current = requestAnimationFrame(animate);
+      return;
+    }
+
     // Clear previous frame but keep canvas fully transparent so it blends with the hero background
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -330,6 +338,19 @@ export function ParticleTextEffect({ words = DEFAULT_WORDS }: ParticleTextEffect
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     }
 
+    // Observe visibility to pause animation when off-screen (better performance & fewer scroll glitches)
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.target === canvas) {
+            isVisibleRef.current = entry.isIntersecting;
+          }
+        }
+      },
+      { threshold: 0 }
+    );
+    observer.observe(canvas);
+
     nextWord(words[0], canvas);
     animate();
 
@@ -365,6 +386,7 @@ export function ParticleTextEffect({ words = DEFAULT_WORDS }: ParticleTextEffect
       if (animationRef.current) {
         cancelAnimationFrame(animationRef.current);
       }
+      observer.disconnect();
       canvas.removeEventListener('mousedown', handleMouseDown);
       canvas.removeEventListener('mouseup', handleMouseUp);
       canvas.removeEventListener('mousemove', handleMouseMove);
