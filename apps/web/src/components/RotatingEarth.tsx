@@ -308,7 +308,7 @@ export default function RotatingEarth({ width = 800, height = 600, className = "
     let autoRotate = true;
     const rotationSpeed = 0.5;
 
-    let focusTimeout: number | null = null;
+    let focusTimeout: NodeJS.Timeout | null = null;
 
     const rotate = () => {
       // Check for focus target
