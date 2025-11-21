@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import React from 'react';
-import Navbar from '../components/Navbar';
+import dynamic from 'next/dynamic';
 import { VersionDisplay } from '../components/VersionDisplay';
 import { WagmiProviders } from '../providers/WagmiProvider';
 import { WalletProvider } from '../contexts/WalletContext';
@@ -9,6 +9,8 @@ import { LanguageProvider } from '../contexts/LanguageContext';
 import { VersionProvider } from '../contexts/VersionContext';
 import { ThemeProvider } from 'next-themes';
 import { ServiceWorkerRegister } from '../components/ServiceWorkerRegister';
+
+const Navbar = dynamic(() => import('../components/Navbar'), { ssr: false });
 
 function Footer() {
   return (

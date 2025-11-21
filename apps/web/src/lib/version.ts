@@ -32,8 +32,10 @@ export function getVersionDisplay(): string {
 
 export function getFullVersionString(): string {
   const { version, buildNumber, commitHash, buildDate, environment } = VERSION_INFO;
-  
-  return `Biet Network v${version} (${buildNumber}) - ${commitHash.slice(0, 8)} - ${environment} - ${new Date(buildDate).toLocaleDateString()}`;
+  // Use the raw ISO buildDate (or a stable slice) directly to avoid locale-dependent
+  // formatting differences between server and client that can cause hydration errors.
+  const dateDisplay = buildDate.split('T')[0];
+  return `Biet Network v${version} (${buildNumber}) - ${commitHash.slice(0, 8)} - ${dateDisplay}`;
 }
 
 export function isVersionNewer(currentVersion: string, latestVersion: string): boolean {
