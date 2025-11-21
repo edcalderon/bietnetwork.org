@@ -1,6 +1,6 @@
 {
   "name": "@biet-network/ui",
-  "version": "0.3.15",
+  "version": "0.3.16",
   "description": "Shared UI components for Biet Network",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
