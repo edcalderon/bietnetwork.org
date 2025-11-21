@@ -19,7 +19,6 @@ import { useLanguage } from '@/hooks/useLanguage';
 import { TokenInfo } from './TokenInfo';
 import GeometricSphere from '@/components/ui/geometric-sphere';
 import { ParticleTextEffect } from '@/components/ParticleTextEffect';
-import { InstallPwaButton } from '@/components/InstallPwaButton';
 
 export function HeroSection() {
   const { isConnected } = useWallet();
@@ -110,7 +109,6 @@ export function HeroSection() {
                   </span>
                 )}
               </Button>
-              <InstallPwaButton />
             </div>
 
             {isConnected && (

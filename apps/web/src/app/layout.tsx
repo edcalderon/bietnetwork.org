@@ -9,6 +9,7 @@ import { LanguageProvider } from '../contexts/LanguageContext';
 import { VersionProvider } from '../contexts/VersionContext';
 import { ThemeProvider } from 'next-themes';
 import { ServiceWorkerRegister } from '../components/ServiceWorkerRegister';
+import { InstallPwaButton } from '../components/InstallPwaButton';
 
 const Navbar = dynamic(() => import('../components/Navbar'), { ssr: false });
 
@@ -57,6 +58,10 @@ export default function RootLayout({
                   <main className="min-h-screen pt-16">
                     {children}
                   </main>
+                  {/* Global floating Install PWA button (only shows when installable) */}
+                  <div className="fixed bottom-4 right-4 z-40 flex flex-col items-end gap-2">
+                    <InstallPwaButton />
+                  </div>
                   <Footer />
                 </WalletProvider>
               </WagmiProviders>
