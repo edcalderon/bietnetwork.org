@@ -20,11 +20,12 @@ function HomepageHeader() {
         </Heading>
         <p className="hero__subtitle">{siteConfig.tagline}</p>
         <div className={styles.buttons}>
-          <Link
+          <a
             className="button button--secondary button--lg"
-            to={isDevelopment ? "http://localhost:3000" : "https://bietnetwork.org"}>
+            href={isDevelopment ? "http://localhost:3000" : "https://bietnetwork.org"}
+            target="_self">
             Ir al Sitio Principal
-          </Link>
+          </a>
         </div>
       </div>
     </header>
