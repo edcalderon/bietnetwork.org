@@ -112,17 +112,20 @@ contract ProductiveUnit is ERC721, ERC721URIStorage, AccessControl, Initializabl
         if (admin == address(0) || _bgtToken == address(0) || _identityContract == address(0)) {
             revert InvalidAddress();
         }
-        
+
         _grantRole(DEFAULT_ADMIN_ROLE, admin);
         _grantRole(ADMIN_ROLE, admin);
         _grantRole(CREATOR_ROLE, admin);
         _grantRole(OPERATOR_ROLE, admin);
-        
+
         bgtToken = _bgtToken;
         identityContract = _identityContract;
         treasuryAddress = _treasuryAddress;
         platformFeePercentage = feePercentage;
-        
+
+        // Ensure default categories exist on direct deployments as well
+        _createDefaultCategories();
+
         _disableInitializers();
     }
     

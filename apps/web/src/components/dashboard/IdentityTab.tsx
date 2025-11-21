@@ -329,29 +329,35 @@ export function IdentityTab() {
         </CardHeader>
         <CardContent className="space-y-4">
           {identityBalance && identityBalance > 0n && identity ? (
-            <div className="p-4 bg-green-50 dark:bg-green-900/30 border border-green-200/60 dark:border-green-500/30 rounded-lg">
+            <div className="p-4 bg-green-50 dark:bg-green-900/40 border border-green-200/70 dark:border-green-500/50 rounded-lg">
               <div className="flex items-center gap-2 mb-2">
-                <CheckCircle className="h-5 w-5 text-green-600 dark:text-green-400" />
-                <h4 className="font-medium text-green-700 dark:text-green-300">
+                <CheckCircle className="h-5 w-5 text-green-600 dark:text-green-300" />
+                <h4 className="font-semibold text-green-800 dark:text-green-100">
                   Identity Created Successfully
                 </h4>
               </div>
-              <div className="space-y-2 text-sm text-green-600 dark:text-green-400">
-                <p>
-                  <strong>Full Name:</strong> {(identity as any).name ?? (identity as any)[0]}
+              <div className="space-y-1.5 text-sm">
+                <p className="text-green-800 dark:text-green-50">
+                  <span className="font-medium text-green-900 dark:text-green-200">Full Name:</span>{" "}
+                  {(identity as any).name ?? (identity as any)[0]}
                 </p>
-                <p>
-                  <strong>DID:</strong> {(identity as any).did ?? (identity as any)[1]}
+                <p className="text-green-800 dark:text-green-50 break-all">
+                  <span className="font-medium text-green-900 dark:text-green-200">DID:</span>{" "}
+                  <span className="font-mono text-xs sm:text-[13px]">
+                    {(identity as any).did ?? (identity as any)[1]}
+                  </span>
                 </p>
-                <p>
-                  <strong>Country:</strong> {(identity as any).country ?? (identity as any)[2]}
+                <p className="text-green-800 dark:text-green-50">
+                  <span className="font-medium text-green-900 dark:text-green-200">Country:</span>{" "}
+                  {(identity as any).country ?? (identity as any)[2]}
                 </p>
-                <p>
-                  <strong>Verification Level:</strong>{" "}
+                <p className="text-green-800 dark:text-green-50">
+                  <span className="font-medium text-green-900 dark:text-green-200">Verification Level:</span>{" "}
                   {(identity as any).verificationLevel ?? (identity as any)[3]}
                 </p>
-                <p>
-                  <strong>Created At:</strong> {createdAtFormatted ? createdAtFormatted : "N/A"}
+                <p className="text-green-800 dark:text-green-50">
+                  <span className="font-medium text-green-900 dark:text-green-200">Created At:</span>{" "}
+                  {createdAtFormatted ? createdAtFormatted : "N/A"}
                 </p>
               </div>
             </div>

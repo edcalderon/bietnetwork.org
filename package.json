@@ -1,6 +1,6 @@
 {
   "name": "biet-network",
-  "version": "0.3.17",
+  "version": "0.3.18",
   "private": true,
   "workspaces": [
     "apps/*",
@@ -24,7 +24,7 @@
     "contracts:deploy": "turbo run deploy --filter=contracts",
     "web:dev": "turbo run dev --filter=@biet-network/web",
     "web:dev:docs": "concurrently \"yarn web:dev\" \"cd apps/docs && NODE_ENV=development yarn start --port 3001\"",
-    "web:build": "node scripts/set-version.js && cd apps/docs && yarn build:copy && cd ../web && yarn dlx turbo@latest run build --filter=@biet-network/web",
+    "web:build": "node scripts/set-version.js && cd apps/docs && yarn build:copy && cd ../web && turbo run build --filter=@biet-network/web",
     "web:deploy": "node scripts/set-version.js && turbo run deploy --filter=@biet-network/web"
   },
   "devDependencies": {

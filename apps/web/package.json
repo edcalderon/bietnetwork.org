@@ -1,6 +1,6 @@
 {
   "name": "@biet-network/web",
-  "version": "0.3.17",
+  "version": "0.3.18",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -19,14 +19,15 @@
     "@tanstack/query-core": "^5.0.0",
     "@tanstack/react-query": "^5.90.10",
     "@types/node": "^20.0.0",
-    "@types/react": "^18.2.0",
-    "@types/react-dom": "^18.2.0",
+    "@types/react": "^19.2.6",
+    "@types/react-dom": "^19.2.3",
     "@types/three": "^0.181.0",
     "@wagmi/core": "^2.0.0",
     "@xmtp/browser-sdk": "^5.0.1",
     "autoprefixer": "^10.4.14",
     "bs58": "^6.0.0",
     "clsx": "^2.1.1",
+    "d3": "^7.9.0",
     "ethers": "^6.8.0",
     "framer-motion": "^12.23.24",
     "lucide-react": "^0.554.0",
@@ -46,6 +47,7 @@
   },
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.19",
+    "@types/d3": "^7",
     "@types/ws": "^8",
     "eslint": "^8.42.0",
     "eslint-config-next": "^14.0.0",

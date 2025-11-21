@@ -25,6 +25,7 @@ export function WalletButton() {
   const { t } = useLanguage();
   
   const [isOpen, setIsOpen] = useState(false);
+  const [copied, setCopied] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   // Close dropdown when clicking outside
@@ -87,8 +88,8 @@ export function WalletButton() {
           >
             <Card className="border-0 shadow-none">
               <CardHeader className="pb-3">
-                <CardTitle className="text-lg">{t('wallet.connect')}</CardTitle>
-                <CardDescription className="text-sm">
+                <CardTitle className="text-lg text-gray-900 dark:text-gray-50">{t('wallet.connect')}</CardTitle>
+                <CardDescription className="text-sm text-gray-600 dark:text-gray-300">
                   {t('dashboard.connectDescription')}
                 </CardDescription>
               </CardHeader>
@@ -184,11 +185,11 @@ export function WalletButton() {
       {isOpen && (
         <div
           ref={dropdownRef}
-          className="absolute right-0 mt-2 w-80 max-w-[90vw] bg-gradient-to-b from-white/95 to-gray-50/95 dark:from-gray-900/95 dark:to-gray-950/95 rounded-2xl shadow-xl border border-gray-200/80 dark:border-gray-700/80 z-50 backdrop-blur-md"
+          className="absolute right-0 mt-2 w-80 max-w-[90vw] bg-white dark:bg-gray-900 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 z-50"
         >
           <Card className="border-0 shadow-none bg-transparent">
             <CardHeader className="pb-3">
-              <CardTitle className="text-lg flex items-center gap-2">
+              <CardTitle className="text-lg flex items-center gap-2 text-gray-900 dark:text-gray-50">
                 <Wallet className="h-5 w-5" />
                 {t('wallet.connected')}
                 {isAdmin && (
@@ -197,7 +198,7 @@ export function WalletButton() {
                   </span>
                 )}
               </CardTitle>
-              <CardDescription>
+              <CardDescription className="text-gray-600 dark:text-gray-300">
                 {isAdmin 
                   ? "You have admin privileges for Biet Network"
                   : "Connected to Biet Network"
@@ -215,12 +216,25 @@ export function WalletButton() {
                     {formatAddressMiddle(address, 8, 6)}
                   </p>
                 </div>
-                <span className="hidden sm:inline-flex text-[10px] px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-300 font-medium whitespace-nowrap">
-                  Connected
-                </span>
+                <button
+                  type="button"
+                  onClick={async () => {
+                    if (!address) return;
+                    try {
+                      await navigator.clipboard.writeText(address);
+                      setCopied(true);
+                      setTimeout(() => setCopied(false), 1500);
+                    } catch (err) {
+                      console.error('Failed to copy address', err);
+                    }
+                  }}
+                  className="inline-flex items-center px-2 py-1 rounded-md border border-gray-200 dark:border-gray-700 bg-white/80 dark:bg-gray-800/80 text-[10px] font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors whitespace-nowrap"
+                >
+                  {copied ? 'Copied' : 'Copy'}
+                </button>
               </div>
 
-              {/* Chain Status */}
+              {/* Chain Status & Network Switch */}
               <div className="space-y-2">
                 <div className="flex items-center gap-2">
                   {isCorrectChain ? (
@@ -240,26 +254,24 @@ export function WalletButton() {
                   )}
                 </div>
 
-                {!isCorrectChain && (
-                  <div className="space-y-2">
-                    <Button
-                      onClick={() => switchChain({ chainId: base.id })}
-                      variant="outline"
-                      size="sm"
-                      className="w-full"
-                    >
-                      {t('wallet.switchToBase')} Mainnet
-                    </Button>
-                    <Button
-                      onClick={() => switchChain({ chainId: baseSepolia.id })}
-                      variant="outline"
-                      size="sm"
-                      className="w-full"
-                    >
-                      {t('wallet.switchToBase')} Sepolia
-                    </Button>
-                  </div>
-                )}
+                <div className="space-y-2">
+                  <Button
+                    onClick={() => switchChain({ chainId: base.id })}
+                    variant="outline"
+                    size="sm"
+                    className="w-full"
+                  >
+                    {t('wallet.switchToBase')} Mainnet
+                  </Button>
+                  <Button
+                    onClick={() => switchChain({ chainId: baseSepolia.id })}
+                    variant="outline"
+                    size="sm"
+                    className="w-full"
+                  >
+                    {t('wallet.switchToBase')} Sepolia
+                  </Button>
+                </div>
               </div>
 
               {/* Admin Actions */}

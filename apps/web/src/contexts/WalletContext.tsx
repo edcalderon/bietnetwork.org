@@ -10,6 +10,11 @@ const ADMIN_ADDRESSES = [
   // Add more admin addresses as needed
 ] as const;
 
+// Optional deployer/admin address from env so it always has admin view
+const DEPLOYER_ADDRESS = process.env.NEXT_PUBLIC_DEPLOYER_ADDRESS
+  ? process.env.NEXT_PUBLIC_DEPLOYER_ADDRESS.toLowerCase()
+  : undefined;
+
 interface WalletContextType {
   isConnected: boolean;
   address: string | undefined;
@@ -34,7 +39,10 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
   // Check if user is admin
   useEffect(() => {
     if (address) {
-      setIsAdmin(ADMIN_ADDRESSES.includes(address.toLowerCase() as typeof ADMIN_ADDRESSES[0]));
+      const normalized = address.toLowerCase();
+      const isInStaticList = ADMIN_ADDRESSES.includes(normalized as typeof ADMIN_ADDRESSES[0]);
+      const isDeployer = DEPLOYER_ADDRESS ? normalized === DEPLOYER_ADDRESS : false;
+      setIsAdmin(isInStaticList || isDeployer);
     } else {
       setIsAdmin(false);
     }

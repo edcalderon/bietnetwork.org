@@ -1,0 +1,463 @@
+"use client";
+
+import React from 'react';
+import { FaLeaf, FaHandsHelping, FaChartLine, FaGlobeAmericas } from 'react-icons/fa';
+import FeatureCard from '../../components/ui/FeatureCard';
+import { useLanguage } from '@/hooks/useLanguage';
+import ParticleSphere from '../../components/ParticleSphere';
+import RotatingEarth from '@/components/RotatingEarth';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { usePublicClient } from 'wagmi';
+import { PRODUCTIVE_UNIT_ADDRESS, PRODUCTIVE_UNIT_ABI } from '@/config/contracts';
+
+interface BietDetails {
+  tokenId: bigint;
+  name: string;
+  description: string;
+  category: string;
+  location: string;
+  creator: string;
+  metadataURI: string;
+  tags: string[];
+}
+
+export default function BietsPage(): React.JSX.Element {
+  const { t } = useLanguage();
+  const router = useRouter();
+  const publicClient = usePublicClient();
+
+  const [showGlobeHero, setShowGlobeHero] = useState(false);
+  const [biets, setBiets] = useState<BietDetails[]>([]);
+  const [markers, setMarkers] = useState<{ lat: number; lng: number }[]>([]);
+  const [isLoadingMarkers, setIsLoadingMarkers] = useState(false);
+  const [markersError, setMarkersError] = useState<string | null>(null);
+
+  // Handle Biet click to focus on globe
+  const handleBietClick = (biet: BietDetails) => {
+    // Emit custom event for globe to focus on this biet
+    window.dispatchEvent(new CustomEvent('focusBiet', { 
+      detail: { 
+        tokenId: biet.tokenId.toString(),
+        location: biet.location 
+      } 
+    }));
+  };
+
+  useEffect(() => {
+    if (!publicClient || !PRODUCTIVE_UNIT_ADDRESS) return;
+
+    const COUNTRY_COORDS: Record<string, { lat: number; lng: number }> = {
+      Colombia: { lat: 4.711, lng: -74.072 },
+      Mexico: { lat: 19.4326, lng: -99.1332 },
+      'United States': { lat: 39.8283, lng: -98.5795 },
+      Brazil: { lat: -14.235, lng: -51.9253 },
+      Argentina: { lat: -38.4161, lng: -63.6167 },
+      Chile: { lat: -35.6751, lng: -71.543 },
+      Peru: { lat: -9.19, lng: -75.0152 },
+      Spain: { lat: 40.4637, lng: -3.7492 },
+    };
+
+    const loadMarkers = async () => {
+      try {
+        setIsLoadingMarkers(true);
+        setMarkersError(null);
+
+        const latestBlock = await publicClient.getBlockNumber();
+        const RANGE = 10_000n;
+        const fromBlock = latestBlock > RANGE ? latestBlock - RANGE : 0n;
+
+        const logs = await publicClient.getLogs({
+          address: PRODUCTIVE_UNIT_ADDRESS,
+          event: {
+            type: 'event',
+            name: 'BietCreated',
+            inputs: [
+              { indexed: true, type: 'uint256', name: 'tokenId', internalType: 'uint256' },
+              { indexed: true, type: 'address', name: 'creator', internalType: 'address' },
+              { indexed: false, type: 'string', name: 'name', internalType: 'string' },
+              { indexed: false, type: 'string', name: 'category', internalType: 'string' },
+              { indexed: false, type: 'uint256', name: 'royaltyPercentage', internalType: 'uint256' },
+            ],
+          } as any,
+          fromBlock,
+          toBlock: latestBlock,
+        });
+
+        const tokenIds = logs
+          .map((log: any) => log.args?.tokenId as bigint | undefined)
+          .filter((id: any): id is bigint => id !== undefined);
+
+        const uniqueTokenIds = Array.from(new Set(tokenIds.map((id: any) => id.toString()))).map((id: unknown) => BigInt(id as string));
+
+        const bietDetails: BietDetails[] = [];
+        const newMarkers: { lat: number; lng: number }[] = [];
+
+        for (const tokenId of uniqueTokenIds) {
+          try {
+            const biet = await publicClient.readContract({
+              address: PRODUCTIVE_UNIT_ADDRESS,
+              abi: PRODUCTIVE_UNIT_ABI as any,
+              functionName: 'biets',
+              args: [tokenId],
+            });
+
+            const bietData = biet as any;
+            
+            // Data is returned as array according to ABI order:
+            // 0: name, 1: description, 2: category, 3: creator, 4: createdAt, 
+            // 5: royaltyPercentage, 6: isActive, 7: totalRevenue, 8: totalDistributed,
+            // 9: location, 10: tags
+            
+            const bietArray = bietData as any[];
+            const location = bietArray[9] || '';
+            
+            // Store full Biet details for the list
+            bietDetails.push({
+              tokenId,
+              name: bietArray[0] || `Biet #${tokenId.toString()}`,
+              description: bietArray[1] || '',
+              category: bietArray[2] || '',
+              location: location,
+              creator: bietArray[3] || '',
+              metadataURI: '', // metadataURI is stored separately, not in this struct
+              tags: bietArray[10] || [],
+            });
+            
+            // Add marker if location is known
+            if (location && COUNTRY_COORDS[location]) {
+              newMarkers.push(COUNTRY_COORDS[location]);
+            }
+          } catch (err) {
+            // ignore individual read errors
+          }
+        }
+
+        setBiets(bietDetails);
+        setMarkers(newMarkers);
+      } catch (err: any) {
+        setMarkersError(err?.message ?? 'Failed to load Biet locations.');
+      } finally {
+        setIsLoadingMarkers(false);
+      }
+    };
+
+    loadMarkers();
+  }, [publicClient]);
+
+  return (
+    <div className="min-h-screen relative">
+      {/* Global Particle Sphere Background */}
+      <div className="fixed inset-0 z-0">
+        <ParticleSphere />
+      </div>
+      
+      {/* Content Overlay */}
+      <div className="relative z-10">
+        {/* Hero Section */}
+        <div className="h-screen w-full flex flex-col items-center justify-center">
+          {!showGlobeHero ? (
+            <div className="text-center p-6">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-green-500/10 border border-green-500/20 mb-6 backdrop-blur-sm">
+                <span className="text-sm font-medium text-gray-200">
+                  🌱 {t('biets.title')}
+                </span>
+              </div>
+
+              <h1 className="text-5xl md:text-7xl font-bold tracking-tighter mb-6 bg-clip-text text-transparent bg-gradient-to-b from-white to-gray-400">
+                {t('biets.title')}
+              </h1>
+
+              <p className="max-w-2xl mx-auto text-lg text-gray-400 mb-10">
+                {t('biets.subtitle')}
+              </p>
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <button
+                  className="px-8 py-4 bg-green-600 text-white font-semibold rounded-lg shadow-lg hover:bg-green-700 transition-colors duration-300 flex items-center gap-2"
+                  onClick={() => router.push('/dashboard?tab=biets')}
+                >
+                  {t('biets.join')}
+                  <FaLeaf className="h-5 w-5" />
+                </button>
+                <button
+                  className="px-8 py-4 bg-transparent border border-green-400 text-green-100 font-semibold rounded-lg hover:bg-green-500/10 transition-colors duration-300 flex items-center gap-2"
+                  onClick={() => setShowGlobeHero(true)}
+                >
+                  View all Biets on globe
+                  <FaGlobeAmericas className="h-5 w-5" />
+                </button>
+              </div>
+            </div>
+          ) : (
+            <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-0">
+              <div className="relative w-full h-full flex">
+                {/* Close Button */}
+                <button
+                  onClick={() => setShowGlobeHero(false)}
+                  className="absolute top-4 right-4 z-10 bg-black/50 text-white p-3 rounded-full hover:bg-black/70 transition-colors"
+                >
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+
+                {/* Globe Container - Takes 60% of screen */}
+                <div className="w-[60%] h-full flex items-center justify-center bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
+                  <div className="relative w-full h-full flex items-center justify-center">
+                    <RotatingEarth markers={markers} biets={biets} />
+                  </div>
+                </div>
+
+                {/* Biet List - Takes 40% of screen */}
+                <div className="w-[40%] h-full bg-slate-800/95 backdrop-blur-sm border-l border-slate-700">
+                  <div className="h-full flex flex-col">
+                    {/* Header */}
+                    <div className="p-6 border-b border-slate-700">
+                      <h2 className="text-xl font-bold text-white mb-2 flex items-center gap-2">
+                        <svg className="w-5 h-5 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
+                          <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/>
+                          <path fillRule="evenodd" d="M4 5a2 2 0 012-2 1 1 0 000 2H6a2 2 0 100 4h2a2 2 0 100 4h2a1 1 0 100 2 2 2 0 01-2 2H4a2 2 0 01-2-2V7a2 2 0 012-2z" clipRule="evenodd"/>
+                        </svg>
+                        All Biets
+                      </h2>
+                      <p className="text-slate-400 text-sm">Click any Biet to focus on its location</p>
+                      {biets.length > 0 && (
+                        <div className="mt-3">
+                          <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-500/20 text-blue-400 border border-blue-500/30">
+                            {biets.length} {biets.length === 1 ? 'Biet' : 'Biets'} Available
+                          </span>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Biet List */}
+                    <div className="flex-1 overflow-y-auto p-6">
+                      {biets.length === 0 ? (
+                        <div className="flex flex-col items-center justify-center h-full text-center">
+                          <svg className="w-16 h-16 text-slate-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                          </svg>
+                          <h3 className="text-lg font-medium text-slate-300 mb-2">No Biets Found</h3>
+                          <p className="text-slate-500 text-sm max-w-md">
+                            No Biets have been created yet. Check back soon or create a new Biet to get started.
+                          </p>
+                        </div>
+                      ) : (
+                        <div className="space-y-4">
+                          {biets.map((biet: BietDetails) => (
+                            <div
+                              key={biet.tokenId.toString()}
+                              onClick={() => handleBietClick(biet)}
+                              className="bg-slate-700/50 hover:bg-slate-700 border border-slate-600/50 hover:border-blue-500/50 rounded-xl p-5 cursor-pointer transition-all duration-200 hover:shadow-lg hover:shadow-blue-500/10 group"
+                            >
+                              <div className="flex items-start justify-between mb-3">
+                                <div>
+                                  <h3 className="text-white font-semibold text-lg group-hover:text-blue-400 transition-colors">
+                                    {biet.name}
+                                  </h3>
+                                  <p className="text-slate-400 text-sm font-mono">
+                                    #{biet.tokenId.toString()}
+                                  </p>
+                                </div>
+                              </div>
+                              <p className="text-slate-300 text-sm mb-4 line-clamp-2 leading-relaxed">
+                                {biet.description || 'No description available'}
+                              </p>
+                              <div className="flex items-center justify-between flex-wrap gap-3">
+                                <span className="text-sm text-green-400 bg-green-400/10 px-3 py-1.5 rounded-full font-medium border border-green-400/20">
+                                  {biet.category || 'Uncategorized'}
+                                </span>
+                                <div className="flex items-center gap-3">
+                                  {biet.location && (
+                                    <span className="text-sm text-slate-400 flex items-center gap-1.5 bg-slate-600/50 px-3 py-1.5 rounded-full">
+                                      <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd"/>
+                                      </svg>
+                                      {biet.location}
+                                    </span>
+                                  )}
+                                  <a
+                                    href={`https://sepolia.basescan.org/token/${PRODUCTIVE_UNIT_ADDRESS}?a=${biet.tokenId.toString()}`}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-xs text-blue-400 hover:text-blue-300 flex items-center gap-1 bg-blue-400/10 px-2 py-1.5 rounded-full hover:bg-blue-400/20 transition-colors"
+                                    title="View on Base Sepolia Explorer"
+                                    onClick={(e: any) => e.stopPropagation()}
+                                  >
+                                    <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                                      <path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z"/>
+                                      <path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z"/>
+                                    </svg>
+                                    Explorer
+                                  </a>
+                                </div>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="relative min-h-[70vh] w-full flex flex-col lg:flex-row gap-8 items-center justify-center">
+              {/* Close button */}
+              <button
+                onClick={() => setShowGlobeHero(false)}
+                className="absolute top-4 right-4 z-20 bg-gray-900/90 backdrop-blur-sm text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition-colors border border-gray-700"
+              >
+                ✕ Close map
+              </button>
+
+              {/* Globe container */}
+              <div className="flex-1 w-full h-[500px] relative">
+                <RotatingEarth markers={markers} biets={biets} />
+              </div>
+
+              {/* Biets list */}
+              <div className="w-full lg:w-80 h-[500px] bg-gray-900/90 backdrop-blur-sm rounded-xl border border-gray-700 p-4 overflow-y-auto">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-xl font-bold text-white flex items-center gap-2">
+                    <FaGlobeAmericas className="text-green-400" />
+                    All Biets
+                  </h3>
+                  {!isLoadingMarkers && !markersError && (
+                    <span className="text-sm text-gray-400 bg-gray-700/50 px-2 py-1 rounded-md">
+                      {biets.length}
+                    </span>
+                  )}
+                </div>
+                {isLoadingMarkers ? (
+                  <p className="text-gray-400 text-sm">Loading Biet locations...</p>
+                ) : markersError ? (
+                  <p className="text-red-400 text-sm">{markersError}</p>
+                ) : biets.length === 0 ? (
+                  <p className="text-gray-400 text-sm">No Biets found</p>
+                ) : (
+                  <div className="space-y-4">
+                    {biets.map((biet: BietDetails) => (
+                      <div
+                        key={biet.tokenId.toString()}
+                        className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-4 hover:bg-gray-700/50 transition-all duration-300 cursor-pointer border border-gray-600/50 hover:border-green-500/50 hover:shadow-lg hover:shadow-green-500/10"
+                        onClick={() => {
+                          // Focus on this Biet in the globe
+                          const event = new CustomEvent('focusBiet', { detail: { tokenId: biet.tokenId.toString(), location: biet.location } });
+                          window.dispatchEvent(event);
+                        }}
+                      >
+                        <div className="flex items-start justify-between mb-3">
+                          <h4 className="text-white font-semibold text-base flex-1 mr-2">{biet.name}</h4>
+                          <span className="text-xs text-gray-400 bg-gray-700/50 px-2 py-1 rounded-md font-mono">
+                            #{biet.tokenId.toString()}
+                          </span>
+                        </div>
+                        <p className="text-gray-300 text-sm mb-3 line-clamp-2 leading-relaxed">
+                          {biet.description || 'No description available'}
+                        </p>
+                        <div className="flex items-center justify-between flex-wrap gap-2">
+                          <span className="text-sm text-green-400 bg-green-400/10 px-3 py-1.5 rounded-full font-medium border border-green-400/20">
+                            {biet.category || 'Uncategorized'}
+                          </span>
+                          <div className="flex items-center gap-2">
+                            {biet.location && (
+                              <span className="text-sm text-gray-400 flex items-center gap-1.5 bg-gray-700/30 px-3 py-1.5 rounded-full">
+                                <FaGlobeAmericas className="text-gray-500" />
+                                {biet.location}
+                              </span>
+                            )}
+                            <a
+                              href={`https://sepolia.basescan.org/token/${PRODUCTIVE_UNIT_ADDRESS}?a=${biet.tokenId.toString()}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-xs text-blue-400 hover:text-blue-300 flex items-center gap-1 bg-blue-400/10 px-2 py-1.5 rounded-full hover:bg-blue-400/20 transition-colors"
+                              title="View on Base Sepolia Explorer"
+                              onClick={(e: any) => e.stopPropagation()}
+                            >
+                              <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z"/>
+                                <path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z"/>
+                              </svg>
+                              Explorer
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Content Section */}
+        <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-50 dark:from-gray-900 dark:to-gray-800 py-16 px-4 sm:px-6 lg:px-8">
+          <div className="max-w-7xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+              <FeatureCard
+                icon={<FaLeaf className="text-white" />}
+                title={t('biets.agricultural')}
+                description={t('landing.features.decentralizedDesc')}
+                gradient="bg-green-500"
+              />
+              <FeatureCard
+                icon={<FaHandsHelping className="text-white" />}
+                title={t('biets.renewable')}
+                description={t('landing.features.transparentDesc')}
+                gradient="bg-teal-500"
+              />
+              <FeatureCard
+                icon={<FaChartLine className="text-white" />}
+                title={t('biets.manufacturing')}
+                description={t('landing.features.rewardingDesc')}
+                gradient="bg-emerald-500"
+              />
+            </div>
+
+            <div className="bg-transparent rounded-2xl p-8 shadow-lg">
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">{t('biets.available')}</h2>
+              <div className="prose dark:prose-invert max-w-none">
+                <p className="text-lg text-center">
+                  {t('biets.subtitle')}. 
+                  {t('landing.features.transparentDesc')}
+                </p>
+                
+                <h3 className="text-xl font-semibold mt-8 mb-4">{t('biets.education')}</h3>
+                <ul className="space-y-3">
+                  <li className="flex items-start">
+                    <div className="flex-shrink-0 h-6 w-6 text-green-500 mr-2">✓</div>
+                    <span>{t('biets.healthcare')}</span>
+                  </li>
+                  <li className="flex items-start">
+                    <div className="flex-shrink-0 h-6 w-6 text-green-500 mr-2">✓</div>
+                    <span>{t('biets.technology')}</span>
+                  </li>
+                  <li className="flex items-start">
+                    <div className="flex-shrink-0 h-6 w-6 text-green-500 mr-2">✓</div>
+                    <span>{t('biets.join')}</span>
+                  </li>
+                  <li className="flex items-start">
+                    <div className="flex-shrink-0 h-6 w-6 text-green-500 mr-2">✓</div>
+                    <span>{t('biets.viewDetails')}</span>
+                  </li>
+                </ul>
+
+                <div className="mt-8 bg-green-50/80 dark:bg-green-900/40 p-6 rounded-lg border border-green-100/50 dark:border-green-900/50 backdrop-blur-sm">
+                  <h3 className="text-lg font-semibold text-green-800 dark:text-green-200 mb-3">{t('landing.cta.title')}</h3>
+                  <p className="text-green-700 dark:text-green-300 mb-4">
+                    {t('landing.cta.description')}
+                  </p>
+                  <button className="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-6 rounded-lg transition-colors">
+                    {t('biets.join')}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

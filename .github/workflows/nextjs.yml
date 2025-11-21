@@ -139,6 +139,8 @@ jobs:
           BIET_IDENTITY_ADDRESS: ${{ vars.BIET_IDENTITY_ADDRESS }}
           BGT_TOKEN_ADDRESS: ${{ vars.BGT_TOKEN_ADDRESS }}
           BGT_SALE_ADDRESS: ${{ vars.BGT_SALE_ADDRESS }}
+          DEPLOYER_ADDRESS: ${{ vars.DEPLOYER_ADDRESS }}
+          
       - name: Build web app with Turbo
         run: yarn dlx turbo@latest run build --filter=@biet-network/web
         env:
@@ -148,6 +150,8 @@ jobs:
           NEXT_PUBLIC_BIET_IDENTITY_ADDRESS: ${{ vars.BIET_IDENTITY_ADDRESS }}
           NEXT_PUBLIC_BGT_TOKEN_ADDRESS: ${{ vars.BGT_TOKEN_ADDRESS }}
           NEXT_PUBLIC_BGT_SALE_ADDRESS: ${{ vars.BGT_SALE_ADDRESS }}
+          NEXT_PUBLIC_DEPLOYER_ADDRESS: ${{ vars.DEPLOYER_ADDRESS }}
+          NEXT_PUBLIC_PRODUCTIVE_UNIT_ADDRESS: ${{ vars.PRODUCTIVE_UNIT_ADDRESS }}
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:

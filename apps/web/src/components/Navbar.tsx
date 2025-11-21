@@ -127,23 +127,36 @@ export default function Navbar() {
               </DropdownMenuContent>
             </DropdownMenu>
             
-            {/* Admin Navigation */}
+            {/* Admin Dashboards Dropdown */}
             {isAdmin && (
               <>
                 <div className="w-px h-6 bg-gradient-to-b from-transparent via-purple-300 to-transparent mx-2" />
-                {adminNavigation.map((item) => {
-                  const Icon = item.icon;
-                  return (
-                    <Link
-                      key={item.name}
-                      href={item.href}
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      variant="ghost"
                       className="group flex items-center space-x-2 px-4 py-2 rounded-xl text-purple-700 dark:text-purple-300 hover:text-purple-800 dark:hover:text-purple-200 hover:bg-purple-100 dark:hover:bg-purple-900/30 transition-all duration-300 hover:scale-105"
                     >
-                      <Icon className="h-4 w-4 group-hover:scale-110 transition-transform duration-300" />
-                      <span className="font-medium">{item.name}</span>
-                    </Link>
-                  );
-                })}
+                      <Shield className="h-4 w-4 group-hover:scale-110 transition-transform duration-300" />
+                      <span className="font-medium">Dashboards</span>
+                      <ChevronDown className="h-4 w-4 group-hover:scale-110 transition-transform duration-300" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="z-50 min-w-[10rem]">
+                    <DropdownMenuItem>
+                      <Link href="/dashboard" className="flex items-center space-x-2 w-full">
+                        <User className="h-4 w-4" />
+                        <span>{t('nav.dashboard')}</span>
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>
+                      <Link href="/admin" className="flex items-center space-x-2 w-full">
+                        <Shield className="h-4 w-4" />
+                        <span>{t('nav.adminPanel')}</span>
+                      </Link>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               </>
             )}
           </div>
