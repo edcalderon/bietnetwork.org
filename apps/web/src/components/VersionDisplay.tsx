@@ -99,7 +99,7 @@ export function VersionDisplay() {
                           {entry.version}
                         </span>
                         <span className="text-xs text-gray-500">
-                          {new Date(entry.date).toLocaleDateString()}
+                          {entry.date}
                         </span>
                       </div>
                       <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">

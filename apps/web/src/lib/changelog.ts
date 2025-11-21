@@ -2,6 +2,25 @@ import type { ChangelogEntry } from '@/types/changelog';
 
 export const CHANGELOG = [
   {
+    version: '0.3.12',
+    date: '2025-11-20',
+    type: 'patch',
+    description: 'Red Biet hero animation, PWA install, and mobile UX improvements',
+    features: [
+      'Animated particle hero title for Red Biet / BGT',
+      'Install Red Biet App PWA button with custom beforeinstallprompt handling',
+      'Full PWA support with manifest, icons, and service worker',
+    ],
+    improvements: [
+      'Optimized particle animation for better performance and no stale trails',
+      'Improved hero title contrast and alignment across light and dark themes',
+      'Disabled mobile zoom for a more native-like app experience',
+    ],
+    fixes: [
+      'Resolved hydration mismatch in version display dates',
+    ],
+  },
+  {
     version: '0.3.10',
     date: '2025-11-20',
     type: 'patch',

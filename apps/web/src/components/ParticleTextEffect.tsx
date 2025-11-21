@@ -291,17 +291,16 @@ export function ParticleTextEffect({ words = DEFAULT_WORDS }: ParticleTextEffect
 
     for (let i = particles.length - 1; i >= 0; i--) {
       const particle = particles[i];
+
+      // If this particle has already been marked for removal, drop it immediately
+      // to avoid long-lived trails or bands of particles.
+      if (particle.isKilled) {
+        particles.splice(i, 1);
+        continue;
+      }
+
       particle.move();
       particle.draw(ctx, drawAsPoints);
-
-      if (particle.isKilled) {
-        const dpr = window.devicePixelRatio || 1;
-        const widthCss = canvas.width / dpr;
-        const heightCss = canvas.height / dpr;
-        if (particle.pos.x < 0 || particle.pos.x > widthCss || particle.pos.y < 0 || particle.pos.y > heightCss) {
-          particles.splice(i, 1);
-        }
-      }
     }
 
     if (mouseRef.current.isPressed && mouseRef.current.isRightClick) {
