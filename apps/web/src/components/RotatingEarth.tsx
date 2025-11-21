@@ -30,7 +30,7 @@ export default function RotatingEarth({ width = 800, height = 600, className = "
   const velocityRef = useRef({ x: 0.002, y: 0 });
   const isDraggingRef = useRef(false);
   const lastMouseRef = useRef({ x: 0, y: 0 });
-  const animationFrameRef = useRef<number>();
+  const animationFrameRef = useRef<number>(0);
   const isPausedRef = useRef(false);
   const projectionRef = useRef<any>(null);
   const containerWidthRef = useRef(0);
