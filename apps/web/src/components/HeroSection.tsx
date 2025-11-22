@@ -5,13 +5,14 @@ import { Card, CardContent } from '@/components/ui/card';
 import { 
   ArrowRight, 
   Sparkles,
-  Users,
-  TrendingUp,
   ArrowUpRight,
+  Play,
+  CheckCircle,
+  TrendingUp,
+  Users,
   BarChart2,
-  Coins,
-  CheckCircle
 } from 'lucide-react';
+import AnimatedVideoButton from './AnimatedVideoButton';
 import { useWallet } from '@/contexts/WalletContext';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -19,11 +20,13 @@ import { useLanguage } from '@/hooks/useLanguage';
 import { TokenInfo } from './TokenInfo';
 import GeometricSphere from '@/components/ui/geometric-sphere';
 import { ParticleTextEffect } from '@/components/ParticleTextEffect';
+import VideoPlayer from './VideoPlayer';
 
 export function HeroSection() {
   const { isConnected } = useWallet();
   const router = useRouter();
   const { t } = useLanguage();
+  const [showVideo, setShowVideo] = useState(false);
 
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -63,9 +66,9 @@ export function HeroSection() {
       
       <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-20">
         {/* Mobile Layout: Title/CTAs first, then 3 steps card */}
-        <div className="flex flex-col xl:flex-row gap-8 lg:gap-12 items-center">
+        <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 items-center">
           {/* Hero Content - First on mobile, left on desktop */}
-          <div className="w-full xl:w-1/2 space-y-4 sm:space-y-6 lg:space-y-8 animate-slide-in-left order-1 xl:order-1 text-center xl:text-left">
+          <div className="w-full lg:w-1/2 space-y-4 sm:space-y-6 lg:space-y-8 animate-slide-in-left order-1 lg:order-1 text-center lg:text-left">
             <div className="space-y-3 sm:space-y-4 lg:space-y-6">
               <div className="inline-flex items-center px-2 py-1 sm:px-3 sm:py-1.5 bg-emerald-100/80 dark:bg-emerald-900/30 text-emerald-800 dark:text-emerald-200 rounded-full text-xs sm:text-sm font-medium backdrop-blur-sm shadow-sm">
                 <Sparkles className="w-3 h-3 sm:w-3.5 sm:h-3.5 mr-1 sm:mr-1.5" />
@@ -76,7 +79,14 @@ export function HeroSection() {
                 {t('hero.title')}
               </h1>
               {/* Particle animation title on md+ screens */}
-              <div className="hidden md:flex justify-center">
+              <div className="hidden md:flex justify-center relative">
+                {/* Animated Video Button Overlay - Centered over particles */}
+                <div className="absolute inset-0 flex items-center justify-center z-30">
+                  <AnimatedVideoButton 
+                    onClick={() => setShowVideo(true)}
+                    text={t('hero.watchVideo')}
+                  />
+                </div>
                 <ParticleTextEffect words={[t('hero.title'), '$BGT']} />
               </div>
               
@@ -89,7 +99,7 @@ export function HeroSection() {
               </p>
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center xl:justify-start w-full sm:w-auto">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start w-full sm:w-auto">
               <Button
                 onClick={() => router.push('/dashboard')}
                 size="lg"
@@ -112,13 +122,13 @@ export function HeroSection() {
             </div>
 
             {isConnected && (
-              <div className="flex items-center justify-center xl:justify-start gap-1.5 sm:gap-2 text-green-600 dark:text-green-400 font-medium text-xs sm:text-sm">
+              <div className="flex items-center justify-center lg:justify-start gap-1.5 sm:gap-2 text-green-600 dark:text-green-400 font-medium text-xs sm:text-sm">
                 <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" />
                 <span className="truncate">{t('hero.walletConnected')}</span>
               </div>
             )}
 
-            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center xl:justify-start w-full sm:w-auto">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start w-full sm:w-auto">
               <Button
                 variant="outline"
                 size="lg"
@@ -132,7 +142,7 @@ export function HeroSection() {
           </div>
 
           {/* 3 Steps Card - Second on mobile, right on desktop */}
-          <div className="w-full xl:w-1/2 flex justify-center animate-slide-in-right order-2 xl:order-2">
+          <div className="w-full lg:w-1/2 flex justify-center animate-slide-in-right order-2 lg:order-2">
             <Card className="w-full max-w-sm sm:max-w-md bg-gradient-to-br from-white via-emerald-50/70 to-cyan-50/70 dark:from-gray-800 dark:via-emerald-900/30 dark:to-cyan-900/30 backdrop-blur-md border border-emerald-300/70 dark:border-emerald-400/30 shadow-2xl rounded-2xl lg:rounded-3xl ring-2 lg:ring-4 ring-emerald-500/30 dark:ring-emerald-400/20 transition-all duration-500 hover:shadow-3xl hover:ring-emerald-500/40 dark:hover:ring-emerald-400/30 hover:-translate-y-2 transform-gpu">
               <CardContent className="p-4 sm:p-6 lg:p-8 relative overflow-hidden">
                 {/* 3D Background Effects */}
@@ -216,6 +226,14 @@ export function HeroSection() {
           </div>
         </div>
       </div>
+      
+      {/* Video Modal */}
+      {showVideo && (
+        <VideoPlayer 
+          className="fixed inset-0 z-[9999]" 
+          onClose={() => setShowVideo(false)}
+        />
+      )}
     </section>
   );
 }
