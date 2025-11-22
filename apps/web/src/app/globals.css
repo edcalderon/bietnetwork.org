@@ -443,7 +443,7 @@ html:not(.dark) .panning-grid {
   opacity: 0.15;
 }
 
-html:not(.dark) .absolute.inset-0:not(.sphere-container):not(.content-foreground):not(.vignette-overlay) {
+html:not(.dark) .absolute.inset-0:not(.sphere-container):not(.content-foreground):not(.vignette-overlay):not(.particle-button-overlay) {
   background: #ffffff !important;
 }
 
@@ -537,4 +537,73 @@ html:not(.dark) .wireframe-line {
     width: 100%;
     max-width: 280px;
   }
+}
+
+/* Video Player Modal Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes gradientShift {
+  0%, 100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.05);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-out;
+}
+
+.animate-scaleIn {
+  animation: scaleIn 0.4s ease-out;
+}
+
+.animate-slideUp {
+  animation: slideUp 0.5s ease-out 0.2s both;
+}
+
+.animate-gradientShift {
+  animation: gradientShift 8s ease-in-out infinite;
+}
+
+/* Enhanced play icon hover effects */
+.video-play-icon {
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.video-play-icon:hover {
+  transform: scale(1.25);
+  box-shadow: 0 20px 40px rgba(255, 255, 255, 0.2);
 }

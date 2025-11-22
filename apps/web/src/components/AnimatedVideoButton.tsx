@@ -25,7 +25,7 @@ export default function AnimatedVideoButton({
       onHoverEnd={() => setIsHovered(false)}
       transition={{ duration: 0.3, ease: "easeInOut" }}
       onClick={onClick}
-      className={`bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/20 flex items-center justify-center overflow-hidden relative cursor-pointer shadow-lg hover:shadow-white/20 ${className}`}
+      className={`!bg-white/15 dark:bg-emerald-500/30 backdrop-blur-sm !border-white/25 dark:border-emerald-400/50 !hover:bg-white/25 dark:hover:bg-emerald-500/40 flex items-center justify-center overflow-hidden relative cursor-pointer shadow-lg !hover:shadow-white/25 dark:hover:shadow-emerald-400/50 ${className}`}
       style={{ borderRadius: 28 }}
     >
       {/* Play Icon - fades out on hover */}

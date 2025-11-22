@@ -1,6 +1,5 @@
 /** @type {import('next').NextConfig} */
-const isGithubActions = process.env.GITHUB_ACTIONS === 'true';
-const repository = 'bietnetwork.org';
+const { withNextVideo } = require('next-video/process');
 
 // For GitHub Pages, we'll use an empty basePath and assetPrefix
 // and handle the repository name in the GitHub Pages settings
@@ -51,4 +50,4 @@ const nextConfig = {
   },
 };
 
-module.exports = nextConfig;
+module.exports = withNextVideo(nextConfig);

@@ -141,7 +141,7 @@ export default function VideoPlayer({ className = '', onClose }: VideoPlayerProp
       {/* Full-screen video container */}
       <div 
         className="relative w-full h-full max-h-screen flex items-center justify-center p-4 md:p-8 animate-scaleIn"
-        onClick={(e) => e.stopPropagation()} // Prevent closing when clicking on video container
+        onClick={(e: React.MouseEvent<HTMLDivElement>) => e.stopPropagation()} // Prevent closing when clicking on video container
       >
         {/* Video player with fullscreen styling */}
         <div className="relative w-full max-w-7xl bg-black rounded-3xl overflow-hidden shadow-2xl border border-white/20 backdrop-blur-xl">

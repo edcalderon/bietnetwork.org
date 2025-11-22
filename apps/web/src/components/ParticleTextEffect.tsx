@@ -175,7 +175,12 @@ export function ParticleTextEffect({ words = DEFAULT_WORDS }: ParticleTextEffect
     if (!offscreenCtx) return;
 
     offscreenCtx.clearRect(0, 0, offscreenCanvas.width, offscreenCanvas.height);
-    offscreenCtx.fillStyle = 'white';
+    const isDark = document.documentElement.classList.contains('dark');
+    offscreenCtx.fillStyle = isDark ? 'white' : 'black';
+    
+    // Debug: Log the current mode and text color
+    console.log('ParticleTextEffect - Dark mode:', isDark, 'Text color:', isDark ? 'white' : 'black');
+    
     // Responsive font: scale with canvas height so it grows on large screens but avoids clipping
     const responsiveFontSize = Math.min(offscreenCanvas.height * 0.4, 120); // cap to avoid overflow
     offscreenCtx.font = `bold ${responsiveFontSize}px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif`;
@@ -186,7 +191,6 @@ export function ParticleTextEffect({ words = DEFAULT_WORDS }: ParticleTextEffect
     const imageData = offscreenCtx.getImageData(0, 0, canvas.width, canvas.height);
     const pixels = imageData.data;
 
-    const isDark = document.documentElement.classList.contains('dark');
     const palette = isDark
       ? [
           { r: 45, g: 212, b: 191 }, // emerald-400
@@ -194,9 +198,9 @@ export function ParticleTextEffect({ words = DEFAULT_WORDS }: ParticleTextEffect
           { r: 129, g: 140, b: 248 }, // indigo-400
         ]
       : [
-          { r: 22, g: 163, b: 74 }, // emerald-600
-          { r: 5, g: 150, b: 105 },  // emerald-600 alt
-          { r: 37, g: 99, b: 235 },  // blue-600
+          { r: 16, g: 185, b: 129 }, // emerald-500 (brighter)
+          { r: 59, g: 130, b: 246 }, // blue-500 (brighter)
+          { r: 99, g: 102, b: 241 }, // indigo-500 (brighter)
         ];
     const newColor = palette[Math.floor(Math.random() * palette.length)];
 
@@ -304,7 +308,7 @@ export function ParticleTextEffect({ words = DEFAULT_WORDS }: ParticleTextEffect
     }
 
     if (mouseRef.current.isPressed && mouseRef.current.isRightClick) {
-      particles.forEach((particle) => {
+      particles.forEach((particle: Particle) => {
         const distance = Math.hypot(particle.pos.x - mouseRef.current.x, particle.pos.y - mouseRef.current.y);
         if (distance < 50) {
           particle.kill(canvas.width, canvas.height);
@@ -397,7 +401,7 @@ export function ParticleTextEffect({ words = DEFAULT_WORDS }: ParticleTextEffect
     <div className="w-full max-w-3xl mx-auto">
       <canvas
         ref={canvasRef}
-        className="w-full h-32 sm:h-40 md:h-48 lg:h-56 rounded-2xl border border-emerald-200/60 dark:border-emerald-500/40 bg-emerald-50/80 dark:bg-slate-950/80 shadow-[0_0_80px_rgba(45,212,191,0.25)]"
+        className="w-full h-32 sm:h-40 md:h-48 lg:h-56 rounded-2xl !border border-emerald-200/60 dark:border-emerald-500/40 bg-emerald-50/80 dark:bg-slate-950/80 shadow-[0_0_80px_rgba(45,212,191,0.25)]"
       />
     </div>
   );

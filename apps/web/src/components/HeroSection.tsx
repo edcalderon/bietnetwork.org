@@ -81,7 +81,7 @@ export function HeroSection() {
               {/* Particle animation title on md+ screens */}
               <div className="hidden md:flex justify-center relative">
                 {/* Animated Video Button Overlay - Centered over particles */}
-                <div className="absolute inset-0 flex items-center justify-center z-30">
+                <div className="absolute inset-0 flex items-center justify-center z-30 particle-button-overlay">
                   <AnimatedVideoButton 
                     onClick={() => setShowVideo(true)}
                     text={t('hero.watchVideo')}
