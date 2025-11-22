@@ -10,6 +10,7 @@ import { VersionProvider } from '../contexts/VersionContext';
 import { ThemeProvider } from 'next-themes';
 import { ServiceWorkerRegister } from '../components/ServiceWorkerRegister';
 import { InstallPwaButton } from '../components/InstallPwaButton';
+import { UpdateNotification } from '../components/UpdateNotification';
 
 const Navbar = dynamic(() => import('../components/Navbar'), { ssr: false });
 
@@ -62,6 +63,7 @@ export default function RootLayout({
                   <div className="fixed bottom-4 right-4 z-40 flex flex-col items-end gap-2">
                     <InstallPwaButton />
                   </div>
+                  <UpdateNotification />
                   <Footer />
                 </WalletProvider>
               </WagmiProviders>

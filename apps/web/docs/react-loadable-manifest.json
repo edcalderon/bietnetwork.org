@@ -511,7 +511,9 @@
   },
   "../../../.yarn/__virtual__/viem-virtual-8e56c4b881/3/.yarn/berry/cache/viem-npm-2.39.0-c113f391fd-10c0.zip/node_modules/viem/_esm/actions/public/call.js -> ../../utils/ccip.js": {
     "id": "../../../.yarn/__virtual__/viem-virtual-8e56c4b881/3/.yarn/berry/cache/viem-npm-2.39.0-c113f391fd-10c0.zip/node_modules/viem/_esm/actions/public/call.js -> ../../utils/ccip.js",
-    "files": []
+    "files": [
+      "static/chunks/_app-pages-browser_yarn___virtual___viem-virtual-8e56c4b881_3_yarn_berry_cache_viem-npm-2_39_-832cd2.js"
+    ]
   },
   "../../../.yarn/__virtual__/viem-virtual-8e56c4b881/3/.yarn/berry/cache/viem-npm-2.39.0-c113f391fd-10c0.zip/node_modules/viem/_esm/utils/rpc/webSocket.js -> isows": {
     "id": "../../../.yarn/__virtual__/viem-virtual-8e56c4b881/3/.yarn/berry/cache/viem-npm-2.39.0-c113f391fd-10c0.zip/node_modules/viem/_esm/utils/rpc/webSocket.js -> isows",
@@ -537,6 +539,12 @@
     "id": "components/VideoPlayer.tsx -> hls.js",
     "files": [
       "static/chunks/_app-pages-browser_yarn_berry_cache_hls_js-npm-1_6_15-66c89a73c6-10c0_zip_node_modules_hls_js-7588c1.js"
+    ]
+  },
+  "components/dashboard/IdentityTab.tsx -> @xmtp/browser-sdk": {
+    "id": "components/dashboard/IdentityTab.tsx -> @xmtp/browser-sdk",
+    "files": [
+      "static/chunks/_app-pages-browser_yarn_berry_cache_xmtp-browser-sdk-npm-5_0_1-fd53d5364c-10c0_zip_node_modul-f55a09.js"
     ]
   }
 }
