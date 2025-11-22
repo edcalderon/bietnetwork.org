@@ -3886,6 +3886,10 @@ html:not(.dark) .wireframe-line {
   background-color: rgb(255 255 255 / 1);
 }
 
+.hover\:bg-white\/20:hover {
+  background-color: rgb(255 255 255 / 0.2);
+}
+
 .hover\:from-emerald-700:hover {
   --tw-gradient-from: #047857 var(--tw-gradient-from-position);
   --tw-gradient-to: rgb(4 120 87 / 0) var(--tw-gradient-to-position);
@@ -3996,6 +4000,11 @@ html:not(.dark) .wireframe-line {
 
 .hover\:shadow-emerald-200\/50:hover {
   --tw-shadow-color: rgb(167 243 208 / 0.5);
+  --tw-shadow: var(--tw-shadow-colored);
+}
+
+.hover\:shadow-white\/20:hover {
+  --tw-shadow-color: rgb(255 255 255 / 0.2);
   --tw-shadow: var(--tw-shadow-colored);
 }
 

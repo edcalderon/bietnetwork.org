@@ -78,6 +78,14 @@ export function HeroSection() {
               <h1 className="md:hidden text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white leading-tight drop-shadow-sm">
                 {t('hero.title')}
               </h1>
+              
+              {/* Circular Video Button - Below title on mobile */}
+              <div className="md:hidden flex justify-center mt-4">
+                <AnimatedVideoButton 
+                  onClick={() => setShowVideo(true)}
+                  text={t('hero.watchVideo')}
+                />
+              </div>
               {/* Particle animation title on md+ screens */}
               <div className="hidden md:flex justify-center relative">
                 {/* Animated Video Button Overlay - Centered over particles */}
