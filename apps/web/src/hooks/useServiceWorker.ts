@@ -30,7 +30,7 @@ export function useServiceWorker() {
   // Check for service worker support (client-side only)
   useEffect(() => {
     if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
-      setStatus(prev => ({ ...prev, isSupported: true }));
+      setStatus((prev: ServiceWorkerStatus) => ({ ...prev, isSupported: true }));
       registerServiceWorker();
     }
   }, []);
@@ -48,7 +48,7 @@ export function useServiceWorker() {
 
       // Check if service worker is already activated
       if (registration.active) {
-        setStatus(prev => ({ 
+        setStatus((prev: ServiceWorkerStatus) => ({ 
           ...prev, 
           isInstalled: true, 
           isActivated: true 
@@ -64,7 +64,7 @@ export function useServiceWorker() {
           newWorker.addEventListener('statechange', () => {
             if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
               console.log('[SW] New service worker installed and waiting');
-              setStatus(prev => ({ 
+              setStatus((prev: ServiceWorkerStatus) => ({ 
                 ...prev, 
                 isInstalled: true,
                 updateAvailable: true 
@@ -80,7 +80,7 @@ export function useServiceWorker() {
         
         if (message.type === 'VERSION_UPDATE') {
           console.log('[SW] Version update received:', message);
-          setStatus(prev => ({
+          setStatus((prev: ServiceWorkerStatus) => ({
             ...prev,
             updateAvailable: true,
             updateInfo: message
@@ -159,7 +159,7 @@ export function useServiceWorker() {
       const registration = await navigator.serviceWorker.ready;
       await registration.unregister();
       console.log('[SW] Service worker unregistered');
-      setStatus(prev => ({
+      setStatus((prev: ServiceWorkerStatus) => ({
         ...prev,
         isInstalled: false,
         isActivated: false,

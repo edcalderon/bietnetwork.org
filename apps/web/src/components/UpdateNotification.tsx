@@ -211,7 +211,7 @@ export function UpdateNotification() {
       {/* Debug Toggle - Press Ctrl+Shift+U */}
       <div
         className="fixed bottom-4 left-4 z-40 opacity-0 pointer-events-none"
-        onKeyDown={(e) => {
+        onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
           if (e.ctrlKey && e.shiftKey && e.key === 'U') {
             e.preventDefault();
             setShowDebug(!showDebug);
