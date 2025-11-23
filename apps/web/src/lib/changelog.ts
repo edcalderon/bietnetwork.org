@@ -5,7 +5,7 @@ export const CHANGELOG = [
     version: '0.3.20',
     date: '2025-11-23',
     type: 'patch',
-    description: 'Script version integration with service worker auto-update',
+    description: 'Package.json version as single source of truth with TypeScript fixes',
     features: [
       'Package.json version as single source of truth',
       'Automatic service worker updates on version changes',
@@ -15,9 +15,12 @@ export const CHANGELOG = [
       'Integrated script version with service worker versioning',
       'Enhanced React hook to handle version update messages',
       'Added periodic version checks every 15-30 minutes',
+      'Fixed React type conflicts causing IDE lint errors',
     ],
     fixes: [
       'Fixed version display using hardcoded changelog instead of current version',
+      'Resolved React version conflicts between workspace packages',
+      'Fixed TypeScript JSX and module resolution errors',
     ],
   },
   {
