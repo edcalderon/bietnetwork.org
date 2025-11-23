@@ -4,7 +4,7 @@ interface VersionUpdate {
   type: 'VERSION_UPDATE';
   currentVersion: string;
   latestVersion: string;
-  releaseNotes?: string;
+  message: string;
 }
 
 interface ServiceWorkerStatus {
@@ -98,7 +98,7 @@ export function useServiceWorker() {
           console.log('[SW] Auto-refreshing for new version...');
           setTimeout(() => {
             window.location.reload();
-          }, 1000);
+          }, 500);
         }
       });
 

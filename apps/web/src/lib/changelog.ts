@@ -2,6 +2,25 @@ import type { ChangelogEntry } from '@/types/changelog';
 
 export const CHANGELOG = [
   {
+    version: '0.3.20',
+    date: '2025-11-23',
+    type: 'patch',
+    description: 'Script version integration with service worker auto-update',
+    features: [
+      'Package.json version as single source of truth',
+      'Automatic service worker updates on version changes',
+      'Simplified version checking without GitHub API dependency',
+    ],
+    improvements: [
+      'Integrated script version with service worker versioning',
+      'Enhanced React hook to handle version update messages',
+      'Added periodic version checks every 15-30 minutes',
+    ],
+    fixes: [
+      'Fixed version display using hardcoded changelog instead of current version',
+    ],
+  },
+  {
     version: '0.3.17',
     date: '2025-11-21',
     type: 'patch',
@@ -299,7 +318,8 @@ export function getChangelog(): ChangelogEntry[] {
 }
 
 export function getLatestVersion(): string {
-  return getChangelog()[0]?.version || '0.1.0';
+  // Use environment variable as source of truth, fallback to changelog
+  return process.env.NEXT_PUBLIC_APP_VERSION || getChangelog()[0]?.version || '0.1.0';
 }
 
 export function getChangelogByVersion(version: string): ChangelogEntry | undefined {

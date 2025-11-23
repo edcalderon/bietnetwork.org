@@ -26,6 +26,13 @@ export function registerSW() {
 
     // Force update check on page load
     reg.update();
+    
+    // Trigger periodic script version check
+    setInterval(() => {
+      console.log('[SW] Triggering periodic script version check...');
+      reg.update();
+    }, 15 * 60 * 1000); // 15 minutes
+
   }).catch((error) => {
     console.error('[SW] Registration failed:', error);
   });

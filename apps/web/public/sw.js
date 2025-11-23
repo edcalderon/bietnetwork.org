@@ -1,15 +1,15 @@
 // Enhanced Service Worker for Biet Network with Workbox Integration
-// Caches static assets, checks GitHub releases, and auto-clears cache on updates
+// Caches static assets, checks package.json version, and auto-clears cache on updates
 
 // Import Workbox
 importScripts('https://storage.googleapis.com/workbox-cdn/releases/7.4.0/workbox-sw.js');
 
 // Build ID will be injected at build time
 self.__BUILD_ID__ = process.env.NEXT_PUBLIC_BUILD_ID || 'dev';
+self.__APP_VERSION__ = process.env.NEXT_PUBLIC_APP_VERSION || '0.3.20';
 
 const CACHE_NAME = `biet-network-${self.__BUILD_ID__}`;
-const GITHUB_RELEASES_URL = 'https://api.github.com/repos/edcalderon/bietnetwork.org/releases/latest';
-const CURRENT_VERSION = '0.3.20';
+const CURRENT_VERSION = self.__APP_VERSION__;
 
 // Cache strategy configuration
 const CACHE_STRATEGIES = {
@@ -69,7 +69,9 @@ self.addEventListener('activate', (event) => {
             }
           })
         );
-      })
+      }),
+      // Check for version updates on activation
+      checkForVersionUpdate()
     ]).then(() => self.clients.claim())
   );
 });
@@ -138,31 +140,32 @@ self.addEventListener('fetch', (event) => {
   }).handle({ request }));
 });
 
-// Check for version updates from GitHub releases
+// Check package.json version for updates
 async function checkForVersionUpdate() {
   try {
-    console.log('[SW] Checking for version updates...');
+    console.log('[SW] Checking package.json for version updates...');
     
-    const response = await fetch(GITHUB_RELEASES_URL, {
+    // Fetch the package.json from the server
+    const response = await fetch('/package.json', {
       headers: {
-        'Accept': 'application/vnd.github.v3+json',
-        'User-Agent': 'Biet-Network-SW'
+        'Cache-Control': 'no-cache',
+        'Pragma': 'no-cache'
       }
     });
 
     if (!response.ok) {
-      console.log('[SW] Failed to fetch releases:', response.status);
-      return;
+      console.log('[SW] Failed to fetch package.json:', response.status);
+      return false;
     }
 
-    const release = await response.json();
-    const latestVersion = release.tag_name.replace('v', '');
+    const packageData = await response.json();
+    const latestVersion = packageData.version;
     
-    console.log('[SW] Current version:', CURRENT_VERSION);
-    console.log('[SW] Latest version:', latestVersion);
+    console.log('[SW] Current version:', CURRENT_VERSION, 'Latest version:', latestVersion);
 
+    // Compare versions
     if (isNewerVersion(latestVersion, CURRENT_VERSION)) {
-      console.log('[SW] New version detected! Clearing caches...');
+      console.log('[SW] New version detected! Clearing caches and triggering update...');
       await clearAllCaches();
       
       // Notify all clients about the update
@@ -172,12 +175,20 @@ async function checkForVersionUpdate() {
           type: 'VERSION_UPDATE',
           currentVersion: CURRENT_VERSION,
           latestVersion: latestVersion,
-          releaseNotes: release.body
+          message: 'New version available. Page will refresh automatically.'
         });
       });
+
+      // Force service worker update by skipping waiting
+      self.skipWaiting();
+      
+      return true; // Update triggered
     }
+    
+    return false; // No update needed
   } catch (error) {
     console.error('[SW] Error checking version updates:', error);
+    return false;
   }
 }
 
@@ -279,6 +290,16 @@ self.addEventListener('sync', (event) => {
     event.waitUntil(checkForVersionUpdate());
   }
 });
+
+// Periodic version check (every 30 minutes)
+setInterval(async () => {
+  console.log('[SW] Performing periodic version check...');
+  try {
+    await checkForVersionUpdate();
+  } catch (error) {
+    console.error('[SW] Periodic version check failed:', error);
+  }
+}, 30 * 60 * 1000); // 30 minutes
 
 // Handle push notifications for updates
 self.addEventListener('push', (event) => {

@@ -86,16 +86,9 @@ export function UpdateNotification() {
               <p className="mt-1 text-xs text-gray-600 dark:text-gray-400">
                 Version {status.updateInfo?.latestVersion} is available (you have {status.updateInfo?.currentVersion})
               </p>
-              {status.updateInfo?.releaseNotes && (
-                <details className="mt-2">
-                  <summary className="text-xs text-emerald-600 dark:text-emerald-400 cursor-pointer">
-                    Release notes
-                  </summary>
-                  <p className="mt-1 text-xs text-gray-600 dark:text-gray-400 whitespace-pre-wrap">
-                    {status.updateInfo.releaseNotes}
-                  </p>
-                </details>
-              )}
+              <p className="mt-1 text-xs text-emerald-600 dark:text-emerald-400">
+                {status.updateInfo?.message}
+              </p>
               <div className="mt-3 flex gap-2">
                 <Button
                   size="sm"

@@ -33,7 +33,7 @@ export function VersionProvider({ children }: VersionProviderProps) {
   const versionDisplay = getVersionDisplay();
   const fullVersionString = getFullVersionString();
   const changelog = getChangelog();
-  const latestVersion = getLatestVersion();
+  const latestVersion = currentVersion; // Use current version as source of truth
 
   // Load last seen version from localStorage
   useEffect(() => {

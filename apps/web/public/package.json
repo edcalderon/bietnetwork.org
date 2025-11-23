@@ -1,0 +1,6 @@
+{
+  "name": "biet-network",
+  "version": "0.3.20",
+  "description": "Biet Network - PWA with automatic version checking",
+  "private": true
+}
