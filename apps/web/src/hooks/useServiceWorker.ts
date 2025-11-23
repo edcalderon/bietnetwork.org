@@ -35,7 +35,7 @@ export function useServiceWorker() {
     }
   }, []);
 
-  // Register service worker
+  // Register service worker with automatic update detection
   const registerServiceWorker = useCallback(async () => {
     if (typeof window === 'undefined' || !('serviceWorker' in navigator)) return;
     
@@ -55,7 +55,7 @@ export function useServiceWorker() {
         }));
       }
 
-      // Listen for updates
+      // Listen for updates with automatic refresh
       registration.addEventListener('updatefound', () => {
         const newWorker = registration.installing;
         if (newWorker) {
@@ -69,6 +69,14 @@ export function useServiceWorker() {
                 isInstalled: true,
                 updateAvailable: true 
               }));
+              
+              // Listen for activation to trigger refresh
+              newWorker.addEventListener('statechange', () => {
+                if (newWorker.state === 'activated') {
+                  console.log('[SW] New version activated, refreshing page...');
+                  window.location.reload();
+                }
+              });
             }
           });
         }
@@ -85,7 +93,12 @@ export function useServiceWorker() {
             updateAvailable: true,
             updateInfo: message
           }));
-          setShowUpdatePrompt(true);
+          
+          // Auto-refresh on version update
+          console.log('[SW] Auto-refreshing for new version...');
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
         }
       });
 
@@ -117,7 +130,7 @@ export function useServiceWorker() {
     });
   }, []);
 
-  // Apply update by refreshing the page
+  // Apply update by refreshing the page automatically
   const applyUpdate = useCallback(() => {
     if (typeof window === 'undefined' || !('serviceWorker' in navigator)) return;
     
@@ -125,6 +138,7 @@ export function useServiceWorker() {
       if (registration.waiting) {
         registration.waiting.postMessage({ type: 'SKIP_WAITING' });
       }
+      console.log('[SW] Applying update and refreshing page...');
       window.location.reload();
     });
   }, []);

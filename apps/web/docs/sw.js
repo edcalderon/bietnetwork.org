@@ -1,7 +1,13 @@
-// Enhanced Service Worker for Biet Network with Version Management
+// Enhanced Service Worker for Biet Network with Workbox Integration
 // Caches static assets, checks GitHub releases, and auto-clears cache on updates
 
-const CACHE_NAME = 'biet-network-v0.3.19';
+// Import Workbox
+importScripts('https://storage.googleapis.com/workbox-cdn/releases/7.4.0/workbox-sw.js');
+
+// Build ID will be injected at build time
+self.__BUILD_ID__ = process.env.NEXT_PUBLIC_BUILD_ID || 'dev';
+
+const CACHE_NAME = `biet-network-${self.__BUILD_ID__}`;
 const GITHUB_RELEASES_URL = 'https://api.github.com/repos/edcalderon/bietnetwork.org/releases/latest';
 const CURRENT_VERSION = '0.3.19';
 
@@ -32,9 +38,9 @@ const STATIC_ASSETS = [
   '/fonts/'
 ];
 
-// Install event - Cache static assets
+// Install event - Cache static assets and skip waiting
 self.addEventListener('install', (event) => {
-  console.log('[SW] Installing version:', CURRENT_VERSION);
+  console.log('[SW] Installing version:', CURRENT_VERSION, 'Build ID:', self.__BUILD_ID__);
   
   event.waitUntil(
     caches.open(CACHE_STRATEGIES.STATIC)
@@ -46,50 +52,90 @@ self.addEventListener('install', (event) => {
   );
 });
 
-// Activate event - Clean old caches and check for updates
+// Activate event - Clean old caches and claim clients
 self.addEventListener('activate', (event) => {
-  console.log('[SW] Activating version:', CURRENT_VERSION);
+  console.log('[SW] Activating version:', CURRENT_VERSION, 'Build ID:', self.__BUILD_ID__);
   
   event.waitUntil(
     Promise.all([
-      // Clean old caches
+      // Clean old caches that don't match current build ID
       caches.keys().then((cacheNames) => {
         return Promise.all(
           cacheNames.map((cacheName) => {
-            if (cacheName !== CACHE_STRATEGIES.STATIC && 
-                cacheName !== CACHE_STRATEGIES.DYNAMIC && 
-                cacheName !== CACHE_STRATEGIES.API) {
+            // Delete caches that don't include current build ID
+            if (!cacheName.includes(self.__BUILD_ID__)) {
               console.log('[SW] Deleting old cache:', cacheName);
               return caches.delete(cacheName);
             }
           })
         );
-      }),
-      // Check for version updates
-      checkForVersionUpdate()
+      })
     ]).then(() => self.clients.claim())
   );
 });
+
+// Workbox professional caching strategies
+workbox.routing.registerRoute(
+  ({ request }) => request.destination === 'style' || request.destination === 'script',
+  new workbox.strategies.NetworkFirst({
+    cacheName: `assets-${self.__BUILD_ID__}`,
+    plugins: [
+      new workbox.expiration.ExpirationPlugin({
+        maxEntries: 100,
+        maxAgeSeconds: 30 * 24 * 60 * 60, // 30 days
+      }),
+    ],
+  })
+);
+
+// Cache first for images and fonts
+workbox.routing.registerRoute(
+  ({ request }) => request.destination === 'image' || request.destination === 'font',
+  new workbox.strategies.CacheFirst({
+    cacheName: `images-fonts-${self.__BUILD_ID__}`,
+    plugins: [
+      new workbox.expiration.ExpirationPlugin({
+        maxEntries: 100,
+        maxAgeSeconds: 60 * 24 * 60 * 60, // 60 days
+      }),
+    ],
+  })
+);
+
+// Network first for API calls
+workbox.routing.registerRoute(
+  ({ url }) => url.pathname.startsWith('/api/') || url.host.includes('github.com/api'),
+  new workbox.strategies.NetworkFirst({
+    cacheName: `api-${self.__BUILD_ID__}`,
+    plugins: [
+      new workbox.expiration.ExpirationPlugin({
+        maxEntries: 50,
+        maxAgeSeconds: 5 * 60, // 5 minutes
+      }),
+    ],
+  })
+);
 
 // Fetch event - Handle requests with caching strategies
 self.addEventListener('fetch', (event) => {
   const { request } = event;
   const url = new URL(request.url);
 
-  // Skip non-GET requests
+  // Skip non-GET requests and let Workbox handle the rest
   if (request.method !== 'GET') return;
 
-  // Handle different request types
-  if (isStaticAsset(request.url)) {
-    // Cache first for static assets
-    event.respondWith(cacheFirst(request));
-  } else if (isAPIRequest(request.url)) {
-    // Network first for API requests
-    event.respondWith(networkFirst(request));
-  } else {
-    // Stale while revalidate for dynamic content
-    event.respondWith(staleWhileRevalidate(request));
+  // Network-first strategy for CSS/JS to prevent stale assets (backup for Workbox)
+  if (url.endsWith('.css') || url.endsWith('.js')) {
+    event.respondWith(
+      fetch(request).catch(() => caches.match(request))
+    );
+    return;
   }
+
+  // Let Workbox handle other requests
+  event.respondWith(workbox.strategies.networkFirst({
+    cacheName: `dynamic-${self.__BUILD_ID__}`,
+  }).handle({ request }));
 });
 
 // Check for version updates from GitHub releases
@@ -279,7 +325,7 @@ self.addEventListener('notificationclick', (event) => {
   }
 });
 
-console.log('[SW] Service Worker loaded - Version:', CURRENT_VERSION);
+console.log('[SW] Service Worker loaded - Version:', CURRENT_VERSION, 'Build ID:', self.__BUILD_ID__);
 
 // Handle messages from clients
 self.addEventListener('message', (event) => {

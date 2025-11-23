@@ -1,6 +1,6 @@
 {
   "name": "@biet-network/web",
-  "version": "0.3.19",
+  "version": "0.3.20",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -48,6 +48,9 @@
     "typescript": "^5.0.0",
     "viem": "^2.39.0",
     "wagmi": "^2.19.4",
+    "workbox-routing": "^7.4.0",
+    "workbox-strategies": "^7.4.0",
+    "workbox-webpack-plugin": "^7.4.0",
     "ws": "^8.18.3"
   },
   "devDependencies": {

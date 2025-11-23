@@ -1,5 +1,8 @@
 /** @type {import('next').NextConfig} */
-const { withNextVideo } = require('next-video/process');
+const crypto = require("crypto");
+
+// Generate unique build ID for every deployment
+const buildId = crypto.randomBytes(8).toString("hex");
 
 // For GitHub Pages, we'll use an empty basePath and assetPrefix
 // and handle the repository name in the GitHub Pages settings
@@ -7,6 +10,7 @@ const basePath = '';
 const assetPrefix = '';
 
 const nextConfig = {
+  generateBuildId: async () => buildId,
   reactStrictMode: true,
   eslint: {
     ignoreDuringBuilds: true,
@@ -47,7 +51,22 @@ const nextConfig = {
   },
   env: {
     NEXT_PUBLIC_BASE_PATH: basePath,
+    NEXT_PUBLIC_BUILD_ID: buildId,
   },
 };
 
-module.exports = withNextVideo(nextConfig);
+// Handle next-video with dynamic import
+const withNextVideo = async (config) => {
+  try {
+    const { withNextVideo: videoPlugin } = await import('next-video/process');
+    return videoPlugin(config);
+  } catch (error) {
+    console.warn('next-video plugin not available:', error);
+    return config;
+  }
+};
+
+module.exports = async () => {
+  const config = await withNextVideo(nextConfig);
+  return config;
+};
